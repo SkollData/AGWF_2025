@@ -1,0 +1,433 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Call Center | VotoAnalitico</title>
+    <meta name="description" content="Monitoreo y metricas del centro de llamadas electoral."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#1a3c6b", "accent-blue": "#2196f3", "background-light": "#f6f7f8", "background-dark": "#0d1b2a" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-morphism { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .hero-gradient { background: linear-gradient(135deg, #1a3c6b 0%, #2196f3 100%); position: relative; overflow: hidden; }
+        .hero-gradient::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(#ffffff22 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; }
+        .slide-menu { transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide-menu.open { transform: translateX(0); }
+        .menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+        .menu-overlay.open { opacity: 1; pointer-events: all; }
+        .menu-item { transform: translateX(20px); opacity: 0; transition: all 0.3s ease; }
+        .slide-menu.open .menu-item { transform: translateX(0); opacity: 1; }
+        .slide-menu.open .menu-item:nth-child(1) { transition-delay: .08s; }
+        .slide-menu.open .menu-item:nth-child(2) { transition-delay: .12s; }
+        .slide-menu.open .menu-item:nth-child(3) { transition-delay: .16s; }
+        .slide-menu.open .menu-item:nth-child(4) { transition-delay: .20s; }
+        .slide-menu.open .menu-item:nth-child(5) { transition-delay: .24s; }
+        .slide-menu.open .menu-item:nth-child(6) { transition-delay: .28s; }
+        .slide-menu.open .menu-item:nth-child(7) { transition-delay: .32s; }
+        .slide-menu.open .menu-item:nth-child(8) { transition-delay: .36s; }
+        .slide-menu.open .menu-item:nth-child(9) { transition-delay: .40s; }
+        .slide-menu.open .menu-item:nth-child(10) { transition-delay: .44s; }
+        .slide-menu.open .menu-item:nth-child(11) { transition-delay: .48s; }
+        .slide-menu.open .menu-item:nth-child(12) { transition-delay: .52s; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(203, 213, 225, 0.6); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(26, 60, 107, 0.4); }
+    </style>
+    <script type="module" src="https://js.arcgis.com/embeddable-components/4.33/arcgis-embeddable-components.esm.js"></script>
+</head>
+<body class="font-display bg-background-light text-slate-900 overflow-x-hidden">
+    
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 bg-black/50 z-[60]" onclick="toggleMenu()"></div>
+
+    <!-- Slide Menu -->
+    <div id="slideMenu" class="slide-menu fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between px-6 py-6 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="bg-primary p-1.5 rounded-lg text-white">
+            <span class="material-symbols-outlined text-lg">query_stats</span>
+          </div>
+          <span class="font-extrabold text-primary tracking-tight">CALL CENTER</span>
+        </div>
+        <button onclick="toggleMenu()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+          <span class="material-symbols-outlined text-slate-500">close</span>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
+        <a href="index.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">home</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Inicio</span>
+        </a>
+        
+        <a href="beneficiarios.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">people</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Beneficiarios</span>
+        </a>
+
+        <a href="historico.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">history</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Histórico 18-24</span>
+        </a>
+
+        <!-- Collapsible Strategic Section -->
+        <div class="pt-2">
+            <button onclick="toggleSubmenu('strategicMenu')" class="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors text-left group">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">layers</span>
+                    <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Chalecos Azules</span>
+                </div>
+                <span id="strategicMenuArrow" class="material-symbols-outlined text-slate-400 transition-transform duration-300">expand_more</span>
+            </button>
+            <div id="strategicMenu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-slate-100 ml-4">
+                <a href="metas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">flag</span> Metas</a>
+                <a href="calendario.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">calendar_month</span> Calendario</a>
+                <a href="acciones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">bolt</span> Acciones</a>
+                <a href="callcenter.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">call</span> Call Center</a>
+                <a href="regiones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">map</span> Regiones</a>
+                <a href="zonas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">location_on</span> Zonas</a>
+                <a href="amigos.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">handshake</span> Amigos</a>
+                <a href="cedula.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">badge</span> Cédula</a>
+                <a href="metodologia.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">science</span> Metodología</a>
+                <a href="contexto.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">info</span> Contexto</a>
+            </div>
+        </div>
+      </nav>
+      <div class="px-6 py-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 tracking-wider uppercase">© 2027 Análisis Geoestadístico</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-morphism border-b border-primary/10">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="bg-primary p-2 rounded-lg text-white">
+            <span class="material-symbols-outlined text-2xl">query_stats</span>
+          </div>
+          <h1 class="text-xl font-extrabold tracking-tight text-primary uppercase">Análisis Geoestadístico</h1>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="callcenter.html" class="hidden md:block text-sm font-semibold text-primary/80 hover:text-primary transition-colors">Call Center</a>
+          <button onclick="toggleMenu()" class="p-2 hover:bg-primary/5 rounded-full transition-colors" id="menuButton">
+            <span class="material-symbols-outlined text-primary">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Banner Title Section -->
+    <section class="hero-gradient pt-32 pb-24 px-6 relative text-center text-white">
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-widest uppercase mb-6">
+              Vinculación
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight">
+              Call Center de Vinculación
+            </h1>
+            <p class="text-lg text-blue-100 max-w-2xl mx-auto leading-relaxed">
+              Análisis de satisfacción y vinculación ciudadana mediante encuestas telefónicas.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main id="callcenterView" class="px-6 py-16 max-w-[1440px] mx-auto space-y-12">
+        
+        <section class="mb-4 space-y-8">
+            <div class="glass-morphism p-8 rounded-2xl shadow-lg border border-primary/10">
+                <p class="text-lg text-slate-600 mb-6 leading-relaxed">
+                    Se cuenta con infraestructura operativa y técnica para realizar análisis de satisfacción de todos los programas presupuestarios de ayudas sociales de Gobierno del Estado, mediante encuestas vía telefónica.
+                </p>
+                <div class="bg-primary/5 p-6 rounded-xl border border-primary/10 mb-6">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-primary mb-2">
+                        <span class="material-symbols-outlined">flag</span> Objetivo
+                    </h3>
+                    <p class="text-slate-600">
+                        Procurar a los beneficiarios y medir su nivel de simpatía con la administración actual. Para medir la afinidad política, se tendrá que hacer en dos ocasiones distintas para identificar la parte institucional y luego contrastarla con su opinión política.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-3">Ejemplo de Análisis de Programas</h3>
+                        <ul class="list-disc list-inside text-slate-600 space-y-1 marker:text-accent-blue">
+                            <li>Apoyos en Especie para Personas con Discapacidad</li>
+                            <li>Fortalecimiento Comunitario</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-3">Metodología</h3>
+                        <p class="text-sm text-slate-600 mb-2">Encuestas realizadas vía telefónica por personal del call center de la Subsecretaría de Vinculación Ciudadana.</p>
+                        <ul class="text-sm text-slate-600 space-y-1">
+                            <li><strong>Turno matutino:</strong> 10:00 a.m. a 1:00 p.m.</li>
+                            <li><strong>Turno vespertino:</strong> 3:00 p.m. a 6:00 p.m.</li>
+                        </ul>
+                        <p class="text-sm text-slate-500 mt-2 italic">Cada turno cuenta con un equipo de 20 personas, lo que ha permitido una cobertura amplia y eficiente.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-morphism p-8 rounded-2xl shadow-lg border border-primary/10">
+            <h2 class="text-2xl font-black text-primary mb-6 flex items-center gap-2">
+                <span class="material-symbols-outlined">analytics</span> Resultados Principales
+            </h2>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gray-50/50 p-6 rounded-xl border border-gray-100">
+                    <h3 class="text-lg font-bold text-primary mb-4">1. Conocimiento del programa</h3>
+                    <div class="flex items-end gap-2 mb-2">
+                        <span class="text-4xl font-black text-green-600">97%</span>
+                        <span class="text-sm text-slate-600 mb-1">Conocían ser beneficiarios</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                        <div class="bg-green-600 h-2 rounded-full shadow-sm" style="width: 97%"></div>
+                    </div>
+                    <div class="flex items-end gap-2 mb-4">
+                        <span class="text-2xl font-bold text-red-500">3%</span>
+                        <span class="text-sm text-slate-600 mb-1">Señaló no haber recibido apoyo</span>
+                    </div>
+                    <p class="text-xs text-slate-500 italic">
+                        Una parte significativa se enteró del alcance del programa a través de la llamada del call center, destacando la importancia de este canal de comunicación.
+                    </p>
+                </div>
+
+                <div class="bg-gray-50/50 p-6 rounded-xl border border-gray-100">
+                    <h3 class="text-lg font-bold text-primary mb-4">2. Satisfacción y Calidad</h3>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="p-3 bg-green-100 text-green-600 rounded-full">
+                            <span class="material-symbols-outlined">inventory_2</span>
+                        </div>
+                        <div>
+                            <span class="text-3xl font-black text-slate-800">97%</span>
+                            <p class="text-sm text-slate-600">Recibieron apoyo completo (Excelente logística)</p>
+                        </div>
+                    </div>
+                    
+                    <h4 class="text-sm font-bold text-slate-800 mt-4 mb-2">Sugerencias Recibidas:</h4>
+                    <div class="space-y-3 text-xs">
+                        <div>
+                            <div class="flex justify-between mb-1"><span>Más frecuencia</span><span class="font-bold">21.0%</span></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 21%"></div></div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1"><span>Mejor focalización</span><span class="font-bold">8.6%</span></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 8.6%"></div></div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1"><span>Apoyo económico</span><span class="font-bold">7.4%</span></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 7.4%"></div></div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between mb-1"><span>Apoyo a domicilio</span><span class="font-bold">4.9%</span></div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 4.9%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-primary/5 p-6 rounded-xl border border-primary/10 text-center mb-8">
+                <p class="text-4xl font-black text-primary mb-2">94%</p>
+                <p class="text-lg font-medium text-slate-800">Manifestó interés en recibir visitas a domicilio de <strong>Chalecos Azules</strong></p>
+                <p class="text-sm text-slate-500 mt-1">Representando una excelente oportunidad para el programa.</p>
+            </div>
+
+            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">analytics</span> Análisis de Inversión por Programa
+            </h3>
+            <div class="overflow-hidden rounded-xl border border-gray-200 shadow-sm">
+                <table class="w-full text-sm text-left">
+                    <thead class="bg-gray-50 text-slate-700 font-bold uppercase text-xs tracking-wider border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-4">Programa</th>
+                            <th class="px-6 py-4 text-right">Encuestas efectivas</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 bg-white">
+                        <tr class="hover:bg-primary/5 transition-colors">
+                            <td class="px-6 py-4 font-medium">Personas con Discapacidad</td>
+                            <td class="px-6 py-4 text-right font-mono font-bold text-accent-blue">7,233</td>
+                        </tr>
+                        <tr class="hover:bg-primary/5 transition-colors">
+                            <td class="px-6 py-4 font-medium">Atenciones Extraordinarias</td>
+                            <td class="px-6 py-4 text-right font-mono font-bold text-accent-blue">345</td>
+                        </tr>
+                        <tr class="hover:bg-primary/5 transition-colors">
+                            <td class="px-6 py-4 font-medium">Fortalecimiento Comunitario</td>
+                            <td class="px-6 py-4 text-right font-mono font-bold text-accent-blue">2,852</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="grid md:grid-cols-2 gap-6">
+            <div class="glass-morphism p-6 rounded-2xl border-l-4 border-l-green-500 shadow-lg">
+                <h3 class="text-lg font-bold text-green-700 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined">thumb_up</span> Fortalezas
+                </h3>
+                <ul class="space-y-3 text-sm text-slate-600">
+                    <li class="flex gap-2 items-start"><span class="text-green-500 font-bold">✔</span> <span>Alto nivel de satisfacción general (97%)</span></li>
+                    <li class="flex gap-2 items-start"><span class="text-green-500 font-bold">✔</span> <span>Efectividad en la logística de entrega</span></li>
+                    <li class="flex gap-2 items-start"><span class="text-green-500 font-bold">✔</span> <span>Excelente recepción a estrategias de acompañamiento (94% aceptación visitas)</span></li>
+                    <li class="flex gap-2 items-start"><span class="text-green-500 font-bold">✔</span> <span>Amplia cobertura de beneficiarios</span></li>
+                </ul>
+            </div>
+
+            <div class="glass-morphism p-6 rounded-2xl border-l-4 border-l-orange-500 shadow-lg">
+                <h3 class="text-lg font-bold text-orange-700 mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined">lightbulb</span> Oportunidades de Mejora
+                </h3>
+                <ul class="space-y-3 text-sm text-slate-600">
+                    <li class="flex gap-2 items-start"><span class="text-orange-500 font-bold">➜</span> <span>Optimizar contenido de despensas</span></li>
+                    <li class="flex gap-2 items-start"><span class="text-orange-500 font-bold">➜</span> <span>Evaluar mayor frecuencia en entregas</span></li>
+                    <li class="flex gap-2 items-start"><span class="text-orange-500 font-bold">➜</span> <span>Implementar visitas domiciliarias</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="bg-gradient-to-r from-primary to-[#152c4e] p-8 rounded-2xl text-white shadow-xl">
+            <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
+                <span class="material-symbols-outlined text-yellow-400">stars</span> Recomendación Estratégica
+            </h3>
+            <p class="text-sm opacity-90 leading-relaxed max-w-4xl">
+                Fortalecer los criterios de selección para asegurar que los recursos lleguen a quienes más lo requieren, complementado con un sistema de visitas domiciliarias que permita verificar condiciones reales y establecer un vínculo más cercano con los beneficiarios.
+            </p>
+        </div>
+    </main>
+
+    <!-- MAP MODAL -->
+    <div id="mapModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4"></div>
+
+    <!-- PENDIENTES MODAL -->
+    <div id="pendientesModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closePendientesModal()"></div>
+        <div class="relative w-full max-w-2xl max-h-[80vh] glass-morphism bg-white rounded-2xl flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
+            <div class="flex items-center justify-between p-6 border-b border-orange-100 bg-orange-50 rounded-t-2xl">
+                <div class="flex flex-col">
+                    <h3 class="text-xl font-black text-slate-800 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-orange-600">person_alert</span>
+                        Brigadistas Disponibles
+                    </h3>
+                    <p class="text-sm text-slate-500 mt-1">Lista de personal pendiente de asignación.</p>
+                </div>
+                <button onclick="closePendientesModal()" class="p-2 hover:bg-black/5 rounded-full transition-colors text-slate-500">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-0 scrollbar-hide">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-50 sticky top-0 backdrop-blur-sm shadow-sm border-b border-slate-100">
+                        <tr>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Nombre del Brigadista</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Municipio</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendientesListContainer" class="divide-y divide-slate-100 text-sm">
+                        <!-- JS content -->
+                    </tbody>
+                </table>
+                <div id="emptyPendientesMsg" class="hidden flex-col items-center justify-center py-12 text-center text-slate-400">
+                    <span class="material-symbols-outlined text-4xl mb-2 opacity-50">assignment_turned_in</span>
+                    <p>No hay brigadistas pendientes.</p>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl text-right">
+                <button onclick="closePendientesModal()" class="px-6 py-2 bg-white border border-slate-200 rounded-xl text-sm font-bold shadow-sm hover:bg-slate-50 transition-all text-slate-700">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-background-dark text-white py-12 px-6 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-accent-blue">query_stats</span>
+                <span class="font-black uppercase tracking-tight">Presentación</span>
+            </div>
+            <p class="text-white/30 text-xs tracking-widest uppercase">© 2027 Análisis Geoestadístico. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      // Toggle menu
+      function toggleMenu() {
+        document.getElementById("slideMenu").classList.toggle("open");
+        document.getElementById("menuOverlay").classList.toggle("open");
+        document.body.style.overflow = document
+          .getElementById("slideMenu")
+          .classList.contains("open")
+          ? "hidden"
+          : "";
+      }
+
+      function toggleSubmenu(id) {
+        const el = document.getElementById(id);
+        const arrow = document.getElementById(id + 'Arrow');
+        if(el) {
+            el.classList.toggle('hidden');
+            if(arrow) {
+                 arrow.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        }
+      }
+
+      function highlightActiveLink() {
+        const path = window.location.pathname;
+        const page = path.split("/").pop() || 'index.html';
+        const links = document.querySelectorAll('.menu-item');
+        links.forEach(link => {
+            if(link.getAttribute('href') === page) {
+                link.classList.add('bg-primary/5');
+                const icon = link.querySelector('.material-symbols-outlined');
+                const text = link.querySelector('.font-semibold');
+                if(icon) {
+                    icon.classList.remove('text-accent-blue', 'text-slate-500');
+                    icon.classList.add('text-primary');
+                }
+                if(text) {
+                    text.classList.remove('text-slate-700', 'text-slate-600');
+                    text.classList.add('text-primary');
+                }
+                
+                // Open parent submenu if applicable
+                const parent = link.closest('#strategicMenu');
+                if(parent) {
+                    parent.classList.remove('hidden');
+                    const arrow = document.getElementById('strategicMenuArrow');
+                    if(arrow) arrow.style.transform = 'rotate(180deg)';
+                }
+            }
+        });
+      }
+      highlightActiveLink();
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("slideMenu").classList.remove("open");
+          document.getElementById("menuOverlay").classList.remove("open");
+          document.body.style.overflow = "";
+        }
+      });
+    </script>
+</body>
+</html>

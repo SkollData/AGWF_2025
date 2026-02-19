@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Calendario</title>
+
+    <base href="./">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#2563eb", "primary-dark": "#1d4ed8", "text-main": "#020617", "text-sub": "#334155" },
+                    fontFamily: { "display": ["Public Sans", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/spectral-banner.css">
+    <script type="module" src="https://js.arcgis.com/embeddable-components/4.33/arcgis-embeddable-components.esm.js"></script>
+
+</head>
+<body class="font-display text-text-main dark:text-white antialiased selection:bg-primary/30 bg-content">
+
+    <header class="sticky top-4 z-50 mx-4 md:mx-8 glass-panel rounded-2xl mt-4">
+        <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 transition-transform hover:scale-[1.02] duration-300 cursor-default">
+                <div class="p-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-md shadow-blue-500/20 text-white">
+                    <span class="material-symbols-outlined text-xl">shield_person</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-sm font-black text-slate-800 dark:text-white leading-none tracking-tight">EJECUTIVO</h1>
+                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 tracking-[0.15em] uppercase">Chalecos Azules 2025</span>
+                </div>
+            </div>
+            
+            <div class="relative z-50">
+                <button onclick="toggleNavDropdown()" id="nav-dropdown-btn" class="flex items-center gap-2 px-6 py-2 bg-white/50 hover:bg-white rounded-full shadow-sm border border-white/20 text-sm font-bold text-text-main transition-all backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-primary">menu</span>
+                    <span>Menú Principal</span>
+                    <span id="nav-arrow" class="material-symbols-outlined text-gray-400 text-xs transition-transform duration-300">expand_more</span>
+                </button>
+                
+                <div id="nav-dropdown" class="hidden absolute right-0 mt-2 w-72 glass-panel rounded-2xl shadow-2xl border border-white/60 p-2 flex flex-col gap-1 animate-in zoom-in-95 duration-200 origin-top-right z-50 max-h-[85vh] overflow-y-auto">
+                    <div class="px-4 py-3 border-b border-gray-100 mb-1">
+                        <span class="text-xs font-bold text-text-sub uppercase tracking-wider">Navegación</span>
+                    </div>
+                    <a href="metas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metas</span>
+                            <span class="text-[10px] text-gray-400">Objetivos y avances</span>
+                        </div>
+                    </a>
+                    <a href="calendario.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Calendario</span>
+                            <span class="text-[10px] text-gray-400">Cronograma de actividades</span>
+                        </div>
+                    </a>
+                    <a href="acciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Acciones</span>
+                            <span class="text-[10px] text-gray-400">Registro de actividades</span>
+                        </div>
+                    </a>
+                    <a href="callcenter.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Call Center</span>
+                            <span class="text-[10px] text-gray-400">Gestión de llamadas</span>
+                        </div>
+                    </a>
+                    <a href="regional.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Regiones</span>
+                            <span class="text-[10px] text-gray-400">Análisis regional</span>
+                        </div>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Zonas</span>
+                            <span class="text-[10px] text-gray-400">Tablero de control</span>
+                        </div>
+                    </a>
+                    <a href="historico.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Histórico</span>
+                            <span class="text-[10px] text-gray-400">Análisis 18-24</span>
+                        </div>
+                    </a>
+                    <a href="beneficiarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Beneficiarios</span>
+                            <span class="text-[10px] text-gray-400">Programas y cobertura</span>
+                        </div>
+                    </a>
+                    <a href="amigos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Amigos</span>
+                            <span class="text-[10px] text-gray-400">Red de conexión</span>
+                        </div>
+                    </a>
+                    <a href="cedula.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Cédula</span>
+                            <span class="text-[10px] text-gray-400">Identificación</span>
+                        </div>
+                    </a>
+                    <a href="documento.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metodología</span>
+                            <span class="text-[10px] text-gray-400">Documentación y Mapas</span>
+                        </div>
+                    </a>
+                    <div class="h-px bg-gray-100 my-1"></div>
+                    <a href="contexto.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-primary">Contexto</span>
+                    </a>
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 text-sm font-medium text-text-sub hover:text-red-600 transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-red-600">Salir</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="calendarioView" class="flex-1 max-w-[1440px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8 min-h-[calc(100vh-120px)] pb-10 perspective-1000">
+    
+    <!-- Spectral Header -->
+    <header class="spectral-header rounded-2xl shadow-2xl mb-8">
+        <h2>Calendario Operativo</h2>
+        <p class="max-w-2xl mx-auto px-4">Histórico de actividades, despliegue territorial y gestión de apoyos.</p>
+    </header>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    
+    <!-- Febrero -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-blue-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-blue-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">FASE 1: INICIO</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Febrero</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Volanteo y apoyo en informes legislativos y gubernamentales.</li>
+            <li>Arranque operativo general del programa.</li>
+            <li>Selección, alineación y capacitación de equipos territoriales.</li>
+            <li>Jornadas regionales de capacitación.</li>
+            <li>Preparación logística para levantamientos y programas alimentarios.</li>
+        </ul>
+    </div>
+
+    <!-- Marzo -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-blue-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-blue-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">DESPLIEGUE</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Marzo</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Resto del volanteo y apoyo en informes legislativos.</li>
+            <li>Activación operativa en territorio.</li>
+            <li>Arranque del levantamiento de encuestas, microdiagnósticos y fichas.</li>
+            <li>Registro de beneficiarios.</li>
+            <li>Primera entrega del Programa Alimentario (Adulto Mayor y Discapacidad).</li>
+            <li>Difusión institucional en cruceros y comunidades.</li>
+        </ul>
+    </div>
+
+    <!-- Abril -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-emerald-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-emerald-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">FASE 2: CONSOLIDACIÓN</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Abril</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Ferias de servicios en municipios.</li>
+            <li>Levantamiento intensivo de encuestas y fichas diagnósticas.</li>
+            <li>Cobertura en cabeceras municipales y localidades rurales.</li>
+            <li>Apoyo en entregas de grano, frijol y apoyos DIF.</li>
+            <li>Aplicación de fichas temáticas.</li>
+            <li>Visitas domiciliarias y verificación de beneficiarios.</li>
+        </ul>
+    </div>
+
+    <!-- Mayo -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-emerald-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-emerald-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">OPERACIÓN CONTINUA</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Mayo</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Volanteo de la elección Judicial.</li>
+            <li>Apoyo en esterilización y captura de perros.</li>
+            <li>Continuidad del levantamiento territorial.</li>
+            <li>Difusión de programas estatales casa por casa.</li>
+            <li>Coordinación con enlaces municipales.</li>
+            <li>Apoyo a actividades DIF y atención a población objetivo.</li>
+        </ul>
+    </div>
+
+    <!-- Junio -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-yellow-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-yellow-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">FASE 3: REFUERZO</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Junio</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Segunda etapa del Programa Alimentario / NutriChihuahua.</li>
+            <li>Entrega de despensas, grano y frijol.</li>
+            <li>Apoyo por lluvias en Bocoyna.</li>
+            <li>Apoyo en Ferias de Servicios.</li>
+            <li>Atención a brote de sarampión: brigadas, volanteo y registro.</li>
+        </ul>
+    </div>
+
+    <!-- Julio -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-yellow-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-yellow-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">MITAD DE AÑO</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Julio</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Atención inicial por contingencias climáticas.</li>
+            <li>Continuidad del levantamiento y visitas domiciliarias.</li>
+            <li>Apoyo en Ferias de Servicios municipales.</li>
+            <li>Entregas complementarias a Adulto Mayor y Discapacidad.</li>
+            <li>Jornadas de vacunación (control de flujo y registro).</li>
+        </ul>
+    </div>
+
+    <!-- Agosto -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-orange-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-orange-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">FASE 4: INTENSIVA</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Agosto</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Alta carga operativa en territorio.</li>
+            <li>Segunda/tercera etapa de entregas alimentarias.</li>
+            <li>Apoyo intensivo en jornadas de vacunación.</li>
+            <li>Operación en Ferias de Servicios y eventos comunitarios.</li>
+            <li>Captura física en localidades sin señal.</li>
+        </ul>
+    </div>
+
+    <!-- Septiembre -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-orange-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-orange-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">CONTINGENCIAS</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Septiembre</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Continuidad del levantamiento mensual.</li>
+            <li>Ajustes de personal y reorganización territorial.</li>
+            <li>Atención a contingencias por lluvias e inundaciones.</li>
+            <li>Apoyo operativo en comunidades afectadas.</li>
+            <li>Seguimiento a padrones y beneficiarios rezagados.</li>
+        </ul>
+    </div>
+
+    <!-- Octubre -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-purple-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-purple-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">FASE 5: CIERRE</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Octubre</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Atención a contingencias por lluvias intensas.</li>
+            <li>Entrega de apoyos alimentarios (incluye reposiciones).</li>
+            <li>Actividades comunitarias y de salud.</li>
+            <li>Difusión institucional.</li>
+            <li>Últimas etapas de entregas del Programa Alimentario.</li>
+        </ul>
+    </div>
+
+    <!-- Noviembre -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-purple-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-purple-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">EVALUACIÓN</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Noviembre</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Seguimiento operativo y actualización de registros.</li>
+            <li>Cierre de entregas de despensas y apoyos.</li>
+            <li>Atención de rezagos.</li>
+            <li>Evaluación operativa del periodo enero–noviembre.</li>
+        </ul>
+    </div>
+
+    <!-- Diciembre -->
+    <div class="glass-panel p-5 rounded-2xl border-t-4 border-t-purple-500 shadow-md hover:shadow-xl transition-all relative overflow-hidden group">
+        <span class="text-[10px] font-black text-white bg-purple-500 px-3 py-1 rounded-bl-xl absolute top-0 right-0 tracking-wider">CONCLUSIÓN</span>
+        <h3 class="text-xl font-bold text-text-main dark:text-white mb-3 mt-2 border-b border-gray-100 dark:border-white/10 pb-2">Diciembre</h3>
+        <ul class="space-y-2 text-xs text-text-sub dark:text-gray-300 list-disc list-outside ml-4">
+            <li>Apoyo en posadas comunitarias.</li>
+            <li>Difusión institucional de cierre de año.</li>
+            <li>Actividades logísticas especiales.</li>
+            <li>Cierre operativo de campo.</li>
+        </ul>
+    </div>
+
+</div></main>
+
+    <div id="mapModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4"></div>
+<div id="pendientesModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closePendientesModal()"></div>
+    <div class="relative w-full max-w-2xl max-h-[80vh] glass-panel rounded-2xl flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
+        <div class="flex items-center justify-between p-6 border-b border-gray-100 dark:border-white/10 bg-orange-50/50 dark:bg-orange-900/10 rounded-t-2xl">
+            <div class="flex flex-col">
+                <h3 class="text-xl font-black text-text-main dark:text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-orange-600">person_alert</span>
+                    Brigadistas Disponibles
+                </h3>
+                <p class="text-sm text-text-sub mt-1">Lista de personal pendiente de asignación.</p>
+            </div>
+            <button onclick="closePendientesModal()" class="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors text-text-sub">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-0">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50/80 dark:bg-black/20 sticky top-0 backdrop-blur-sm shadow-sm">
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Nombre del Brigadista</th>
+                        <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Municipio</th>
+                    </tr>
+                </thead>
+                <tbody id="pendientesListContainer" class="divide-y divide-gray-100 dark:divide-white/5">
+                    </tbody>
+            </table>
+            <div id="emptyPendientesMsg" class="hidden flex-col items-center justify-center py-12 text-center text-text-sub">
+                <span class="material-symbols-outlined text-4xl mb-2 opacity-50">assignment_turned_in</span>
+                <p>No hay brigadistas pendientes.</p>
+            </div>
+        </div>
+        <div class="p-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-black/10 rounded-b-2xl text-right">
+            <button onclick="closePendientesModal()" class="px-6 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold shadow-sm hover:bg-gray-50 transition-all">Cerrar</button>
+        </div>
+    </div>
+</div>
+    
+
+    <!-- Footer -->
+    <footer id="footer" class="spectral-footer">
+      <ul class="icons">
+      </ul>
+      <ul class="copyright">
+        <li>Plataforma de Inteligencia de datos 2026</li>
+      </ul>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!doctype html>
+<html class="light" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Inicio</title>
+
+    <base href="./" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2563eb",
+              "primary-dark": "#1d4ed8",
+              "text-main": "#020617",
+              "text-sub": "#334155",
+            },
+            fontFamily: { display: ["Public Sans", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+
+    <!-- Link to new Spectral Banner CSS -->
+    <link rel="stylesheet" href="css/spectral-banner.css" />
+  </head>
+  <body
+    class="font-display text-white is-preload landing-bg bg-slate-900 overflow-x-hidden"
+  >
+    <!-- Spectral Banner Section -->
+    <section id="banner">
+      <div class="inner relative z-10 flex flex-col items-center">
+        <h2>
+          Análisis Geoestadístico<br />
+          Electoral Rumbo a 2027
+        </h2>
+        <p class="max-w-3xl mx-auto">
+          Plataforma de inteligencia de datos<br />
+          para la toma de decisiones.
+        </p>
+        <ul class="actions special mt-8 list-none p-0">
+          <li class="inline-block">
+            <a
+              href="metas.html"
+              class="button primary px-10 py-4 rounded text-white font-bold tracking-widest uppercase hover:bg-opacity-90 transition-all shadow-lg hover:shadow-red-500/30"
+              >Ingresar al Sistema</a
+            >
+          </li>
+        </ul>
+      </div>
+      <a
+        href="#carousel-section"
+        id="learn-more-btn"
+        class="more scrolly text-white opacity-80 hover:opacity-100 transition-opacity flex flex-col items-center justify-end pb-8"
+        >Descubrir Más</a
+      >
+    </section>
+
+    <!-- Carousel Section (Contexto) -->
+    <section
+      id="carousel-section"
+      class="relative z-10 bg-slate-900 py-20 min-h-screen flex flex-col justify-center border-t border-white/5"
+    >
+      <!-- Decoration -->
+      <div
+        class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"
+      ></div>
+      <div
+        class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none"
+      ></div>
+
+      <div class="text-center space-y-4 mb-16 relative z-10">
+        <div
+          class="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold tracking-widest uppercase text-blue-400 mb-2"
+        >
+          Exploración Territorial
+        </div>
+        <h2
+          class="text-3xl md:text-5xl font-black tracking-tight text-white mb-4"
+        >
+          Contexto Electoral
+        </h2>
+        <p class="text-lg text-slate-400 max-w-2xl mx-auto px-4 font-light">
+          Seleccione un distrito local o municipio para monitorear indicadores
+          clave y proyecciones.
+        </p>
+        <div class="mt-8">
+            <a
+              href="metas.html"
+              class="button primary px-10 py-4 rounded text-white font-bold tracking-widest uppercase hover:bg-opacity-90 transition-all shadow-lg hover:shadow-red-500/30"
+              >Ingresar al Sistema</a
+            >
+        </div>
+      </div>
+
+      <div
+        class="relative w-full group/carousel z-20 max-w-[1600px] mx-auto"
+        onmouseenter="stopCarousel()"
+        onmouseleave="startCarousel()"
+      >
+        <button
+          onclick="scrollDistricts('left')"
+          class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-30 p-3 md:p-4 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 border border-white/10 shadow-xl group-hover/carousel:opacity-100 md:opacity-0 transition-opacity"
+        >
+          <span class="material-symbols-outlined text-3xl">chevron_left</span>
+        </button>
+
+        <button
+          onclick="scrollDistricts('right')"
+          class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-30 p-3 md:p-4 rounded-full bg-slate-800/80 hover:bg-slate-700 text-white backdrop-blur-sm transition-all duration-300 hover:scale-110 border border-white/10 shadow-xl group-hover/carousel:opacity-100 md:opacity-0 transition-opacity"
+        >
+          <span class="material-symbols-outlined text-3xl">chevron_right</span>
+        </button>
+
+        <!-- Container for districts cards -->
+        <div
+          id="districtsContainer"
+          class="flex gap-8 overflow-x-auto pb-16 pt-8 px-4 md:px-20 snap-x snap-mandatory scrollbar-hide scroll-smooth"
+        >
+          <!-- Cards will be populated by app.js -->
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Zonas</span>
+                            <span class="text-[10px] text-gray-400">Tablero de control</span>
+                        </div>
+                    </a>
+                    <a href="historico.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Histórico</span>
+                            <span class="text-[10px] text-gray-400">Análisis 18-24</span>
+                        </div>
+                    </a>
+                    <a href="beneficiarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Beneficiarios</span>
+                            <span class="text-[10px] text-gray-400">Programas y cobertura</span>
+                        </div>
+                    </a>
+                    <a href="amigos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Amigos</span>
+                            <span class="text-[10px] text-gray-400">Red de conexión</span>
+                        </div>
+                    </a>
+                    <a href="cedula.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Cédula</span>
+                            <span class="text-[10px] text-gray-400">Identificación</span>
+                        </div>
+                    </a>
+        </div>
+
+        <div
+          class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 text-xs text-white/40 font-bold opacity-0 group-hover/carousel:opacity-100 transition-opacity"
+        >
+          <span class="material-symbols-outlined text-sm animate-spin"
+            >autorenew</span
+          >
+          <span>Pausado al interactuar</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer" class="spectral-footer">
+      <ul class="icons">
+      </ul>
+      <ul class="copyright">
+        <li>Plataforma de Inteligencia de datos 2026</li>
+      </ul>
+      <div style="text-align:center; margin-top:1.5rem; padding-bottom:1rem;">
+        <button onclick="openCreditsPlayer()" style="
+          display:inline-flex; align-items:center; gap:8px;
+          padding:12px 32px; border:none; border-radius:9999px; cursor:pointer;
+          background:linear-gradient(135deg,#2563eb,#1e40af);
+          color:#fff; font-family:'Public Sans',sans-serif; font-weight:700;
+          font-size:14px; letter-spacing:0.05em; text-transform:uppercase;
+          box-shadow:0 4px 24px rgba(37,99,235,0.4);
+          transition:all 0.3s ease;
+        " onmouseenter="this.style.transform='scale(1.05)';this.style.boxShadow='0 6px 32px rgba(37,99,235,0.6)'"
+           onmouseleave="this.style.transform='scale(1)';this.style.boxShadow='0 4px 24px rgba(37,99,235,0.4)'">
+          <span class="material-symbols-outlined" style="font-size:20px;">play_circle</span>
+          Créditos
+        </button>
+      </div>
+    </footer>
+
+    <!-- Credits Slideshow Modal -->
+    <div id="credits-modal" style="
+      display:none; position:fixed; inset:0; z-index:9999;
+      background:rgba(0,0,0,0.92); backdrop-filter:blur(12px);
+      flex-direction:column; align-items:center; justify-content:center;
+      font-family:'Public Sans',sans-serif;
+    ">
+      <!-- Close Button -->
+      <button onclick="closeCreditsPlayer()" style="
+        position:absolute; top:20px; right:24px; z-index:10;
+        background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
+        color:#fff; width:44px; height:44px; border-radius:50%; cursor:pointer;
+        display:flex; align-items:center; justify-content:center;
+        transition:all 0.2s ease; font-size:0;
+      " onmouseenter="this.style.background='rgba(255,255,255,0.2)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.1)'">
+        <span class="material-symbols-outlined" style="font-size:24px;">close</span>
+      </button>
+
+      <!-- Image Display -->
+      <div style="flex:1; display:flex; align-items:center; justify-content:center; width:100%; padding:20px;">
+        <img id="credits-frame" alt="Animación publicitaria" style="
+          max-width:900px; width:90%; max-height:75vh; object-fit:contain;
+          border-radius:16px; box-shadow:0 8px 48px rgba(0,0,0,0.6);
+        " />
+      </div>
+
+      <!-- Controls Bar -->
+      <div style="
+        width:100%; max-width:900px; padding:16px 24px 28px; margin:0 auto;
+        display:flex; flex-direction:column; gap:12px;
+      ">
+        <!-- Progress Bar -->
+        <div style="position:relative; width:100%; height:6px; background:rgba(255,255,255,0.15); border-radius:3px; cursor:pointer;"
+             id="credits-progress-bar" onclick="seekCredits(event)">
+          <div id="credits-progress-fill" style="
+            height:100%; width:0%; background:linear-gradient(90deg,#3b82f6,#60a5fa);
+            border-radius:3px; transition:width 0.1s linear;
+          "></div>
+        </div>
+        <!-- Buttons Row -->
+        <div style="display:flex; align-items:center; justify-content:space-between;">
+          <button id="credits-play-btn" onclick="toggleCreditsPlay()" style="
+            display:flex; align-items:center; gap:6px;
+            background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
+            color:#fff; padding:8px 20px; border-radius:9999px; cursor:pointer;
+            font-family:'Public Sans',sans-serif; font-weight:600; font-size:13px;
+            transition:all 0.2s ease;
+          " onmouseenter="this.style.background='rgba(255,255,255,0.2)'"
+             onmouseleave="this.style.background='rgba(255,255,255,0.1)'">
+            <span class="material-symbols-outlined" style="font-size:20px;" id="credits-play-icon">pause</span>
+            <span id="credits-play-label">Pausar</span>
+          </button>
+          <span id="credits-counter" style="color:rgba(255,255,255,0.6); font-size:13px; font-weight:600;">1 / 80</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Credits Slideshow Script -->
+    <script>
+    (function() {
+      const TOTAL_FRAMES = 80;
+      const FRAME_INTERVAL = 100; // ms per frame
+      const PREFIX = 'images/Animacion_publicitaria_high_202602171116_3icf_';
+
+      let frames = [];
+      let currentFrame = 0;
+      let isPlaying = false;
+      let intervalId = null;
+      let preloaded = false;
+
+      // Build frame paths
+      for (let i = 0; i < TOTAL_FRAMES; i++) {
+        frames.push(PREFIX + String(i).padStart(3, '0') + '.jpg');
+      }
+
+      // Preload all images
+      function preloadFrames() {
+        if (preloaded) return;
+        frames.forEach(function(src) {
+          var img = new Image();
+          img.src = src;
+        });
+        preloaded = true;
+      }
+
+      function updateDisplay() {
+        var frameImg = document.getElementById('credits-frame');
+        var counter = document.getElementById('credits-counter');
+        var progressFill = document.getElementById('credits-progress-fill');
+        if (frameImg) frameImg.src = frames[currentFrame];
+        if (counter) counter.textContent = (currentFrame + 1) + ' / ' + TOTAL_FRAMES;
+        if (progressFill) progressFill.style.width = ((currentFrame + 1) / TOTAL_FRAMES * 100) + '%';
+      }
+
+      function startPlayback() {
+        if (intervalId) return;
+        isPlaying = true;
+        updatePlayButton();
+        intervalId = setInterval(function() {
+          currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
+          updateDisplay();
+        }, FRAME_INTERVAL);
+      }
+
+      function stopPlayback() {
+        isPlaying = false;
+        updatePlayButton();
+        if (intervalId) {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+      }
+
+      function updatePlayButton() {
+        var icon = document.getElementById('credits-play-icon');
+        var label = document.getElementById('credits-play-label');
+        if (icon) icon.textContent = isPlaying ? 'pause' : 'play_arrow';
+        if (label) label.textContent = isPlaying ? 'Pausar' : 'Reproducir';
+      }
+
+      window.openCreditsPlayer = function() {
+        preloadFrames();
+        currentFrame = 0;
+        updateDisplay();
+        var modal = document.getElementById('credits-modal');
+        if (modal) modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        startPlayback();
+      };
+
+      window.closeCreditsPlayer = function() {
+        stopPlayback();
+        var modal = document.getElementById('credits-modal');
+        if (modal) modal.style.display = 'none';
+        document.body.style.overflow = '';
+      };
+
+      window.toggleCreditsPlay = function() {
+        if (isPlaying) { stopPlayback(); } else { startPlayback(); }
+      };
+
+      window.seekCredits = function(e) {
+        var bar = document.getElementById('credits-progress-bar');
+        if (!bar) return;
+        var rect = bar.getBoundingClientRect();
+        var ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        currentFrame = Math.floor(ratio * (TOTAL_FRAMES - 1));
+        updateDisplay();
+      };
+
+      // Keyboard: Escape to close
+      document.addEventListener('keydown', function(e) {
+        var modal = document.getElementById('credits-modal');
+        if (modal && modal.style.display === 'flex' && e.key === 'Escape') {
+          closeCreditsPlayer();
+        }
+      });
+    })();
+    </script>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/spectral-banner.js"></script>
+  </body>
+</html>

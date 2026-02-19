@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Acciones Extraordinarias | VotoAnalítico</title>
+    <meta
+      name="description"
+      content="Registro de acciones extraordinarias, apoyos y contingencias."
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1a3c6b",
+              "primary-dark": "#122a4d",
+              "accent-blue": "#2196f3",
+              "background-light": "#f6f7f8",
+              "background-dark": "#0d1b2a",
+              "text-main": "#0d1b2a",
+              "text-sub": "#334155",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass-morphism {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      .hero-gradient {
+        background: linear-gradient(135deg, #1a3c6b 0%, #2196f3 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-gradient::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: radial-gradient(#ffffff22 1px, transparent 1px);
+        background-size: 30px 30px;
+        opacity: 0.3;
+      }
+
+      /* ── Slide Menu ── */
+      .slide-menu { transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+      .slide-menu.open { transform: translateX(0); }
+      .menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+      .menu-overlay.open { opacity: 1; pointer-events: all; }
+      .menu-item { transform: translateX(20px); opacity: 0; transition: all 0.3s ease; }
+      .slide-menu.open .menu-item { transform: translateX(0); opacity: 1; }
+      
+      /* Staggered animation items */
+      .slide-menu.open .menu-item:nth-child(1)  { transition-delay: 0.08s; }
+      .slide-menu.open .menu-item:nth-child(2)  { transition-delay: 0.12s; }
+      .slide-menu.open .menu-item:nth-child(3)  { transition-delay: 0.16s; }
+      .slide-menu.open .menu-item:nth-child(4)  { transition-delay: 0.20s; }
+      .slide-menu.open .menu-item:nth-child(5)  { transition-delay: 0.24s; }
+      .slide-menu.open .menu-item:nth-child(6)  { transition-delay: 0.28s; }
+      .slide-menu.open .menu-item:nth-child(7)  { transition-delay: 0.32s; }
+      .slide-menu.open .menu-item:nth-child(8)  { transition-delay: 0.36s; }
+      .slide-menu.open .menu-item:nth-child(9)  { transition-delay: 0.40s; }
+      .slide-menu.open .menu-item:nth-child(10) { transition-delay: 0.44s; }
+      .slide-menu.open .menu-item:nth-child(11) { transition-delay: 0.48s; }
+      .slide-menu.open .menu-item:nth-child(12) { transition-delay: 0.52s; }
+      
+      /* Utilities */
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(26, 60, 107, 0.2); border-radius: 10px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(26, 60, 107, 0.4); }
+    </style>
+  </head>
+  <body class="font-display bg-background-light text-slate-900 overflow-x-hidden">
+    
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 bg-black/50 z-[60]" onclick="toggleMenu()"></div>
+
+    <!-- Slide Menu -->
+    <div id="slideMenu" class="slide-menu fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between px-6 py-6 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="bg-primary p-1.5 rounded-lg text-white">
+            <span class="material-symbols-outlined text-lg">query_stats</span>
+          </div>
+          <span class="font-extrabold text-primary tracking-tight">ACCIONES</span>
+        </div>
+        <button onclick="toggleMenu()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+          <span class="material-symbols-outlined text-slate-500">close</span>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
+        <a href="index.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">home</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Inicio</span>
+        </a>
+        
+        <a href="beneficiarios.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">people</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Beneficiarios</span>
+        </a>
+
+        <a href="historico.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">history</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Histórico 18-24</span>
+        </a>
+
+        <!-- Collapsible Strategic Section -->
+        <div class="pt-2">
+            <button onclick="toggleSubmenu('strategicMenu')" class="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors text-left group">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">layers</span>
+                    <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Chalecos Azules</span>
+                </div>
+                <span id="strategicMenuArrow" class="material-symbols-outlined text-slate-400 transition-transform duration-300">expand_more</span>
+            </button>
+            <div id="strategicMenu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-slate-100 ml-4">
+                <a href="metas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">flag</span> Metas</a>
+                <a href="calendario.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">calendar_month</span> Calendario</a>
+                <a href="acciones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">bolt</span> Acciones</a>
+                <a href="callcenter.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">call</span> Call Center</a>
+                <a href="regiones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">map</span> Regiones</a>
+                <a href="zonas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">location_on</span> Zonas</a>
+                <a href="amigos.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">handshake</span> Amigos</a>
+                <a href="cedula.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">badge</span> Cédula</a>
+                <a href="metodologia.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">science</span> Metodología</a>
+                <a href="contexto.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">info</span> Contexto</a>
+            </div>
+        </div>
+      </nav>
+      <div class="px-6 py-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 tracking-wider uppercase">© 2027 Análisis Geoestadístico</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-morphism border-b border-primary/10">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="bg-primary p-2 rounded-lg text-white">
+            <span class="material-symbols-outlined text-2xl">query_stats</span>
+          </div>
+          <h1 class="text-xl font-extrabold tracking-tight text-primary uppercase">Análisis Geoestadístico</h1>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="acciones.html" class="hidden md:block text-sm font-semibold text-primary/80 hover:text-primary transition-colors">Acciones</a>
+          <button onclick="toggleMenu()" class="p-2 hover:bg-primary/5 rounded-full transition-colors" id="menuButton">
+            <span class="material-symbols-outlined text-primary">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Banner Title Section -->
+    <section class="hero-gradient pt-32 pb-24 px-6 relative text-center text-white">
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-widest uppercase mb-6">
+              Intervenciones
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight">
+              Acciones Extraordinarias
+            </h1>
+            <p class="text-lg text-blue-100 max-w-2xl mx-auto leading-relaxed">
+              Resultados de intervenciones y apoyos adicionales.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main id="accionesView" class="px-6 py-16 max-w-[1440px] mx-auto space-y-12">
+        
+        <!-- Tab Buttons -->
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+            <button onclick="switchAccionesTab('apoyos')" id="btn-acc-apoyos" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-primary text-white shadow-lg shadow-primary/30 transition-all scale-105 flex items-center gap-2">
+                <span class="material-symbols-outlined">volunteer_activism</span> Apoyos Extraordinarios
+            </button>
+            <button onclick="switchAccionesTab('salud')" id="btn-acc-salud" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 transition-all hover:text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined">medical_services</span> Salud / Sarampión
+            </button>
+            <button onclick="switchAccionesTab('vulnerables')" id="btn-acc-vulnerables" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 transition-all hover:text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined">accessible</span> Grupos Vulnerables
+            </button>
+            <button onclick="switchAccionesTab('lluvias')" id="btn-acc-lluvias" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 transition-all hover:text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined">flood</span> Contingencia Lluvias
+            </button>
+        </div>
+        
+        <!-- Apoyos Content -->
+        <div id="acc-content-apoyos" class="block animate-in fade-in zoom-in duration-300">
+            <div class="glass-morphism rounded-2xl overflow-hidden shadow-xl border border-primary/10">
+                <div class="p-6 bg-primary/5 border-b border-primary/10 flex justify-between items-center">
+                    <h2 class="text-xl font-black text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined">card_giftcard</span> Registro de Entregas Extraordinarias
+                    </h2>
+                    <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">2025</span>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar h-[600px]"> 
+                    <table class="w-full text-left border-collapse whitespace-nowrap">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase sticky top-0 z-10 backdrop-blur-md">
+                            <tr>
+                                <th class="px-6 py-3">Fecha</th>
+                                <th class="px-6 py-3">Municipio</th>
+                                <th class="px-6 py-3">Detalle del Apoyo</th>
+                                <th class="px-6 py-3 text-right">Cantidad Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 text-sm text-slate-600">
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">02/Ene</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Bolsas de Dulces</td><td class="px-6 py-3 text-right font-black text-accent-blue">2,000</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">07/Ene</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Despensas</td><td class="px-6 py-3 text-right font-black text-accent-blue">560</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">10/Ene</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Hules</td><td class="px-6 py-3 text-right font-black text-accent-blue">13</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">14/Ene</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Electrodomésticos</td><td class="px-6 py-3 text-right font-black text-accent-blue">300</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">18/Ene</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Despensas</td><td class="px-6 py-3 text-right font-black text-accent-blue">25</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">20/Ene</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Electrodomésticos</td><td class="px-6 py-3 text-right font-black text-accent-blue">350</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">04/Feb</td><td class="px-6 py-3 font-bold">Allende</td><td class="px-6 py-3 text-slate-600">Láminas 4*8</td><td class="px-6 py-3 text-right font-black text-accent-blue">10</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">04/Feb</td><td class="px-6 py-3 font-bold">Guerrero</td><td class="px-6 py-3 text-slate-600">Láminas 4*8</td><td class="px-6 py-3 text-right font-black text-accent-blue">15</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">07/Feb</td><td class="px-6 py-3 font-bold">Madera</td><td class="px-6 py-3 text-slate-600">Polines y Despensas</td><td class="px-6 py-3 text-right font-black text-accent-blue">60</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">10/Feb</td><td class="px-6 py-3 font-bold">Región Sur (Varios)</td><td class="px-6 py-3 text-slate-600">Láminas y Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">576</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">10/Feb</td><td class="px-6 py-3 font-bold">Satevó</td><td class="px-6 py-3 text-slate-600">Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">20</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">11/Feb</td><td class="px-6 py-3 font-bold">Casas Grandes</td><td class="px-6 py-3 text-slate-600">Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">30</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">24/Feb</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Despensas en Caja</td><td class="px-6 py-3 text-right font-black text-accent-blue">35</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">05/Mar</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Polines 6"</td><td class="px-6 py-3 text-right font-black text-accent-blue">3</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">07/Mar</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Despensas en Caja</td><td class="px-6 py-3 text-right font-black text-accent-blue">20</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">14/Mar</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Polines 6"</td><td class="px-6 py-3 text-right font-black text-accent-blue">26</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">20/Mar</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Polines 6"</td><td class="px-6 py-3 text-right font-black text-accent-blue">50</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">02/Abr</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Láminas</td><td class="px-6 py-3 text-right font-black text-accent-blue">100</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">07/Abr</td><td class="px-6 py-3 font-bold">Urique</td><td class="px-6 py-3 text-slate-600">Cobijas</td><td class="px-6 py-3 text-right font-black text-accent-blue">50</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">09/Abr</td><td class="px-6 py-3 font-bold">Cuauhtémoc</td><td class="px-6 py-3 text-slate-600">Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">300</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">22/Abr</td><td class="px-6 py-3 font-bold">Chihuahua (Día Niño)</td><td class="px-6 py-3 text-slate-600">Dulces, Despensas y Lámina</td><td class="px-6 py-3 text-right font-black text-accent-blue">320</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">23/Abr</td><td class="px-6 py-3 font-bold">Guadalupe y Calvo</td><td class="px-6 py-3 text-slate-600">Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">35</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">28/Abr</td><td class="px-6 py-3 font-bold">Chihuahua (Día Niño)</td><td class="px-6 py-3 text-slate-600">Juguetes</td><td class="px-6 py-3 text-right font-black text-accent-blue">15,000</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">02/May</td><td class="px-6 py-3 font-bold">Delicias</td><td class="px-6 py-3 text-slate-600">Despensas en Caja</td><td class="px-6 py-3 text-right font-black text-accent-blue">150</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">06/May</td><td class="px-6 py-3 font-bold">Juárez / Parral</td><td class="px-6 py-3 text-slate-600">Piñatas y Juguetes</td><td class="px-6 py-3 text-right font-black text-accent-blue">200</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">14/May</td><td class="px-6 py-3 font-bold">Aldama</td><td class="px-6 py-3 text-slate-600">Apoyos Diversos</td><td class="px-6 py-3 text-right font-black text-accent-blue">2</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">15/May</td><td class="px-6 py-3 font-bold">Aquiles Serdán</td><td class="px-6 py-3 text-slate-600">Láminas, Polines y Otros</td><td class="px-6 py-3 text-right font-black text-accent-blue">35</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">19/May</td><td class="px-6 py-3 font-bold">Saucillo</td><td class="px-6 py-3 text-slate-600">Lámina, Polín e Impermeab.</td><td class="px-6 py-3 text-right font-black text-accent-blue">215</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">22/May</td><td class="px-6 py-3 font-bold">Meoqui</td><td class="px-6 py-3 text-slate-600">Juguetes</td><td class="px-6 py-3 text-right font-black text-accent-blue">51</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">29/May</td><td class="px-6 py-3 font-bold">Julimes</td><td class="px-6 py-3 text-slate-600">Polines y Colchonetas</td><td class="px-6 py-3 text-right font-black text-accent-blue">9</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">02/Jun</td><td class="px-6 py-3 font-bold">Matachí</td><td class="px-6 py-3 text-slate-600">Piñatas</td><td class="px-6 py-3 text-right font-black text-accent-blue">3</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">02/Jun</td><td class="px-6 py-3 font-bold">Jiménez</td><td class="px-6 py-3 text-slate-600">Polines y Colchonetas</td><td class="px-6 py-3 text-right font-black text-accent-blue">20</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">06/Jun</td><td class="px-6 py-3 font-bold">López</td><td class="px-6 py-3 text-slate-600">Hules</td><td class="px-6 py-3 text-right font-black text-accent-blue">2</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">06/Jun</td><td class="px-6 py-3 font-bold">Santa Isabel</td><td class="px-6 py-3 text-slate-600">Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">5</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">04/Jul</td><td class="px-6 py-3 font-bold">Dr. Belisario Dguez.</td><td class="px-6 py-3 text-slate-600">Polines, Lámina y Otros</td><td class="px-6 py-3 text-right font-black text-accent-blue">31</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">11/Jul</td><td class="px-6 py-3 font-bold">Bocoyna</td><td class="px-6 py-3 text-slate-600">Colchonetas e Impermeab.</td><td class="px-6 py-3 text-right font-black text-accent-blue">100</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">14/Jul</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Polines, Piñatas y Juguetes</td><td class="px-6 py-3 text-right font-black text-accent-blue">115</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">14/Jul</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Lámina, Polines y Varios</td><td class="px-6 py-3 text-right font-black text-accent-blue">102</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">22/Jul</td><td class="px-6 py-3 font-bold">Bocoyna</td><td class="px-6 py-3 text-slate-600">Hule, Dulces y Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">88</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">25/Jul</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Cemento</td><td class="px-6 py-3 text-right font-black text-accent-blue">276</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">17/Sep</td><td class="px-6 py-3 font-bold">Santa Bárbara</td><td class="px-6 py-3 text-slate-600">Polines</td><td class="px-6 py-3 text-right font-black text-accent-blue">35</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">22/Sep</td><td class="px-6 py-3 font-bold">Huejotitán</td><td class="px-6 py-3 text-slate-600">Polines y Electrodomésticos</td><td class="px-6 py-3 text-right font-black text-accent-blue">15</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">20/Oct</td><td class="px-6 py-3 font-bold">Guadalupe y Calvo</td><td class="px-6 py-3 text-slate-600">Maíz y Frijol</td><td class="px-6 py-3 text-right font-black text-accent-blue">60</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">07/Nov</td><td class="px-6 py-3 font-bold">Varios Municipios</td><td class="px-6 py-3 text-slate-600">Despensas, Juguetes y Dulces</td><td class="px-6 py-3 text-right font-black text-accent-blue">10,566</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">11/Nov</td><td class="px-6 py-3 font-bold">Juárez</td><td class="px-6 py-3 text-slate-600">Despensas en Caja</td><td class="px-6 py-3 text-right font-black text-accent-blue">384</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">14/Nov</td><td class="px-6 py-3 font-bold">Guachochi</td><td class="px-6 py-3 text-slate-600">Maíz</td><td class="px-6 py-3 text-right font-black text-accent-blue">30</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">28/Nov</td><td class="px-6 py-3 font-bold">Morelos</td><td class="px-6 py-3 text-slate-600">Polines y Colchonetas</td><td class="px-6 py-3 text-right font-black text-accent-blue">70</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">05/Dic</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Juguetes</td><td class="px-6 py-3 text-right font-black text-accent-blue">100</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">12/Dic</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Dulces, Piñatas y Juguetes</td><td class="px-6 py-3 text-right font-black text-accent-blue">5,200</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">18/Dic</td><td class="px-6 py-3 font-bold">Cuauhtémoc</td><td class="px-6 py-3 text-slate-600">Juguetes</td><td class="px-6 py-3 text-right font-black text-accent-blue">200</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">26/Dic</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Hules</td><td class="px-6 py-3 text-right font-black text-accent-blue">651</td></tr>
+                            <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3 font-mono text-xs">30/Dic</td><td class="px-6 py-3 font-bold">Chihuahua</td><td class="px-6 py-3 text-slate-600">Hules</td><td class="px-6 py-3 text-right font-black text-accent-blue">2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Salud Content -->
+        <div id="acc-content-salud" class="hidden animate-in fade-in zoom-in duration-300">
+            <div class="glass-morphism rounded-2xl overflow-hidden shadow-xl border border-primary/10">
+                <div class="p-6 bg-emerald-50 border-b border-emerald-100 flex justify-between items-center">
+                    <h2 class="text-xl font-black text-emerald-800 flex items-center gap-2">
+                        <span class="material-symbols-outlined">vaccines</span> Coordinación con Secretaría de Salud
+                    </h2>
+                </div>
+                <div class="overflow-x-auto custom-scrollbar h-[600px]">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-500 uppercase sticky top-0 z-10 backdrop-blur-md">
+                            <tr>
+                                <th class="px-6 py-4">Acción</th>
+                                <th class="px-6 py-4">Municipio</th>
+                                <th class="px-6 py-4">Fechas</th>
+                                <th class="px-6 py-4 text-right">Vacunas</th>
+                                <th class="px-6 py-4 text-right">Apoyos</th>
+                                <th class="px-6 py-4">Participación</th>
+                            </tr>
+                        </thead>
+                       <tbody class="divide-y divide-slate-100 text-sm text-slate-600">
+                   <tr class="hover:bg-primary/5 transition-colors">
+                     <td class="px-6 py-4">
+                         <div class="flex items-center gap-2">
+                             <span class="material-symbols-outlined text-blue-600">medical_services</span>
+                             Coordinación con Sec. Salud
+                         </div>
+                     </td>
+                     <td class="px-6 py-4 font-bold">Batopilas</td>
+                     <td class="px-6 py-4">02–07 agosto 2025</td>
+                     <td class="px-6 py-4 text-right font-mono text-emerald-600 font-bold">1,146</td>
+                     <td class="px-6 py-4 text-right">3,272 paquetes</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-bold">Vacunación + logística + DIF</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors">
+                     <td class="px-6 py-4">
+                         <div class="flex items-center gap-2">
+                             <span class="material-symbols-outlined text-blue-600">medical_services</span>
+                             Coordinación con Sec. Salud
+                         </div>
+                     </td>
+                     <td class="px-6 py-4 font-bold">Matachí</td>
+                     <td class="px-6 py-4">24–25 agosto 2025</td>
+                     <td class="px-6 py-4 text-right font-mono text-emerald-600 font-bold">1,000</td>
+                     <td class="px-6 py-4 text-right">Apoyos entregados (sin desglose)</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-bold">Vacunación + logística</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors">
+                     <td class="px-6 py-4">
+                         <div class="flex items-center gap-2">
+                             <span class="material-symbols-outlined text-blue-600">medical_services</span>
+                             Coordinación con Sec. Salud
+                         </div>
+                     </td>
+                     <td class="px-6 py-4 font-bold">Morelos</td>
+                     <td class="px-6 py-4">24–25 agosto 2025</td>
+                     <td class="px-6 py-4 text-right font-mono text-emerald-600 font-bold">150</td>
+                     <td class="px-6 py-4 text-right">796 apoyos</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-blue-100 text-blue-700 rounded-lg text-xs font-bold">Vacunación + logística</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors">
+                     <td class="px-6 py-4">
+                         <div class="flex items-center gap-2">
+                             <span class="material-symbols-outlined text-blue-600">medical_services</span>
+                             Coordinación con Sec. Salud
+                         </div>
+                     </td>
+                     <td class="px-6 py-4 font-bold">Guadalupe y Calvo</td>
+                     <td class="px-6 py-4">
+                         <div class="flex flex-col">
+                             <span>27 ago – 04 sep 2025</span>
+                             <span class="text-xs text-slate-500">22–27 oct 2025</span>
+                         </div>
+                     </td>
+                     <td class="px-6 py-4 text-right font-mono text-emerald-600 font-bold">4,107</td>
+                     <td class="px-6 py-4 text-right">≈7,000+ apoyos</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-lg text-xs font-bold">Vacunación + logística extendida</span></td>
+                 </tr>
+                 
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Cuauhtémoc</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Nuevo Casas Grandes</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Meoqui</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Rosario</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Santa Bárbara</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Hidalgo del Parral</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">San Francisco del Oro</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Huejotitán</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Valle de Zaragoza</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Allende</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Camargo</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Matamoros</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">López</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Coronado</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Madera</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-slate-500">handshake</span> Coordinación con municipios</div></td>
+                     <td class="px-6 py-4 font-bold">Bocoyna</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded-lg text-xs font-bold">Vacunación / brigadas</span></td>
+                 </tr>
+ 
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-purple-600">train</span> Cooperacion con Dr. Vagon</div></td>
+                     <td class="px-6 py-4 font-bold">Jiménez</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-lg text-xs font-bold">Dr. Vagón (atención y vacunación)</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-purple-600">train</span> Cooperacion con Dr. Vagon</div></td>
+                     <td class="px-6 py-4 font-bold">Delicias</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-lg text-xs font-bold">Dr. Vagón + logística</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-purple-600">train</span> Cooperacion con Dr. Vagon</div></td>
+                     <td class="px-6 py-4 font-bold">Chihuahua</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-lg text-xs font-bold">Ferias de salud + Dr. Vagón</span></td>
+                 </tr>
+                 <tr class="hover:bg-primary/5 transition-colors bg-slate-50/30">
+                     <td class="px-6 py-4"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-purple-600">train</span> Cooperacion con Dr. Vagon</div></td>
+                     <td class="px-6 py-4 font-bold">Ciudad Juárez</td>
+                     <td class="px-6 py-4 text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4 text-right text-slate-400">-</td>
+                     <td class="px-6 py-4"><span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-lg text-xs font-bold">Ferias de salud + Dr. Vagón</span></td>
+                 </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vulnerables Content -->
+        <div id="acc-content-vulnerables" class="hidden animate-in fade-in zoom-in duration-300">
+            <div class="grid md:grid-cols-2 gap-6">
+                 <!-- Discapacitados -->
+                 <div class="glass-morphism rounded-2xl overflow-hidden shadow-lg border border-primary/10">
+                    <div class="p-4 bg-orange-50 border-b border-orange-100 flex justify-between items-center">
+                        <h3 class="font-bold text-orange-800 flex items-center gap-2">
+                            <span class="material-symbols-outlined">accessible</span> Personas con Discapacidad
+                        </h3>
+                        <span class="px-2 py-1 bg-white rounded-lg text-xs font-bold shadow-sm text-slate-600">Total: 7,411</span>
+                    </div>
+                    <div class="overflow-y-auto max-h-[600px] custom-scrollbar">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50 sticky top-0">
+                                <tr><th class="px-4 py-2 text-left text-slate-500">Municipio</th><th class="px-4 py-2 text-right text-slate-500">Beneficiarios</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-slate-600">
+                                    <tr><td class="px-4 py-2">Chihuahua</td><td class="px-4 py-2 text-right font-bold">1,022</td></tr>
+                                <tr><td class="px-4 py-2">Juárez</td><td class="px-4 py-2 text-right font-bold">662</td></tr>
+                                <tr><td class="px-4 py-2">Delicias</td><td class="px-4 py-2 text-right font-bold">516</td></tr>
+                                <tr><td class="px-4 py-2">Cuauhtémoc</td><td class="px-4 py-2 text-right font-bold">439</td></tr>
+                                <tr><td class="px-4 py-2">Hidalgo del Parral</td><td class="px-4 py-2 text-right font-bold">439</td></tr>
+                                <tr><td class="px-4 py-2">Bocoyna</td><td class="px-4 py-2 text-right">252</td></tr>
+                                <tr><td class="px-4 py-2">Guachochi</td><td class="px-4 py-2 text-right">211</td></tr>
+                                <tr><td class="px-4 py-2">Camargo</td><td class="px-4 py-2 text-right">207</td></tr>
+                                <tr><td class="px-4 py-2">Meoqui</td><td class="px-4 py-2 text-right">193</td></tr>
+                                <tr><td class="px-4 py-2">Guadalupe y Calvo</td><td class="px-4 py-2 text-right">151</td></tr>
+                                <tr><td class="px-4 py-2">Madera</td><td class="px-4 py-2 text-right">137</td></tr>
+                                <tr><td class="px-4 py-2">Guerrero</td><td class="px-4 py-2 text-right">128</td></tr>
+                                <tr><td class="px-4 py-2">Balleza</td><td class="px-4 py-2 text-right">115</td></tr>
+                                <tr><td class="px-4 py-2">Namiquipa</td><td class="px-4 py-2 text-right">115</td></tr>
+                                <tr><td class="px-4 py-2">Saucillo</td><td class="px-4 py-2 text-right">112</td></tr>
+                                <tr><td class="px-4 py-2">Aquiles Serdán</td><td class="px-4 py-2 text-right">110</td></tr>
+                                <tr><td class="px-4 py-2">Aldama</td><td class="px-4 py-2 text-right">101</td></tr>
+                                <tr><td class="px-4 py-2">Santa Bárbara</td><td class="px-4 py-2 text-right">103</td></tr>
+                                <tr><td class="px-4 py-2">Urique</td><td class="px-4 py-2 text-right">91</td></tr>
+                                <tr><td class="px-4 py-2">Jiménez</td><td class="px-4 py-2 text-right">87</td></tr>
+                                <tr><td class="px-4 py-2">Guazapares</td><td class="px-4 py-2 text-right">81</td></tr>
+                                <tr><td class="px-4 py-2">Matamoros</td><td class="px-4 py-2 text-right">81</td></tr>
+                                <tr><td class="px-4 py-2">Rosales</td><td class="px-4 py-2 text-right">79</td></tr>
+                                <tr><td class="px-4 py-2">Ojinaga</td><td class="px-4 py-2 text-right">77</td></tr>
+                                <tr><td class="px-4 py-2">Nonoava</td><td class="px-4 py-2 text-right">76</td></tr>
+                                <tr><td class="px-4 py-2">Satevó</td><td class="px-4 py-2 text-right">76</td></tr>
+                                <tr><td class="px-4 py-2">Riva Palacio</td><td class="px-4 py-2 text-right">75</td></tr>
+                                <tr><td class="px-4 py-2">Ascensión</td><td class="px-4 py-2 text-right">72</td></tr>
+                                <tr><td class="px-4 py-2">Uruachi</td><td class="px-4 py-2 text-right">71</td></tr>
+                                <tr><td class="px-4 py-2">Buenaventura</td><td class="px-4 py-2 text-right">70</td></tr>
+                                <tr><td class="px-4 py-2">Casas Grandes</td><td class="px-4 py-2 text-right">70</td></tr>
+                                <tr><td class="px-4 py-2">Coronado</td><td class="px-4 py-2 text-right">66</td></tr>
+                                <tr><td class="px-4 py-2">Morelos</td><td class="px-4 py-2 text-right">65</td></tr>
+                                <tr><td class="px-4 py-2">Carichí</td><td class="px-4 py-2 text-right">60</td></tr>
+                                <tr><td class="px-4 py-2">Santa Isabel</td><td class="px-4 py-2 text-right">60</td></tr>
+                                <tr><td class="px-4 py-2">Chínipas</td><td class="px-4 py-2 text-right">55</td></tr>
+                                <tr><td class="px-4 py-2">Julimes</td><td class="px-4 py-2 text-right">55</td></tr>
+                                <tr><td class="px-4 py-2">La Cruz</td><td class="px-4 py-2 text-right">55</td></tr>
+                                <tr><td class="px-4 py-2">Allende</td><td class="px-4 py-2 text-right">53</td></tr>
+                                <tr><td class="px-4 py-2">Moris</td><td class="px-4 py-2 text-right">52</td></tr>
+                                <tr><td class="px-4 py-2">San Fco. de Borja</td><td class="px-4 py-2 text-right">52</td></tr>
+                                <tr><td class="px-4 py-2">Valle de Zaragoza</td><td class="px-4 py-2 text-right">51</td></tr>
+                                <tr><td class="px-4 py-2">López</td><td class="px-4 py-2 text-right">49</td></tr>
+                                <tr><td class="px-4 py-2">Ahumada</td><td class="px-4 py-2 text-right">41</td></tr>
+                                <tr><td class="px-4 py-2">Matachí</td><td class="px-4 py-2 text-right">41</td></tr>
+                                <tr><td class="px-4 py-2">Nuevo Casas Grandes</td><td class="px-4 py-2 text-right">41</td></tr>
+                                <tr><td class="px-4 py-2">Bachíniva</td><td class="px-4 py-2 text-right">40</td></tr>
+                                <tr><td class="px-4 py-2">Gómez Farías</td><td class="px-4 py-2 text-right">40</td></tr>
+                                <tr><td class="px-4 py-2">Batopilas</td><td class="px-4 py-2 text-right">36</td></tr>
+                                <tr><td class="px-4 py-2">Dr. Belisario Dguez.</td><td class="px-4 py-2 text-right">36</td></tr>
+                                <tr><td class="px-4 py-2">Manuel Benavides</td><td class="px-4 py-2 text-right">35</td></tr>
+                                <tr><td class="px-4 py-2">San Fco. del Oro</td><td class="px-4 py-2 text-right">35</td></tr>
+                                <tr><td class="px-4 py-2">Temosáchic</td><td class="px-4 py-2 text-right">32</td></tr>
+                                <tr><td class="px-4 py-2">Galeana</td><td class="px-4 py-2 text-right">31</td></tr>
+                                <tr><td class="px-4 py-2">El Tule</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Guadalupe</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Janos</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Maguarichi</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Cusihuiriachi</td><td class="px-4 py-2 text-right">28</td></tr>
+                                <tr><td class="px-4 py-2">Coyame del Sotol</td><td class="px-4 py-2 text-right">25</td></tr>
+                                <tr><td class="px-4 py-2">Práxedis G. Guerrero</td><td class="px-4 py-2 text-right">25</td></tr>
+                                <tr><td class="px-4 py-2">San Fco. de Conchos</td><td class="px-4 py-2 text-right">25</td></tr>
+                                <tr><td class="px-4 py-2">Gran Morelos</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Ignacio Zaragoza</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Ocampo</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Rosario</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Huejotitán</td><td class="px-4 py-2 text-right">8</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Adultos Mayores -->
+                <div class="glass-morphism rounded-2xl overflow-hidden shadow-lg border border-primary/10">
+                    <div class="p-4 bg-blue-50 border-b border-blue-100 flex justify-between items-center">
+                        <h3 class="font-bold text-blue-800 flex items-center gap-2">
+                            <span class="material-symbols-outlined">elderly</span> Adultos Mayores
+                        </h3>
+                        <span class="px-2 py-1 bg-white rounded-lg text-xs font-bold shadow-sm text-slate-600">Total: 8,604</span>
+                    </div>
+                    <div class="overflow-y-auto max-h-[600px] custom-scrollbar">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50 sticky top-0">
+                                <tr><th class="px-4 py-2 text-left text-slate-500">Municipio</th><th class="px-4 py-2 text-right text-slate-500">Beneficiarios</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 text-slate-600">
+                                    <tr><td class="px-4 py-2">Chihuahua</td><td class="px-4 py-2 text-right font-bold">1,022</td></tr>
+                                <tr><td class="px-4 py-2">Juárez</td><td class="px-4 py-2 text-right font-bold">662</td></tr>
+                                <tr><td class="px-4 py-2">Delicias</td><td class="px-4 py-2 text-right font-bold">516</td></tr>
+                                <tr><td class="px-4 py-2">Cuauhtémoc</td><td class="px-4 py-2 text-right font-bold">439</td></tr>
+                                <tr><td class="px-4 py-2">Hidalgo del Parral</td><td class="px-4 py-2 text-right font-bold">439</td></tr>
+                                <tr><td class="px-4 py-2">Bocoyna</td><td class="px-4 py-2 text-right">252</td></tr>
+                                <tr><td class="px-4 py-2">Guachochi</td><td class="px-4 py-2 text-right">211</td></tr>
+                                <tr><td class="px-4 py-2">Camargo</td><td class="px-4 py-2 text-right">207</td></tr>
+                                <tr><td class="px-4 py-2">Meoqui</td><td class="px-4 py-2 text-right">193</td></tr>
+                                <tr><td class="px-4 py-2">Guadalupe y Calvo</td><td class="px-4 py-2 text-right">151</td></tr>
+                                <tr><td class="px-4 py-2">Madera</td><td class="px-4 py-2 text-right">137</td></tr>
+                                <tr><td class="px-4 py-2">Guerrero</td><td class="px-4 py-2 text-right">128</td></tr>
+                                <tr><td class="px-4 py-2">Balleza</td><td class="px-4 py-2 text-right">115</td></tr>
+                                <tr><td class="px-4 py-2">Namiquipa</td><td class="px-4 py-2 text-right">115</td></tr>
+                                <tr><td class="px-4 py-2">Saucillo</td><td class="px-4 py-2 text-right">112</td></tr>
+                                <tr><td class="px-4 py-2">Aquiles Serdán</td><td class="px-4 py-2 text-right">110</td></tr>
+                                <tr><td class="px-4 py-2">Aldama</td><td class="px-4 py-2 text-right">101</td></tr>
+                                <tr><td class="px-4 py-2">Santa Bárbara</td><td class="px-4 py-2 text-right">103</td></tr>
+                                <tr><td class="px-4 py-2">Urique</td><td class="px-4 py-2 text-right">91</td></tr>
+                                <tr><td class="px-4 py-2">Jiménez</td><td class="px-4 py-2 text-right">87</td></tr>
+                                <tr><td class="px-4 py-2">Guazapares</td><td class="px-4 py-2 text-right">81</td></tr>
+                                <tr><td class="px-4 py-2">Matamoros</td><td class="px-4 py-2 text-right">81</td></tr>
+                                <tr><td class="px-4 py-2">Rosales</td><td class="px-4 py-2 text-right">79</td></tr>
+                                <tr><td class="px-4 py-2">Ojinaga</td><td class="px-4 py-2 text-right">77</td></tr>
+                                <tr><td class="px-4 py-2">Nonoava</td><td class="px-4 py-2 text-right">76</td></tr>
+                                <tr><td class="px-4 py-2">Satevó</td><td class="px-4 py-2 text-right">76</td></tr>
+                                <tr><td class="px-4 py-2">Riva Palacio</td><td class="px-4 py-2 text-right">75</td></tr>
+                                <tr><td class="px-4 py-2">Ascensión</td><td class="px-4 py-2 text-right">72</td></tr>
+                                <tr><td class="px-4 py-2">Uruachi</td><td class="px-4 py-2 text-right">71</td></tr>
+                                <tr><td class="px-4 py-2">Buenaventura</td><td class="px-4 py-2 text-right">70</td></tr>
+                                <tr><td class="px-4 py-2">Casas Grandes</td><td class="px-4 py-2 text-right">70</td></tr>
+                                <tr><td class="px-4 py-2">Coronado</td><td class="px-4 py-2 text-right">66</td></tr>
+                                <tr><td class="px-4 py-2">Morelos</td><td class="px-4 py-2 text-right">65</td></tr>
+                                <tr><td class="px-4 py-2">Carichí</td><td class="px-4 py-2 text-right">60</td></tr>
+                                <tr><td class="px-4 py-2">Santa Isabel</td><td class="px-4 py-2 text-right">60</td></tr>
+                                <tr><td class="px-4 py-2">Chínipas</td><td class="px-4 py-2 text-right">55</td></tr>
+                                <tr><td class="px-4 py-2">Julimes</td><td class="px-4 py-2 text-right">55</td></tr>
+                                <tr><td class="px-4 py-2">La Cruz</td><td class="px-4 py-2 text-right">55</td></tr>
+                                <tr><td class="px-4 py-2">Allende</td><td class="px-4 py-2 text-right">53</td></tr>
+                                <tr><td class="px-4 py-2">Moris</td><td class="px-4 py-2 text-right">52</td></tr>
+                                <tr><td class="px-4 py-2">San Fco. de Borja</td><td class="px-4 py-2 text-right">52</td></tr>
+                                <tr><td class="px-4 py-2">Valle de Zaragoza</td><td class="px-4 py-2 text-right">51</td></tr>
+                                <tr><td class="px-4 py-2">López</td><td class="px-4 py-2 text-right">49</td></tr>
+                                <tr><td class="px-4 py-2">Ahumada</td><td class="px-4 py-2 text-right">41</td></tr>
+                                <tr><td class="px-4 py-2">Matachí</td><td class="px-4 py-2 text-right">41</td></tr>
+                                <tr><td class="px-4 py-2">Nuevo Casas Grandes</td><td class="px-4 py-2 text-right">41</td></tr>
+                                <tr><td class="px-4 py-2">Bachíniva</td><td class="px-4 py-2 text-right">40</td></tr>
+                                <tr><td class="px-4 py-2">Gómez Farías</td><td class="px-4 py-2 text-right">40</td></tr>
+                                <tr><td class="px-4 py-2">Batopilas</td><td class="px-4 py-2 text-right">36</td></tr>
+                                <tr><td class="px-4 py-2">Dr. Belisario Dguez.</td><td class="px-4 py-2 text-right">36</td></tr>
+                                <tr><td class="px-4 py-2">Manuel Benavides</td><td class="px-4 py-2 text-right">35</td></tr>
+                                <tr><td class="px-4 py-2">San Fco. del Oro</td><td class="px-4 py-2 text-right">35</td></tr>
+                                <tr><td class="px-4 py-2">Temosáchic</td><td class="px-4 py-2 text-right">32</td></tr>
+                                <tr><td class="px-4 py-2">Galeana</td><td class="px-4 py-2 text-right">31</td></tr>
+                                <tr><td class="px-4 py-2">El Tule</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Guadalupe</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Janos</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Maguarichi</td><td class="px-4 py-2 text-right">30</td></tr>
+                                <tr><td class="px-4 py-2">Cusihuiriachi</td><td class="px-4 py-2 text-right">28</td></tr>
+                                <tr><td class="px-4 py-2">Coyame del Sotol</td><td class="px-4 py-2 text-right">25</td></tr>
+                                <tr><td class="px-4 py-2">Práxedis G. Guerrero</td><td class="px-4 py-2 text-right">25</td></tr>
+                                <tr><td class="px-4 py-2">San Fco. de Conchos</td><td class="px-4 py-2 text-right">25</td></tr>
+                                <tr><td class="px-4 py-2">Gran Morelos</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Ignacio Zaragoza</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Ocampo</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Rosario</td><td class="px-4 py-2 text-right">20</td></tr>
+                                <tr><td class="px-4 py-2">Huejotitán</td><td class="px-4 py-2 text-right">8</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lluvias Content -->
+        <div id="acc-content-lluvias" class="hidden animate-in fade-in zoom-in duration-300">
+          <div class="glass-morphism p-6 rounded-2xl shadow-xl border border-primary/10">
+            <h2 class="text-xl font-bold text-primary mb-6 flex items-center gap-2">
+              <span class="material-symbols-outlined text-blue-500">rainy</span>
+              Apoyos de Contingencia por Lluvias
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <!-- Left Column -->
+              <div>
+                <h3 class="font-bold text-lg mb-4 text-primary">Periodos de atención</h3>
+                <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-6">
+                  <div class="flex items-center mb-3">
+                    <div class="bg-blue-100 text-blue-600 p-2 rounded-full mr-3"><span class="material-symbols-outlined text-sm">calendar_month</span></div>
+                    <div><p class="font-bold text-slate-700">23 de junio al 5 de julio</p><p class="text-xs text-slate-500">Primera fase de apoyos</p></div>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="bg-blue-100 text-blue-600 p-2 rounded-full mr-3"><span class="material-symbols-outlined text-sm">calendar_month</span></div>
+                    <div><p class="font-bold text-slate-700">7 de julio al 11 de julio</p><p class="text-xs text-slate-500">Segunda fase de apoyos</p></div>
+                  </div>
+                </div>
+
+                <h3 class="font-bold text-lg mb-4 text-primary">Distribución de apoyos (Top)</h3>
+                <div class="overflow-hidden rounded-xl border border-gray-200 mb-6">
+                  <table class="w-full text-sm">
+                    <thead class="bg-gray-50 text-slate-500">
+                      <tr><th class="px-4 py-2 text-left">Municipio</th><th class="px-4 py-2 text-right">Cantidad</th><th class="px-4 py-2 text-right">Inversión</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-slate-600">
+                      <tr><td class="px-4 py-2">JUÁREZ</td><td class="px-4 py-2 text-right">1,800</td><td class="px-4 py-2 text-right font-bold text-green-600">$1,799,398</td></tr>
+                      <tr><td class="px-4 py-2">CHIHUAHUA</td><td class="px-4 py-2 text-right">2,180</td><td class="px-4 py-2 text-right font-bold text-green-600">$1,401,663</td></tr>
+                      <tr><td class="px-4 py-2">DIPUTADOS</td><td class="px-4 py-2 text-right">1,150</td><td class="px-4 py-2 text-right font-bold text-green-600">$454,860</td></tr>
+                      <tr><td class="px-4 py-2">GUERRERO</td><td class="px-4 py-2 text-right">300</td><td class="px-4 py-2 text-right font-bold text-green-600">$119,752</td></tr>
+                      <tr><td class="px-4 py-2">BOCOYNA</td><td class="px-4 py-2 text-right">300</td><td class="px-4 py-2 text-right font-bold text-green-600">$119,557</td></tr>
+                      <tr><td class="px-4 py-2">ALDAMA</td><td class="px-4 py-2 text-right">200</td><td class="px-4 py-2 text-right font-bold text-green-600">$77,820</td></tr>
+                      <tr><td class="px-4 py-2">BELISARIO DOMÍNGUEZ</td><td class="px-4 py-2 text-right">200</td><td class="px-4 py-2 text-right font-bold text-green-600">$76,082</td></tr>
+                      <tr><td class="px-4 py-2">BACHÍNIVA</td><td class="px-4 py-2 text-right">180</td><td class="px-4 py-2 text-right font-bold text-green-600">$72,314</td></tr>
+                      <tr><td class="px-4 py-2">CAMARGO</td><td class="px-4 py-2 text-right">155</td><td class="px-4 py-2 text-right font-bold text-green-600">$67,425</td></tr>
+                      <tr><td class="px-4 py-2">SATEVÓ</td><td class="px-4 py-2 text-right">150</td><td class="px-4 py-2 text-right font-bold text-green-600">$56,854</td></tr>
+                      <tr><td class="px-4 py-2">GALEANA</td><td class="px-4 py-2 text-right">150</td><td class="px-4 py-2 text-right font-bold text-green-600">$56,854</td></tr>
+                      <tr class="bg-slate-50 font-black">
+                        <td class="px-4 py-2">TOTAL ESTADO</td>
+                        <td class="px-4 py-2 text-right">7,328</td>
+                        <td class="px-4 py-2 text-right text-green-600">$4,510,046</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- Right Column -->
+              <div>
+                <h3 class="font-bold text-lg mb-4 text-primary">Mapa de intervenciones</h3>
+                <div class="bg-gray-100 rounded-xl overflow-hidden aspect-square mb-8 relative border border-gray-200">
+                  <iframe src="https://www.google.com/maps/d/embed?mid=11Z2ZdMy7sLfMeyvL8mr0W8Wp3utqQHQ&ehbc=2E312F" width="100%" height="100%" style="border:0"></iframe>
+                </div>
+                
+                <h3 class="font-bold text-lg mb-4 text-primary">Insumos entregados</h3>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="p-3 border border-gray-200 rounded-xl flex items-center gap-3">
+                    <div class="p-2 bg-yellow-100 text-yellow-700 rounded-full"><span class="material-symbols-outlined">roofing</span></div>
+                    <div><p class="text-xs text-slate-500">Lámina</p><p class="font-bold text-lg text-slate-700">1,215</p></div>
+                  </div>
+                   <div class="p-3 border border-gray-200 rounded-xl flex items-center gap-3">
+                    <div class="p-2 bg-slate-100 text-slate-700 rounded-full"><span class="material-symbols-outlined">build</span></div>
+                    <div><p class="text-xs text-slate-500">Polín</p><p class="font-bold text-lg text-slate-700">871</p></div>
+                  </div>
+                  <div class="p-3 border border-gray-200 rounded-xl flex items-center gap-3">
+                    <div class="p-2 bg-black/10 text-black rounded-full"><span class="material-symbols-outlined">layers</span></div>
+                    <div><p class="text-xs text-slate-500">Hule</p><p class="font-bold text-lg text-slate-700">1,230</p></div>
+                  </div>
+                  <div class="p-3 border border-gray-200 rounded-xl flex items-center gap-3">
+                    <div class="p-2 bg-blue-100 text-blue-600 rounded-full"><span class="material-symbols-outlined">cleaning_services</span></div>
+                    <div><p class="text-xs text-slate-500">Kit Limpieza</p><p class="font-bold text-lg text-slate-700">550</p></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background-dark text-white py-20 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div class="col-span-1 md:col-span-2">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="material-symbols-outlined text-accent-blue text-3xl">query_stats</span>
+              <h2 class="text-2xl font-black tracking-tighter uppercase">Presentación</h2>
+            </div>
+            <p class="text-white/40 max-w-sm leading-relaxed">
+              Liderando la innovación en inteligencia electoral y análisis geoestadístico. Decisiones basadas en datos, resultados basados en estrategia.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold text-white mb-6 uppercase tracking-widest text-sm">Secciones</h4>
+            <ul class="space-y-4 text-white/50 text-sm">
+              <li><a class="hover:text-accent-blue transition-colors" href="metas.html">Metas</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="regiones.html">Regiones</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="zonas.html">Zonas</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="historico.html">Histórico</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold text-white mb-6 uppercase tracking-widest text-sm">Recursos</h4>
+            <ul class="space-y-4 text-white/50 text-sm">
+              <li><a class="hover:text-accent-blue transition-colors" href="metodologia.html">Metodología</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="contexto.html">Contexto</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="calendario.html">Calendario</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="cedula.html">Cédula</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p class="text-white/30 text-xs tracking-widest uppercase">© 2027 Análisis Geoestadístico. Todos los derechos reservados.</p>
+          <div class="flex gap-6">
+            <a class="text-white/30 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">share</span></a>
+            <a class="text-white/30 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">database</span></a>
+            <a class="text-white/30 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">shield</span></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Toggle menu
+      function toggleMenu() {
+        document.getElementById("slideMenu").classList.toggle("open");
+        document.getElementById("menuOverlay").classList.toggle("open");
+        document.body.style.overflow = document
+          .getElementById("slideMenu")
+          .classList.contains("open")
+          ? "hidden"
+          : "";
+      }
+
+      function toggleSubmenu(id) {
+        const el = document.getElementById(id);
+        const arrow = document.getElementById(id + 'Arrow');
+        if(el) {
+            el.classList.toggle('hidden');
+            if(arrow) {
+                 arrow.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        }
+      }
+
+      function highlightActiveLink() {
+        const path = window.location.pathname;
+        const page = path.split("/").pop() || 'index.html';
+        const links = document.querySelectorAll('.menu-item');
+        links.forEach(link => {
+            if(link.getAttribute('href') === page) {
+                link.classList.add('bg-primary/5');
+                const icon = link.querySelector('.material-symbols-outlined');
+                const text = link.querySelector('.font-semibold');
+                if(icon) {
+                    icon.classList.remove('text-accent-blue', 'text-slate-500');
+                    icon.classList.add('text-primary');
+                }
+                if(text) {
+                    text.classList.remove('text-slate-700', 'text-slate-600');
+                    text.classList.add('text-primary');
+                }
+                
+                // Open parent submenu if applicable
+                const parent = link.closest('#strategicMenu');
+                if(parent) {
+                    parent.classList.remove('hidden');
+                    const arrow = document.getElementById('strategicMenuArrow');
+                    if(arrow) arrow.style.transform = 'rotate(180deg)';
+                }
+            }
+        });
+      }
+      highlightActiveLink();
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("slideMenu").classList.remove("open");
+          document.getElementById("menuOverlay").classList.remove("open");
+          document.body.style.overflow = "";
+        }
+      });
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Beneficiarios</title>
+
+    <base href="./">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#2563eb", "primary-dark": "#1d4ed8", "text-main": "#020617", "text-sub": "#334155" },
+                    fontFamily: { "display": ["Public Sans", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/spectral-banner.css">
+    <script type="module" src="https://js.arcgis.com/embeddable-components/4.33/arcgis-embeddable-components.esm.js"></script>
+
+</head>
+<body class="font-display text-text-main dark:text-white antialiased selection:bg-primary/30 bg-content">
+
+    <header class="sticky top-4 z-50 mx-4 md:mx-8 glass-panel rounded-2xl mt-4">
+        <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 transition-transform hover:scale-[1.02] duration-300 cursor-default">
+                <div class="p-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-md shadow-blue-500/20 text-white">
+                    <span class="material-symbols-outlined text-xl">shield_person</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-sm font-black text-slate-800 dark:text-white leading-none tracking-tight">EJECUTIVO</h1>
+                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 tracking-[0.15em] uppercase">Chalecos Azules 2025</span>
+                </div>
+            </div>
+            
+            <div class="relative z-50">
+                <button onclick="toggleNavDropdown()" id="nav-dropdown-btn" class="flex items-center gap-2 px-6 py-2 bg-white/50 hover:bg-white rounded-full shadow-sm border border-white/20 text-sm font-bold text-text-main transition-all backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-primary">menu</span>
+                    <span>Menú Principal</span>
+                    <span id="nav-arrow" class="material-symbols-outlined text-gray-400 text-xs transition-transform duration-300">expand_more</span>
+                </button>
+                
+                <div id="nav-dropdown" class="hidden absolute right-0 mt-2 w-72 glass-panel rounded-2xl shadow-2xl border border-white/60 p-2 flex flex-col gap-1 animate-in zoom-in-95 duration-200 origin-top-right z-50 max-h-[85vh] overflow-y-auto">
+                    <div class="px-4 py-3 border-b border-gray-100 mb-1">
+                        <span class="text-xs font-bold text-text-sub uppercase tracking-wider">Navegación</span>
+                    </div>
+                    <a href="metas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metas</span>
+                            <span class="text-[10px] text-gray-400">Objetivos y avances</span>
+                        </div>
+                    </a>
+                    <a href="calendario.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Calendario</span>
+                            <span class="text-[10px] text-gray-400">Cronograma de actividades</span>
+                        </div>
+                    </a>
+                    <a href="acciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Acciones</span>
+                            <span class="text-[10px] text-gray-400">Registro de actividades</span>
+                        </div>
+                    </a>
+                    <a href="callcenter.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Call Center</span>
+                            <span class="text-[10px] text-gray-400">Gestión de llamadas</span>
+                        </div>
+                    </a>
+                    <a href="regional.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Regiones</span>
+                            <span class="text-[10px] text-gray-400">Análisis regional</span>
+                        </div>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Zonas</span>
+                            <span class="text-[10px] text-gray-400">Tablero de control</span>
+                        </div>
+                    </a>
+                    <a href="historico.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Histórico</span>
+                            <span class="text-[10px] text-gray-400">Análisis 18-24</span>
+                        </div>
+                    </a>
+                    <a href="beneficiarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-sm font-medium text-primary transition-colors group shadow-sm border border-primary/10">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-primary">Beneficiarios</span>
+                            <span class="text-[10px] text-primary/70">Programas y cobertura</span>
+                        </div>
+                    </a>
+                    <a href="amigos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Amigos</span>
+                            <span class="text-[10px] text-gray-400">Red de conexión</span>
+                        </div>
+                    </a>
+                    <a href="cedula.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Cédula</span>
+                            <span class="text-[10px] text-gray-400">Identificación</span>
+                        </div>
+                    </a>
+                    <a href="documento.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metodología</span>
+                            <span class="text-[10px] text-gray-400">Documentación y Mapas</span>
+                        </div>
+                    </a>
+                    <div class="h-px bg-gray-100 my-1"></div>
+                    <a href="contexto.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-primary">Contexto</span>
+                    </a>
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 text-sm font-medium text-text-sub hover:text-red-600 transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-red-600">Salir</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="beneficiariosView" class="flex-1 max-w-[1440px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8 min-h-[calc(100vh-120px)] justify-start perspective-1000 pb-20">
+    
+    <!-- Spectral Header -->
+    <header class="spectral-header rounded-2xl shadow-2xl mb-8">
+        <h2>Programas de la Secretaría</h2>
+        <p class="max-w-3xl mx-auto px-4">Desglose de beneficiarios y cobertura territorial</p>
+    </header>
+
+    <!-- Table Section -->
+    <div class="glass-panel rounded-2xl shadow-lg overflow-hidden border border-white/60">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-blue-600/90 text-white">
+                    <tr>
+                        <th scope="col" class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Programas de la secretaria</th>
+                        <th scope="col" class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Beneficiarios</th>
+                        <th scope="col" class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white/50 divide-y divide-gray-200 dark:divide-white/10 dark:text-gray-200">
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">JUNTOS SI PODEMOS</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">25,468</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">65%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">ESTANCIAS INFANTILES - PADRES Y TUTORES DE BENEFICIARIOS</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">6,403</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">16%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">PROGRAMA PARA LA ATENCION DEL DESARROLLO INTEGRAL INFANTIL</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">4,357</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">11%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">PROGRAMA DE ESTANCIAS INFANTILES PARA EL DESARROLLO INTEGRAL DE LA NIÑEZ</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">991</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">3%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">FORTALECIMIENTO COMUNITARIO Y PARTICIPACION CIUDADANA</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">686</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">2%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">APOYOS A PERSONAS CON DISCAPACIDAD</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">545</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">1%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">APOYO A PERSONAS MAYORES</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">489</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">1%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">DESARROLLO HUMANO</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">162</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">0%</td>
+                    </tr>
+                    <tr class="hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-colors">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">ATENCION A NIÑAS, NIÑOS, ADOLESCENTES Y JUVENTUDES</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-text-sub dark:text-gray-300">152</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-600 dark:text-violet-400 font-semibold">0%</td>
+                    </tr>
+                    <tr class="bg-blue-100 dark:bg-blue-900/40 font-bold border-t border-blue-200">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">Total general</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">39,253</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-violet-700 dark:text-violet-300">100%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="glass-panel rounded-2xl shadow-lg overflow-hidden h-[800px] border border-white/60">
+        <iframe src="https://experience.arcgis.com/experience/4181300adaf94352bd714a844f848706/" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer id="footer" class="spectral-footer">
+      <ul class="icons">
+      </ul>
+      <ul class="copyright">
+        <li>Plataforma de Inteligencia de datos 2026</li>
+      </ul>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

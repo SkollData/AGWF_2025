@@ -1,0 +1,348 @@
+/* Spectral Banner Styles extracted from HTML5 UP Spectral */
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic");
+
+/* Basic Reset for Banner */
+#banner {
+    display: -moz-flex;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    cursor: default;
+    height: 100vh;
+    min-height: 35em;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    color: #fff;
+    font-family: "Open Sans", Helvetica, sans-serif;
+}
+
+#banner h2 {
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    -moz-transition: -moz-transform 0.5s ease, opacity 0.5s ease;
+    -webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+    -ms-transition: -ms-transform 0.5s ease, opacity 0.5s ease;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    display: inline-block;
+    font-size: 3em; 
+    font-weight: 800;
+    letter-spacing: 0.225em;
+    line-height: 1em;
+    margin: 0 0 0.5em 0;
+    opacity: 1;
+    padding: 0.35em 1em;
+    position: relative;
+    text-transform: uppercase;
+    z-index: 1;
+}
+
+#banner h2:before, #banner h2:after {
+    -moz-transition: width 0.85s ease;
+    -webkit-transition: width 0.85s ease;
+    -ms-transition: width 0.85s ease;
+    transition: width 0.85s ease;
+    -moz-transition-delay: 0.25s;
+    -webkit-transition-delay: 0.25s;
+    -ms-transition-delay: 0.25s;
+    transition-delay: 0.25s;
+    background: #fff;
+    content: '';
+    display: block;
+    height: 2px;
+    position: absolute;
+    width: 100%;
+}
+
+#banner h2:before {
+    top: 0;
+    left: 0;
+}
+
+#banner h2:after {
+    bottom: 0;
+    right: 0;
+}
+
+#banner p {
+    letter-spacing: 0.225em;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin-bottom: 2em;
+}
+
+#banner .more {
+    -moz-transition: -moz-transform 0.75s ease, opacity 0.75s ease;
+    -webkit-transition: -webkit-transform 0.75s ease, opacity 0.75s ease;
+    -ms-transition: -ms-transform 0.75s ease, opacity 0.75s ease;
+    transition: transform 0.75s ease, opacity 0.75s ease;
+    -moz-transition-delay: 3.5s;
+    -webkit-transition-delay: 3.5s;
+    -ms-transition-delay: 3.5s;
+    transition-delay: 3.5s;
+    -moz-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+    border: none;
+    bottom: 0;
+    color: inherit;
+    font-size: 0.8em;
+    height: 8.5em;
+    left: 50%;
+    letter-spacing: 0.225em;
+    margin-left: -8.5em;
+    opacity: 1;
+    outline: 0;
+    padding-left: 0.225em;
+    position: absolute;
+    text-align: center;
+    text-transform: uppercase;
+    width: 16em;
+    z-index: 1;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#banner .more:after {
+    content: '▼'; 
+    display: block;
+    font-size: 1.5em;
+    margin-top: 10px;
+}
+
+#banner:after {
+    pointer-events: none;
+    -moz-transition: opacity 3s ease-in-out;
+    -webkit-transition: opacity 3s ease-in-out;
+    -ms-transition: opacity 3s ease-in-out;
+    transition: opacity 3s ease-in-out;
+    -moz-transition-delay: 1.25s;
+    -webkit-transition-delay: 1.25s;
+    -ms-transition-delay: 1.25s;
+    transition-delay: 1.25s;
+    content: '';
+    background: #2e3842;
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    z-index: 0;
+}
+
+body.is-preload #banner h2 {
+    -moz-transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    -ms-transform: scale(0.95);
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+body.is-preload #banner h2:before, body.is-preload #banner h2:after {
+    width: 0;
+}
+
+body.is-preload #banner .more {
+    -moz-transform: translateY(8.5em);
+    -webkit-transform: translateY(8.5em);
+    -ms-transform: translateY(8.5em);
+    transform: translateY(8.5em);
+    opacity: 0;
+}
+
+body.is-preload #banner:after {
+    opacity: 1;
+}
+
+/* Background Image on Page Wrapper or Body */
+.landing-bg {
+    background-image: -moz-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: -webkit-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: -ms-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Subpage Header Style (Spectral) */
+.spectral-header {
+    /* Using padding similar to Spectral #main > header but slightly adjusted for existing layout */
+    padding: 6em 0 4em 0; 
+    background-image: -moz-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: -webkit-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: -ms-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    color: #fff;
+    font-family: "Open Sans", Helvetica, sans-serif;
+    margin-bottom: 2em; /* Spacing for content below */
+    border-radius: 0 0 8px 8px; /* Optional slight rounding */
+}
+.spectral-header h2 {
+    font-size: 2em;
+    margin: 0 0 0.5em 0;
+    font-weight: 800;
+    letter-spacing: 0.225em;
+    text-transform: uppercase;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    padding: 0.35em 1em;
+}
+
+.spectral-header h2:before, .spectral-header h2:after {
+    background: #fff;
+    content: '';
+    display: block;
+    height: 2px;
+    position: absolute;
+    width: 100%;
+}
+
+.spectral-header h2:before {
+    top: 0;
+    left: 0;
+}
+
+.spectral-header h2:after {
+    bottom: 0;
+    right: 0;
+}
+
+.spectral-header p {
+    color: inherit;
+    letter-spacing: 0.225em;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+/* Spectral Footer */
+.spectral-footer {
+    padding: 4em 0;
+    background-image: -moz-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: -webkit-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: -ms-linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-image: linear-gradient(top, rgba(30, 58, 138, 0.6), rgba(15, 23, 42, 0.8)), url("../images/banner.jpg");
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    color: #fff;
+    font-family: "Open Sans", Helvetica, sans-serif;
+}
+
+.spectral-footer .copyright {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    letter-spacing: 0.225em;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Button primary style from Spectral */
+.button.primary {
+    background-color: #ed4933;
+    box-shadow: none;
+    color: #ffffff !important;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    height: 3em;
+    line-height: 3em;
+    padding: 0 2em;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.225em;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.button.primary:hover {
+    background-color: #ef5e4a;
+}
+
+/* Responsive adjustments extracted from Spectral main.css */
+
+@media screen and (max-width: 1680px) {
+    #banner h2 {
+        font-size: 2.5em; /* Adjusted from 3em */
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    #banner h2 {
+        font-size: 2em;
+    }
+}
+
+@media screen and (max-width: 980px) {
+    #banner {
+        min-height: 30em;
+    }
+}
+
+@media screen and (max-width: 736px) {
+    #banner {
+        padding: 7em 3em 5em 3em;
+        height: auto;
+        min-height: 0;
+    }
+
+    #banner h2 {
+        font-size: 1.25em;
+    }
+
+    #banner br {
+        display: none;
+    }
+
+    #banner .more {
+        display: none; /* Hide scroll down on mobile */
+    }
+    
+    .spectral-header {
+        padding: 4em 1em 2em 1em;
+    }
+    
+    .spectral-header h2 {
+        font-size: 1.5em;
+    }
+
+    .button {
+        height: 3.5em; /* Larger touch target */
+        line-height: 3.5em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #banner {
+        padding: 5em 1.5em 3em 1.5em;
+    }
+}

@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Metas y Objetivos | VotoAnalítico</title>
+    <meta
+      name="description"
+      content="Metas operativas, objetivos políticos y seguimiento de rendimiento territorial rumbo al 2027."
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1a3c6b",
+              "primary-dark": "#122a4d",
+              "accent-blue": "#2196f3",
+              "background-light": "#f6f7f8",
+              "background-dark": "#0d1b2a",
+              "text-main": "#0d1b2a",
+              "text-sub": "#334155",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass-morphism {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+      .hero-gradient {
+        background: linear-gradient(135deg, #1a3c6b 0%, #2196f3 100%);
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-gradient::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: radial-gradient(#ffffff22 1px, transparent 1px);
+        background-size: 30px 30px;
+        opacity: 0.3;
+      }
+      
+      /* ── Slide Menu ── */
+      .slide-menu { transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+      .slide-menu.open { transform: translateX(0); }
+      .menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+      .menu-overlay.open { opacity: 1; pointer-events: all; }
+      .menu-item { transform: translateX(20px); opacity: 0; transition: all 0.3s ease; }
+      .slide-menu.open .menu-item { transform: translateX(0); opacity: 1; }
+      .slide-menu.open .menu-item:nth-child(1)  { transition-delay: 0.08s; }
+      .slide-menu.open .menu-item:nth-child(2)  { transition-delay: 0.12s; }
+      .slide-menu.open .menu-item:nth-child(3)  { transition-delay: 0.16s; }
+      .slide-menu.open .menu-item:nth-child(4)  { transition-delay: 0.20s; }
+      .slide-menu.open .menu-item:nth-child(5)  { transition-delay: 0.24s; }
+      .slide-menu.open .menu-item:nth-child(6)  { transition-delay: 0.28s; }
+      .slide-menu.open .menu-item:nth-child(7)  { transition-delay: 0.32s; }
+      .slide-menu.open .menu-item:nth-child(8)  { transition-delay: 0.36s; }
+      .slide-menu.open .menu-item:nth-child(9)  { transition-delay: 0.40s; }
+      .slide-menu.open .menu-item:nth-child(10) { transition-delay: 0.44s; }
+      .slide-menu.open .menu-item:nth-child(11) { transition-delay: 0.48s; }
+      .slide-menu.open .menu-item:nth-child(12) { transition-delay: 0.52s; }
+
+      /* Custom Scrollbar for tables */
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(26, 60, 107, 0.2); border-radius: 10px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(26, 60, 107, 0.4); }
+    </style>
+  </head>
+  <body
+    class="font-display bg-background-light text-slate-900 overflow-x-hidden"
+  >
+    <!-- Menu Overlay -->
+    <div
+      id="menuOverlay"
+      class="menu-overlay fixed inset-0 bg-black/50 z-[60]"
+      onclick="toggleMenu()"
+    ></div>
+
+    <!-- Slide Menu -->
+    <div
+      id="slideMenu"
+      class="slide-menu fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl flex flex-col"
+    >
+      <div
+        class="flex items-center justify-between px-6 py-6 border-b border-slate-100"
+      >
+        <div class="flex items-center gap-2">
+          <div class="bg-primary p-1.5 rounded-lg text-white">
+            <span class="material-symbols-outlined text-lg">query_stats</span>
+          </div>
+          <span class="font-extrabold text-primary tracking-tight">METAS</span>
+        </div>
+        <button
+          onclick="toggleMenu()"
+          class="p-2 hover:bg-slate-100 rounded-full transition-colors"
+        >
+          <span class="material-symbols-outlined text-slate-500">close</span>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
+        <a href="index.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">home</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Inicio</span>
+        </a>
+        
+        <a href="beneficiarios.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">people</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Beneficiarios</span>
+        </a>
+
+        <a href="historico.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">history</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Histórico 18-24</span>
+        </a>
+
+        <!-- Collapsible Strategic Section -->
+        <div class="pt-2">
+            <button onclick="toggleSubmenu('strategicMenu')" class="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors text-left group">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">layers</span>
+                    <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Chalecos Azules</span>
+                </div>
+                <span id="strategicMenuArrow" class="material-symbols-outlined text-slate-400 transition-transform duration-300">expand_more</span>
+            </button>
+            <div id="strategicMenu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-slate-100 ml-4">
+                <a href="metas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">flag</span> Metas</a>
+                <a href="calendario.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">calendar_month</span> Calendario</a>
+                <a href="acciones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">bolt</span> Acciones</a>
+                <a href="callcenter.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">call</span> Call Center</a>
+                <a href="regiones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">map</span> Regiones</a>
+                <a href="zonas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">location_on</span> Zonas</a>
+                <a href="amigos.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">handshake</span> Amigos</a>
+                <a href="cedula.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">badge</span> Cédula</a>
+                <a href="metodologia.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">science</span> Metodología</a>
+                <a href="contexto.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">info</span> Contexto</a>
+            </div>
+        </div>
+      </nav>
+      <div class="px-6 py-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 tracking-wider uppercase">
+          © 2027 Análisis Geoestadístico
+        </p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav
+      class="fixed top-0 w-full z-50 glass-morphism border-b border-primary/10"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="bg-primary p-2 rounded-lg text-white">
+            <span class="material-symbols-outlined text-2xl">query_stats</span>
+          </div>
+          <h1
+            class="text-xl font-extrabold tracking-tight text-primary uppercase"
+          >
+            Análisis Geoestadístico
+          </h1>
+        </a>
+        <div class="flex items-center gap-6">
+          <a
+            href="metas.html"
+            class="hidden md:block text-sm font-semibold text-primary/80 hover:text-primary transition-colors"
+            >Metas</a
+          >
+          <button
+            onclick="toggleMenu()"
+            class="p-2 hover:bg-primary/5 rounded-full transition-colors"
+            id="menuButton"
+          >
+            <span class="material-symbols-outlined text-primary">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Banner Title Section -->
+    <section class="hero-gradient pt-32 pb-24 px-6 relative text-center text-white">
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <div
+              class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-widest uppercase mb-6"
+            >
+              Planeación Estratégica
+            </div>
+            <h1
+              class="text-4xl md:text-6xl font-black mb-6 tracking-tight"
+            >
+              Metas y Objetivos
+            </h1>
+            <p class="text-lg text-blue-100 max-w-2xl mx-auto leading-relaxed">
+              Objetivos políticos, metas operativas y rendimientos en territorio para la campaña 2027.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="px-6 py-16 max-w-7xl mx-auto space-y-12">
+
+        <!-- Section: Objectives -->
+        <section class="glass-morphism p-8 rounded-xl border border-primary/10 shadow-xl shadow-primary/5">
+            <h2 class="text-2xl font-bold text-primary mb-4">Acercando los programas sociales a las familias</h2>
+            <p class="text-slate-600 text-lg leading-relaxed mb-8">
+                Brigadas que recorren hogares para escuchar necesidades, informar y vincular a las personas con servicios como 
+                <span class="font-bold text-accent-blue">MediChihuahua</span>, <span class="font-bold text-accent-blue">NutriChihuahua</span>, 
+                becas estatales y apoyos alimentarios.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-primary/5 p-6 rounded-xl border border-primary/10">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-primary mb-3">
+                        <span class="material-symbols-outlined">flag</span> Objetivo Político
+                    </h3>
+                    <ul class="list-disc list-inside text-slate-600 space-y-2">
+                        <li>Consolidar presencia territorial del Gobierno del Estado.</li>
+                        <li>Generar simpatía hacia el proyecto panista.</li>
+                    </ul>
+                </div>
+                <div class="bg-emerald-500/10 p-6 rounded-xl border border-emerald-500/20">
+                    <h3 class="flex items-center gap-2 text-xl font-bold text-emerald-700 mb-3">
+                        <span class="material-symbols-outlined">target</span> Meta Operativa
+                    </h3>
+                    <ul class="list-disc list-inside text-slate-600 space-y-2">
+                        <li>Recorrer los más de <span class="font-bold">1,146,395 hogares</span> ocupados en todo el territorio casa por casa durante el año.</li>
+                        <li>Con una tasa del 25% de éxito, obtener hasta <span class="font-bold">25,000 encuestas</span> por quincena.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Stats Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-morphism p-6 rounded-xl flex flex-col items-center justify-center text-center border border-primary/10 bg-primary/5">
+                <span class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Hogares Alcanzados</span>
+                <span class="text-4xl font-black text-primary">436,901</span>
+            </div>
+            
+            <div class="glass-morphism p-6 rounded-xl flex flex-col items-center justify-center text-center border border-emerald-500/20 bg-emerald-500/5">
+                <span class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Rendimiento en territorio</span>
+                <span class="text-4xl font-black text-emerald-600">87.38%</span>
+            </div>
+            
+            <div class="glass-morphism p-6 rounded-xl flex flex-col items-center justify-center text-center border border-orange-500/20 bg-orange-500/5">
+                <span class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Chalecos Activos Enero '26</span>
+                <span class="text-4xl font-black text-orange-500">697</span>
+            </div>
+        </section>
+
+        <!-- Goals Table -->
+        <section class="glass-morphism rounded-xl overflow-hidden shadow-lg border border-primary/10">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-primary/5 border-b border-primary/10">
+                        <tr>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Quincena</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Chalecos</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">% del Total</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Resultados</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Meta</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 text-sm font-medium text-slate-600">
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q marzo</td><td class="px-6 py-3 text-center">394</td><td class="px-6 py-3 text-center">70.59%</td><td class="px-6 py-3 text-right">17,648</td><td class="px-6 py-3 text-right">25,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q abril</td><td class="px-6 py-3 text-center">587</td><td class="px-6 py-3 text-center">88.03%</td><td class="px-6 py-3 text-right">44,016</td><td class="px-6 py-3 text-right">50,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q abril</td><td class="px-6 py-3 text-center">620</td><td class="px-6 py-3 text-center">95.82%</td><td class="px-6 py-3 text-right">71,863</td><td class="px-6 py-3 text-right">75,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q mayo</td><td class="px-6 py-3 text-center">640</td><td class="px-6 py-3 text-center">100.61%</td><td class="px-6 py-3 text-right">100,608</td><td class="px-6 py-3 text-right">100,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q mayo</td><td class="px-6 py-3 text-center">672</td><td class="px-6 py-3 text-center">104.63%</td><td class="px-6 py-3 text-right">130,789</td><td class="px-6 py-3 text-right">125,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q junio</td><td class="px-6 py-3 text-center">680</td><td class="px-6 py-3 text-center">107.59%</td><td class="px-6 py-3 text-right">161,384</td><td class="px-6 py-3 text-right">150,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q junio</td><td class="px-6 py-3 text-center">674</td><td class="px-6 py-3 text-center">109.53%</td><td class="px-6 py-3 text-right">191,673</td><td class="px-6 py-3 text-right">175,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q julio</td><td class="px-6 py-3 text-center">681</td><td class="px-6 py-3 text-center">110.65%</td><td class="px-6 py-3 text-right">221,308</td><td class="px-6 py-3 text-right">200,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q julio</td><td class="px-6 py-3 text-center">681</td><td class="px-6 py-3 text-center">111.65%</td><td class="px-6 py-3 text-right">251,221</td><td class="px-6 py-3 text-right">225,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q agosto</td><td class="px-6 py-3 text-center">675</td><td class="px-6 py-3 text-center">111.46%</td><td class="px-6 py-3 text-right">278,656</td><td class="px-6 py-3 text-right">250,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q agosto</td><td class="px-6 py-3 text-center">673</td><td class="px-6 py-3 text-center">111.58%</td><td class="px-6 py-3 text-right">306,833</td><td class="px-6 py-3 text-right">275,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q septiembre</td><td class="px-6 py-3 text-center">682</td><td class="px-6 py-3 text-center">108.78%</td><td class="px-6 py-3 text-right">326,333</td><td class="px-6 py-3 text-right">300,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q septiembre</td><td class="px-6 py-3 text-center">689</td><td class="px-6 py-3 text-center">105.95%</td><td class="px-6 py-3 text-right">344,333</td><td class="px-6 py-3 text-right">325,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q octubre</td><td class="px-6 py-3 text-center">685</td><td class="px-6 py-3 text-center">103.10%</td><td class="px-6 py-3 text-right">360,833</td><td class="px-6 py-3 text-right">350,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q octubre</td><td class="px-6 py-3 text-center">685</td><td class="px-6 py-3 text-center">100.22%</td><td class="px-6 py-3 text-right">375,833</td><td class="px-6 py-3 text-right">375,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q noviembre</td><td class="px-6 py-3 text-center">691</td><td class="px-6 py-3 text-center">97.46%</td><td class="px-6 py-3 text-right">389,833</td><td class="px-6 py-3 text-right">400,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q noviembre</td><td class="px-6 py-3 text-center">695</td><td class="px-6 py-3 text-center">94.67%</td><td class="px-6 py-3 text-right">402,333</td><td class="px-6 py-3 text-right">425,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">1Q diciembre</td><td class="px-6 py-3 text-center">695</td><td class="px-6 py-3 text-center">92.07%</td><td class="px-6 py-3 text-right">414,333</td><td class="px-6 py-3 text-right">450,000</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">2Q diciembre</td><td class="px-6 py-3 text-center">695</td><td class="px-6 py-3 text-center">91.98%</td><td class="px-6 py-3 text-right">436,901</td><td class="px-6 py-3 text-right">475,000</td></tr>
+                        
+                        <tr class="bg-primary/5 font-black text-primary border-t-2 border-primary/20">
+                            <td class="px-6 py-4">Total</td>
+                            <td class="px-6 py-4 text-center">683</td>
+                            <td class="px-6 py-4 text-center">87.38%</td>
+                            <td class="px-6 py-4 text-right">436,901</td>
+                            <td class="px-6 py-4 text-right">500,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Map Section -->
+        <section class="space-y-6">
+            <h2 class="text-2xl font-black text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined text-accent-blue">map</span>
+                Georeferenciación de las encuestas
+            </h2>
+            <p class="text-slate-500">Muestra de 50 mil registros por motivos de rendimiento y navegabilidad.</p>
+            
+            <div class="glass-morphism p-2 rounded-xl shadow-lg border border-primary/10 relative overflow-hidden h-[80vh]">
+                <div class="w-full h-full rounded-lg overflow-hidden bg-gray-100">
+                    <iframe 
+                        class="w-full h-full"
+                        title="Cha2025" 
+                        src="https://agecuu.maps.arcgis.com/apps/mapviewer/index.html?configurableview=true&webmap=d68403b7fbbd4245a2b3f4b16d4f7d78&theme=light&legend=true&information=true&share=true&center=-106.46025384363746,28.73529029230704&scale=4622324.434309"
+                        allow="local-network-access; geolocation"
+                        loading="lazy"
+                        style="border:0;">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Municipality Table -->
+        <section class="glass-morphism rounded-xl overflow-hidden shadow-lg border border-primary/10 mb-12">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50/50 backdrop-blur-sm">
+                <h2 class="text-lg font-black text-primary uppercase tracking-wider flex items-center gap-2">
+                    <span class="material-symbols-outlined text-accent-blue">analytics</span>
+                    Desglose por Municipio
+                </h2>
+            </div>
+            <div class="overflow-x-auto custom-scrollbar max-h-[500px]">
+                <table class="w-full text-left border-collapse relative">
+                    <thead class="bg-gray-100/90 border-b border-gray-200 sticky top-0 z-10 shadow-sm backdrop-blur-md">
+                        <tr>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Municipio</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Total Anual</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 text-sm font-medium text-slate-600">
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CHIHUAHUA</td><td class="px-6 py-3 text-right">112,777</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">JUAREZ</td><td class="px-6 py-3 text-right">21,731</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">HIDALGO DEL PARRAL</td><td class="px-6 py-3 text-right">23,133</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">DELICIAS</td><td class="px-6 py-3 text-right">18,818</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CUAUHTEMOC</td><td class="px-6 py-3 text-right">16,584</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">NUEVO CASAS GRANDES</td><td class="px-6 py-3 text-right">13,675</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">MADERA</td><td class="px-6 py-3 text-right">11,824</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">GUERRERO</td><td class="px-6 py-3 text-right">9,119</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CAMARGO</td><td class="px-6 py-3 text-right">8,950</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">GUACHOCHI</td><td class="px-6 py-3 text-right">8,875</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">GUADALUPE Y CALVO</td><td class="px-6 py-3 text-right">8,222</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">NAMIQUIPA</td><td class="px-6 py-3 text-right">10,016</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">SAUCILLO</td><td class="px-6 py-3 text-right">6,988</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">URIQUE</td><td class="px-6 py-3 text-right">8,133</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">MEOQUI</td><td class="px-6 py-3 text-right">6,666</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">JIMENEZ</td><td class="px-6 py-3 text-right">6,212</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">JANOS</td><td class="px-6 py-3 text-right">6,889</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">BUENAVENTURA</td><td class="px-6 py-3 text-right">6,752</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">ASCENSION</td><td class="px-6 py-3 text-right">6,356</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">ROSALES</td><td class="px-6 py-3 text-right">5,788</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">BALLEZA</td><td class="px-6 py-3 text-right">5,782</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">OCAMPO</td><td class="px-6 py-3 text-right">5,402</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">BACHINIVA</td><td class="px-6 py-3 text-right">4,625</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">MORIS</td><td class="px-6 py-3 text-right">3,329</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CUSIHUIRIACHI</td><td class="px-6 py-3 text-right">3,129</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">OJINAGA</td><td class="px-6 py-3 text-right">4,643</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">ALDAMA</td><td class="px-6 py-3 text-right">4,202</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">BOCOYNA</td><td class="px-6 py-3 text-right">4,181</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">GOMEZ FARIAS</td><td class="px-6 py-3 text-right">3,978</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">JULIMES</td><td class="px-6 py-3 text-right">3,781</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">ALLENDE</td><td class="px-6 py-3 text-right">3,776</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CARICHI</td><td class="px-6 py-3 text-right">4,210</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">AHUMADA</td><td class="px-6 py-3 text-right">3,870</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">GALEANA</td><td class="px-6 py-3 text-right">3,745</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">GUAZAPARES</td><td class="px-6 py-3 text-right">3,696</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">TEMOSACHIC</td><td class="px-6 py-3 text-right">3,574</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CASAS GRANDES</td><td class="px-6 py-3 text-right">3,485</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CHINIPAS</td><td class="px-6 py-3 text-right">3,108</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">SANTA ISABEL</td><td class="px-6 py-3 text-right">3,077</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">LA CRUZ</td><td class="px-6 py-3 text-right">2,753</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">DR. BELISARIO DOMINGUEZ</td><td class="px-6 py-3 text-right">2,087</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">LOPEZ</td><td class="px-6 py-3 text-right">2,919</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">BATOPILAS DE MANUEL GOMEZ MORIN</td><td class="px-6 py-3 text-right">2,853</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">URUACHI</td><td class="px-6 py-3 text-right">2,800</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">IGNACIO ZARAGOZA</td><td class="px-6 py-3 text-right">2,484</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">MATAMOROS</td><td class="px-6 py-3 text-right">2,460</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">AQUILES SERDAN</td><td class="px-6 py-3 text-right">2,380</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">SATEVO</td><td class="px-6 py-3 text-right">2,335</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">SANTA BARBARA</td><td class="px-6 py-3 text-right">2,302</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">MATACHI</td><td class="px-6 py-3 text-right">2,247</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">GRAN MORELOS</td><td class="px-6 py-3 text-right">2,097</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">ROSARIO</td><td class="px-6 py-3 text-right">1,711</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">VALLE DE ZARAGOZA</td><td class="px-6 py-3 text-right">2,039</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">NONOAVA</td><td class="px-6 py-3 text-right">2,012</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">SAN FRANCISCO DE BORJA</td><td class="px-6 py-3 text-right">1,837</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">SAN FRANCISCO DE CONCHOS</td><td class="px-6 py-3 text-right">1,754</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">CORONADO</td><td class="px-6 py-3 text-right">1,589</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">MORELOS</td><td class="px-6 py-3 text-right">1,532</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">SAN FRANCISCO DEL ORO</td><td class="px-6 py-3 text-right">936</td></tr>
+                        <tr class="hover:bg-primary/5 transition-colors"><td class="px-6 py-3">HUEJOTITAN</td><td class="px-6 py-3 text-right">673</td></tr>
+                        
+                        <tr class="bg-primary/5 font-black text-primary border-t-2 border-primary/20 sticky bottom-0 backdrop-blur-md">
+                            <td class="px-6 py-4">Total de municipios</td>
+                            <td class="px-6 py-4 text-right">436,901</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background-dark text-white py-20 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div class="col-span-1 md:col-span-2">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="material-symbols-outlined text-accent-blue text-3xl">query_stats</span>
+              <h2 class="text-2xl font-black tracking-tighter uppercase">
+                Presentación
+              </h2>
+            </div>
+            <p class="text-white/40 max-w-sm leading-relaxed">
+              Liderando la innovación en inteligencia electoral y análisis
+              geoestadístico. Decisiones basadas en datos, resultados basados en
+              estrategia.
+            </p>
+          </div>
+          <div>
+            <h4
+              class="font-bold text-white mb-6 uppercase tracking-widest text-sm"
+            >
+              Secciones
+            </h4>
+            <ul class="space-y-4 text-white/50 text-sm">
+              <li><a class="hover:text-accent-blue transition-colors" href="metas.html">Metas</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="regiones.html">Regiones</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="zonas.html">Zonas</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="historico.html">Histórico</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="font-bold text-white mb-6 uppercase tracking-widest text-sm"
+            >
+              Recursos
+            </h4>
+            <ul class="space-y-4 text-white/50 text-sm">
+              <li><a class="hover:text-accent-blue transition-colors" href="metodologia.html">Metodología</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="contexto.html">Contexto</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="calendario.html">Calendario</a></li>
+              <li><a class="hover:text-accent-blue transition-colors" href="cedula.html">Cédula</a></li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6"
+        >
+          <p class="text-white/30 text-xs tracking-widest uppercase">
+            © 2027 Análisis Geoestadístico. Todos los derechos reservados.
+          </p>
+          <div class="flex gap-6">
+            <a class="text-white/30 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">share</span></a>
+            <a class="text-white/30 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">database</span></a>
+            <a class="text-white/30 hover:text-white transition-colors" href="#"><span class="material-symbols-outlined text-xl">shield</span></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Toggle menu
+      function toggleMenu() {
+        document.getElementById("slideMenu").classList.toggle("open");
+        document.getElementById("menuOverlay").classList.toggle("open");
+        document.body.style.overflow = document
+          .getElementById("slideMenu")
+          .classList.contains("open")
+          ? "hidden"
+          : "";
+      }
+
+      function toggleSubmenu(id) {
+        const el = document.getElementById(id);
+        const arrow = document.getElementById(id + 'Arrow');
+        if(el) {
+            el.classList.toggle('hidden');
+            if(arrow) {
+                 arrow.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        }
+      }
+
+      function highlightActiveLink() {
+        const path = window.location.pathname;
+        const page = path.split("/").pop() || 'index.html';
+        const links = document.querySelectorAll('.menu-item');
+        links.forEach(link => {
+            if(link.getAttribute('href') === page) {
+                link.classList.add('bg-primary/5');
+                const icon = link.querySelector('.material-symbols-outlined');
+                const text = link.querySelector('.font-semibold');
+                if(icon) {
+                    icon.classList.remove('text-accent-blue', 'text-slate-500');
+                    icon.classList.add('text-primary');
+                }
+                if(text) {
+                    text.classList.remove('text-slate-700', 'text-slate-600');
+                    text.classList.add('text-primary');
+                }
+                
+                // Open parent submenu if applicable
+                const parent = link.closest('#strategicMenu');
+                if(parent) {
+                    parent.classList.remove('hidden');
+                    const arrow = document.getElementById('strategicMenuArrow');
+                    if(arrow) arrow.style.transform = 'rotate(180deg)';
+                }
+            }
+        });
+      }
+      highlightActiveLink();
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("slideMenu").classList.remove("open");
+          document.getElementById("menuOverlay").classList.remove("open");
+          document.body.style.overflow = "";
+        }
+      });
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

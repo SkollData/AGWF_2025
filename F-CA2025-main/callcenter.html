@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Call Center</title>
+
+    <base href="./">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#2563eb", "primary-dark": "#1d4ed8", "text-main": "#020617", "text-sub": "#334155" },
+                    fontFamily: { "display": ["Public Sans", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/spectral-banner.css">
+    <script type="module" src="https://js.arcgis.com/embeddable-components/4.33/arcgis-embeddable-components.esm.js"></script>
+
+</head>
+<body class="font-display text-text-main dark:text-white antialiased selection:bg-primary/30 bg-content">
+
+    <header class="sticky top-4 z-50 mx-4 md:mx-8 glass-panel rounded-2xl mt-4">
+        <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 transition-transform hover:scale-[1.02] duration-300 cursor-default">
+                <div class="p-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-md shadow-blue-500/20 text-white">
+                    <span class="material-symbols-outlined text-xl">shield_person</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-sm font-black text-slate-800 dark:text-white leading-none tracking-tight">EJECUTIVO</h1>
+                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 tracking-[0.15em] uppercase">Chalecos Azules 2025</span>
+                </div>
+            </div>
+            
+            <div class="relative z-50">
+                <button onclick="toggleNavDropdown()" id="nav-dropdown-btn" class="flex items-center gap-2 px-6 py-2 bg-white/50 hover:bg-white rounded-full shadow-sm border border-white/20 text-sm font-bold text-text-main transition-all backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-primary">menu</span>
+                    <span>Menú Principal</span>
+                    <span id="nav-arrow" class="material-symbols-outlined text-gray-400 text-xs transition-transform duration-300">expand_more</span>
+                </button>
+                
+                <div id="nav-dropdown" class="hidden absolute right-0 mt-2 w-72 glass-panel rounded-2xl shadow-2xl border border-white/60 p-2 flex flex-col gap-1 animate-in zoom-in-95 duration-200 origin-top-right z-50 max-h-[85vh] overflow-y-auto">
+                    <div class="px-4 py-3 border-b border-gray-100 mb-1">
+                        <span class="text-xs font-bold text-text-sub uppercase tracking-wider">Navegación</span>
+                    </div>
+                    <a href="metas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metas</span>
+                            <span class="text-[10px] text-gray-400">Objetivos y avances</span>
+                        </div>
+                    </a>
+                    <a href="calendario.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Calendario</span>
+                            <span class="text-[10px] text-gray-400">Cronograma de actividades</span>
+                        </div>
+                    </a>
+                    <a href="acciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Acciones</span>
+                            <span class="text-[10px] text-gray-400">Registro de actividades</span>
+                        </div>
+                    </a>
+                    <a href="callcenter.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Call Center</span>
+                            <span class="text-[10px] text-gray-400">Gestión de llamadas</span>
+                        </div>
+                    </a>
+                    <a href="regional.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Regiones</span>
+                            <span class="text-[10px] text-gray-400">Análisis regional</span>
+                        </div>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Zonas</span>
+                            <span class="text-[10px] text-gray-400">Tablero de control</span>
+                        </div>
+                    </a>
+                    <a href="historico.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Histórico</span>
+                            <span class="text-[10px] text-gray-400">Análisis 18-24</span>
+                        </div>
+                    </a>
+                    <a href="beneficiarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Beneficiarios</span>
+                            <span class="text-[10px] text-gray-400">Programas y cobertura</span>
+                        </div>
+                    </a>
+                    <a href="amigos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Amigos</span>
+                            <span class="text-[10px] text-gray-400">Red de conexión</span>
+                        </div>
+                    </a>
+                    <a href="cedula.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Cédula</span>
+                            <span class="text-[10px] text-gray-400">Identificación</span>
+                        </div>
+                    </a>
+                    <a href="documento.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metodología</span>
+                            <span class="text-[10px] text-gray-400">Documentación y Mapas</span>
+                        </div>
+                    </a>
+                    <div class="h-px bg-gray-100 my-1"></div>
+                    <a href="contexto.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-primary">Contexto</span>
+                    </a>
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 text-sm font-medium text-text-sub hover:text-red-600 transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-red-600">Salir</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="callcenterView" class="flex-1 max-w-[1440px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8 min-h-[calc(100vh-120px)] pb-10 perspective-1000">
+    
+    <!-- Spectral Header -->
+    <header class="spectral-header rounded-2xl shadow-2xl mb-8">
+        <h2>Call Center de Vinculación</h2>
+        <p class="max-w-4xl mx-auto px-4">Análisis de satisfacción y vinculación ciudadana.</p>
+    </header>
+
+    <section class="mb-4">
+    <div class="glass-panel p-8 rounded-2xl shadow-lg border border-white/60">
+        <p class="text-lg text-text-sub dark:text-gray-300 mb-6 leading-relaxed">
+            Se cuenta con infraestructura operativa y técnica para realizar análisis de satisfacción de todos los programas presupuestarios de ayudas sociales de Gobierno del Estado, mediante encuestas vía telefónica.
+        </p>
+        <div class="bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-xl border border-blue-100 dark:border-blue-800 mb-6">
+            <h3 class="flex items-center gap-2 text-xl font-bold text-blue-700 dark:text-blue-400 mb-2">
+                <span class="material-symbols-outlined">flag</span> Objetivo
+            </h3>
+            <p class="text-text-sub dark:text-gray-300">
+                Procurar a los beneficiarios y medir su nivel de simpatía con la administración actual. Para medir la afinidad política, se tendrá que hacer en dos ocasiones distintas para identificar la parte institucional y luego contrastarla con su opinión política.
+            </p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+            <div>
+                <h3 class="text-lg font-bold text-text-main dark:text-white mb-3">Ejemplo de Análisis de Programas</h3>
+                <ul class="list-disc list-inside text-text-sub dark:text-gray-300 space-y-1">
+                    <li>Apoyos en Especie para Personas con Discapacidad</li>
+                    <li>Fortalecimiento Comunitario</li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-text-main dark:text-white mb-3">Metodología</h3>
+                <p class="text-sm text-text-sub dark:text-gray-300 mb-2">Encuestas realizadas vía telefónica por personal del call center de la Subsecretaría de Vinculación Ciudadana.</p>
+                <ul class="text-sm text-text-sub dark:text-gray-300 space-y-1">
+                    <li><strong>Turno matutino:</strong> 10:00 a.m. a 1:00 p.m.</li>
+                    <li><strong>Turno vespertino:</strong> 3:00 p.m. a 6:00 p.m.</li>
+                </ul>
+                <p class="text-sm text-text-sub dark:text-gray-300 mt-2 italic">Cada turno cuenta con un equipo de 20 personas, lo que ha permitido una cobertura amplia y eficiente.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="glass-panel p-8 rounded-2xl shadow-lg border border-white/60">
+    <h2 class="text-2xl font-black text-text-main dark:text-white mb-6">Resultados Principales</h2>
+    
+    <div class="grid md:grid-cols-2 gap-8 mb-8">
+        <div class="bg-gray-50/50 dark:bg-white/5 p-6 rounded-xl border border-gray-100 dark:border-white/10">
+            <h3 class="text-lg font-bold text-primary mb-4">1. Conocimiento del programa</h3>
+            <div class="flex items-end gap-2 mb-2">
+                <span class="text-4xl font-black text-green-600">97%</span>
+                <span class="text-sm text-text-sub dark:text-gray-300 mb-1">Conocían ser beneficiarios</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+                <div class="bg-green-600 h-2 rounded-full" style="width: 97%"></div>
+            </div>
+            <div class="flex items-end gap-2 mb-4">
+                <span class="text-2xl font-bold text-red-500">3%</span>
+                <span class="text-sm text-text-sub dark:text-gray-300 mb-1">Señaló no haber recibido apoyo</span>
+            </div>
+            <p class="text-xs text-text-sub dark:text-gray-400 italic">
+                Una parte significativa se enteró del alcance del programa a través de la llamada del call center, destacando la importancia de este canal de comunicación.
+            </p>
+        </div>
+
+        <div class="bg-gray-50/50 dark:bg-white/5 p-6 rounded-xl border border-gray-100 dark:border-white/10">
+            <h3 class="text-lg font-bold text-primary mb-4">2. Satisfacción y Calidad</h3>
+            <div class="flex items-center gap-4 mb-4">
+                <div class="p-3 bg-green-100 text-green-600 rounded-full">
+                    <span class="material-symbols-outlined">inventory_2</span>
+                </div>
+                <div>
+                    <span class="text-3xl font-black text-text-main dark:text-white">97%</span>
+                    <p class="text-sm text-text-sub dark:text-gray-300">Recibieron apoyo completo (Excelente logística)</p>
+                </div>
+            </div>
+            
+            <h4 class="text-sm font-bold text-text-main dark:text-white mt-4 mb-2">Sugerencias Recibidas:</h4>
+            <div class="space-y-2 text-xs">
+                <div class="flex justify-between"><span>Más frecuencia</span><span class="font-bold">21.0%</span></div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 21%"></div></div>
+                
+                <div class="flex justify-between"><span>Mejor focalización</span><span class="font-bold">8.6%</span></div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 8.6%"></div></div>
+                
+                <div class="flex justify-between"><span>Apoyo económico</span><span class="font-bold">7.4%</span></div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 7.4%"></div></div>
+
+                <div class="flex justify-between"><span>Apoyo a domicilio</span><span class="font-bold">4.9%</span></div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5"><div class="bg-orange-400 h-1.5 rounded-full" style="width: 4.9%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-indigo-50 dark:bg-indigo-900/20 p-6 rounded-xl border border-indigo-100 dark:border-indigo-800 text-center mb-8">
+        <p class="text-4xl font-black text-indigo-600 mb-2">94%</p>
+        <p class="text-lg font-medium text-text-main dark:text-white">Manifestó interés en recibir visitas a domicilio de <strong>Chalecos Azules</strong></p>
+        <p class="text-sm text-text-sub dark:text-gray-400 mt-1">Representando una excelente oportunidad para el programa.</p>
+    </div>
+
+    <h3 class="text-lg font-bold text-text-main dark:text-white mb-4">Análisis de Inversión por Programa</h3>
+    <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-gray-100 dark:bg-slate-800 text-text-main dark:text-white font-bold">
+                <tr>
+                    <th class="px-6 py-3">Programa</th>
+                    <th class="px-6 py-3 text-right">Encuestas efectivas</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-slate-900">
+                <tr>
+                    <td class="px-6 py-3">Personas con Discapacidad</td>
+                    <td class="px-6 py-3 text-right">7,233</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-3">Atenciones Extraordinarias</td>
+                    <td class="px-6 py-3 text-right">345</td>
+                </tr>
+                <tr>
+                    <td class="px-6 py-3">Fortalecimiento Comunitario</td>
+                    <td class="px-6 py-3 text-right">2,852</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="grid md:grid-cols-2 gap-6">
+    <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-green-500 shadow-lg">
+        <h3 class="text-lg font-bold text-green-700 dark:text-green-400 mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined">thumb_up</span> Fortalezas
+        </h3>
+        <ul class="space-y-2 text-sm text-text-sub dark:text-gray-300">
+            <li class="flex gap-2"><span class="text-green-500">✔</span> Alto nivel de satisfacción general (97%)</li>
+            <li class="flex gap-2"><span class="text-green-500">✔</span> Efectividad en la logística de entrega</li>
+            <li class="flex gap-2"><span class="text-green-500">✔</span> Excelente recepción a estrategias de acompañamiento (94% aceptación visitas)</li>
+            <li class="flex gap-2"><span class="text-green-500">✔</span> Amplia cobertura de beneficiarios</li>
+        </ul>
+    </div>
+
+    <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-orange-500 shadow-lg">
+        <h3 class="text-lg font-bold text-orange-700 dark:text-orange-400 mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined">lightbulb</span> Oportunidades de Mejora
+        </h3>
+        <ul class="space-y-2 text-sm text-text-sub dark:text-gray-300">
+            <li class="flex gap-2"><span class="text-orange-500">➜</span> Optimizar contenido de despensas</li>
+            <li class="flex gap-2"><span class="text-orange-500">➜</span> Evaluar mayor frecuencia en entregas</li>
+            <li class="flex gap-2"><span class="text-orange-500">➜</span> Implementar visitas domiciliarias</li>
+        </ul>
+    </div>
+</section>
+
+<div class="bg-gradient-to-r from-primary to-primary-dark p-6 rounded-2xl text-white shadow-xl">
+    <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
+        <span class="material-symbols-outlined">stars</span> Recomendación Estratégica
+    </h3>
+    <p class="text-sm opacity-90 leading-relaxed">
+        Fortalecer los criterios de selección para asegurar que los recursos lleguen a quienes más lo requieren, complementado con un sistema de visitas domiciliarias que permita verificar condiciones reales y establecer un vínculo más cercano con los beneficiarios.
+    </p>
+</div></main>
+
+    <div id="mapModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4"></div>
+<div id="pendientesModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closePendientesModal()"></div>
+    <div class="relative w-full max-w-2xl max-h-[80vh] glass-panel rounded-2xl flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
+        <div class="flex items-center justify-between p-6 border-b border-gray-100 dark:border-white/10 bg-orange-50/50 dark:bg-orange-900/10 rounded-t-2xl">
+            <div class="flex flex-col">
+                <h3 class="text-xl font-black text-text-main dark:text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-orange-600">person_alert</span>
+                    Brigadistas Disponibles
+                </h3>
+                <p class="text-sm text-text-sub mt-1">Lista de personal pendiente de asignación.</p>
+            </div>
+            <button onclick="closePendientesModal()" class="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors text-text-sub">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-0">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50/80 dark:bg-black/20 sticky top-0 backdrop-blur-sm shadow-sm">
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Nombre del Brigadista</th>
+                        <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Municipio</th>
+                    </tr>
+                </thead>
+                <tbody id="pendientesListContainer" class="divide-y divide-gray-100 dark:divide-white/5">
+                    </tbody>
+            </table>
+            <div id="emptyPendientesMsg" class="hidden flex-col items-center justify-center py-12 text-center text-text-sub">
+                <span class="material-symbols-outlined text-4xl mb-2 opacity-50">assignment_turned_in</span>
+                <p>No hay brigadistas pendientes.</p>
+            </div>
+        </div>
+        <div class="p-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-black/10 rounded-b-2xl text-right">
+            <button onclick="closePendientesModal()" class="px-6 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold shadow-sm hover:bg-gray-50 transition-all">Cerrar</button>
+        </div>
+    </div>
+</div>
+    
+
+    <!-- Footer -->
+    <footer id="footer" class="spectral-footer">
+      <ul class="icons">
+      </ul>
+      <ul class="copyright">
+        <li>Plataforma de Inteligencia de datos 2026</li>
+      </ul>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

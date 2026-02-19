@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Regiones | VotoAnalitico</title>
+    <meta name="description" content="Análisis y seguimiento de regiones territoriales electorales."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#1a3c6b", "accent-blue": "#2196f3", "background-light": "#f6f7f8", "background-dark": "#0d1b2a" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-morphism { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .hero-gradient { background: linear-gradient(135deg, #1a3c6b 0%, #2196f3 100%); position: relative; overflow: hidden; }
+        .hero-gradient::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(#ffffff22 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; }
+        .slide-menu { transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide-menu.open { transform: translateX(0); }
+        .menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+        .menu-overlay.open { opacity: 1; pointer-events: all; }
+        .menu-item { transform: translateX(20px); opacity: 0; transition: all 0.3s ease; }
+        .slide-menu.open .menu-item { transform: translateX(0); opacity: 1; }
+        .slide-menu.open .menu-item:nth-child(1) { transition-delay: .08s; }
+        .slide-menu.open .menu-item:nth-child(2) { transition-delay: .12s; }
+        .slide-menu.open .menu-item:nth-child(3) { transition-delay: .16s; }
+        .slide-menu.open .menu-item:nth-child(4) { transition-delay: .20s; }
+        .slide-menu.open .menu-item:nth-child(5) { transition-delay: .24s; }
+        .slide-menu.open .menu-item:nth-child(6) { transition-delay: .28s; }
+        .slide-menu.open .menu-item:nth-child(7) { transition-delay: .32s; }
+        .slide-menu.open .menu-item:nth-child(8) { transition-delay: .36s; }
+        .slide-menu.open .menu-item:nth-child(9) { transition-delay: .40s; }
+        .slide-menu.open .menu-item:nth-child(10) { transition-delay: .44s; }
+        .slide-menu.open .menu-item:nth-child(11) { transition-delay: .48s; }
+        .slide-menu.open .menu-item:nth-child(12) { transition-delay: .52s; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+    <script type="module" src="https://js.arcgis.com/embeddable-components/4.33/arcgis-embeddable-components.esm.js"></script>
+</head>
+<body class="font-display bg-background-light text-slate-900 overflow-x-hidden">
+    
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 bg-black/50 z-[60]" onclick="toggleMenu()"></div>
+
+    <!-- Slide Menu -->
+    <div id="slideMenu" class="slide-menu fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between px-6 py-6 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="bg-primary p-1.5 rounded-lg text-white">
+            <span class="material-symbols-outlined text-lg">query_stats</span>
+          </div>
+          <span class="font-extrabold text-primary tracking-tight">REGIONES</span>
+        </div>
+        <button onclick="toggleMenu()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+          <span class="material-symbols-outlined text-slate-500">close</span>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
+        <a href="index.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">home</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Inicio</span>
+        </a>
+        
+        <a href="beneficiarios.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">people</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Beneficiarios</span>
+        </a>
+
+        <a href="historico.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">history</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Histórico 18-24</span>
+        </a>
+
+        <!-- Collapsible Strategic Section -->
+        <div class="pt-2">
+            <button onclick="toggleSubmenu('strategicMenu')" class="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors text-left group">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">layers</span>
+                    <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Plataforma</span>
+                </div>
+                <span id="strategicMenuArrow" class="material-symbols-outlined text-slate-400 transition-transform duration-300">expand_more</span>
+            </button>
+            <div id="strategicMenu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-slate-100 ml-4">
+                <a href="metas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">flag</span> Metas</a>
+                <a href="calendario.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">calendar_month</span> Calendario</a>
+                <a href="acciones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">bolt</span> Acciones</a>
+                <a href="callcenter.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">call</span> Call Center</a>
+                <a href="regiones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">map</span> Regiones</a>
+                <a href="zonas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">location_on</span> Zonas</a>
+                <a href="amigos.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">handshake</span> Amigos</a>
+                <a href="cedula.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">badge</span> Cédula</a>
+                <a href="metodologia.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">science</span> Metodología</a>
+                <a href="contexto.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">info</span> Contexto</a>
+            </div>
+        </div>
+      </nav>
+      <div class="px-6 py-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 tracking-wider uppercase">© 2027 Análisis Geoestadístico</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-morphism border-b border-primary/10">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="bg-primary p-2 rounded-lg text-white">
+            <span class="material-symbols-outlined text-2xl">query_stats</span>
+          </div>
+          <h1 class="text-xl font-extrabold tracking-tight text-primary uppercase">Análisis Geoestadístico</h1>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="regiones.html" class="hidden md:block text-sm font-semibold text-primary/80 hover:text-primary transition-colors">Regiones</a>
+          <button onclick="toggleMenu()" class="p-2 hover:bg-primary/5 rounded-full transition-colors" id="menuButton">
+            <span class="material-symbols-outlined text-primary">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Banner Title Section -->
+    <section class="hero-gradient pt-32 pb-24 px-6 relative text-center text-white">
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-widest uppercase mb-6">
+              Territorio
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 tracking-tight">
+              Regiones
+            </h1>
+            <p class="text-lg text-blue-100 max-w-2xl mx-auto leading-relaxed">
+              Síntesis de Opinión Ciudadana y análisis territorial por regiones.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main id="regionalView" class="px-6 py-12 max-w-[1440px] mx-auto min-h-screen">
+        
+        <div class="flex overflow-x-auto pb-4 gap-3 scrollbar-hide sticky top-24 z-40 py-2">
+            <button onclick="switchRegionalTab('general')" id="reg-tab-general" class="px-5 py-2.5 rounded-full text-sm font-bold bg-primary text-white shadow-md shadow-primary/30 whitespace-nowrap transition-all hover:scale-105">
+                <span class="mr-2">🌎</span>General: Encuestas en Tierra
+            </button>
+            <button onclick="switchRegionalTab('centro')" id="reg-tab-centro" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-600 hover:bg-slate-50 hover:text-primary border border-slate-200 shadow-sm whitespace-nowrap transition-all">Región Centro</button>
+            <button onclick="switchRegionalTab('este')" id="reg-tab-este" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-600 hover:bg-slate-50 hover:text-primary border border-slate-200 shadow-sm whitespace-nowrap transition-all">Región Este</button>
+            <button onclick="switchRegionalTab('noroeste')" id="reg-tab-noroeste" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-600 hover:bg-slate-50 hover:text-primary border border-slate-200 shadow-sm whitespace-nowrap transition-all">Región Noroeste</button>
+            <button onclick="switchRegionalTab('norte')" id="reg-tab-norte" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-600 hover:bg-slate-50 hover:text-primary border border-slate-200 shadow-sm whitespace-nowrap transition-all">Región Norte</button>
+            <button onclick="switchRegionalTab('sur')" id="reg-tab-sur" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-600 hover:bg-slate-50 hover:text-primary border border-slate-200 shadow-sm whitespace-nowrap transition-all">Región Sur</button>
+            <button onclick="switchRegionalTab('sureste')" id="reg-tab-sureste" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-600 hover:bg-slate-50 hover:text-primary border border-slate-200 shadow-sm whitespace-nowrap transition-all">Región Sureste</button>
+            <button onclick="switchRegionalTab('suroeste')" id="reg-tab-suroeste" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-slate-600 hover:bg-slate-50 hover:text-primary border border-slate-200 shadow-sm whitespace-nowrap transition-all">Región Suroeste</button>
+        </div>
+
+        <div id="regional-content-general" class="flex flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6">
+            <div class="flex flex-col md:flex-row gap-6 h-[800px] w-full">
+                <!-- Mapa General -->
+                <div class="w-full md:w-1/2 h-full glass-morphism p-4 rounded-2xl flex flex-col gap-3 border-l-4 border-l-primary shadow-xl">
+                    <div class="flex items-center justify-between px-1">
+                        <h2 class="text-lg font-black tracking-tight text-primary">Mapa de Necesidades</h2>
+                        <a href="https://www.google.com/maps/d/edit?mid=1jkVrkKvyTH12Mn6CQFUQJD84-_fGeRI&usp=sharing" target="_blank" class="flex items-center gap-1 text-[10px] font-bold text-primary hover:underline bg-primary/10 px-2 py-1 rounded-lg">
+                            <span class="material-symbols-outlined text-xs">open_in_new</span> Expandir
+                        </a>
+                    </div>
+                    <div class="flex-1 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 relative shadow-inner">
+                        <iframe src="https://www.google.com/maps/d/embed?mid=1jkVrkKvyTH12Mn6CQFUQJD84-_fGeRI" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    <div class="mt-2 text-center bg-primary/5 rounded-xl p-3 border border-primary/10 shadow-sm backdrop-blur-sm">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Población Proyectada 2027</p>
+                        <p class="text-4xl font-black text-primary drop-shadow-sm tracking-tight leading-none">4,108,722</p>
+                    </div>
+                </div>
+
+                <!-- Gráficos -->
+                <div class="w-full md:w-1/2 h-full flex flex-col gap-6">
+                    <div class="flex-1 glass-morphism p-5 rounded-2xl shadow-lg flex flex-col min-h-0">
+                        <div class="flex items-center gap-2 mb-4 flex-shrink-0 border-b border-primary/5 pb-2">
+                            <div class="p-1.5 bg-blue-100 text-blue-700 rounded-lg"><span class="material-symbols-outlined text-sm">public</span></div>
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-900 leading-tight">Necesidades en el Estado</h3>
+                                <p class="text-[10px] text-slate-500">Población General</p>
+                            </div>
+                        </div>
+                        <div id="chart-general-container" class="flex flex-col justify-between flex-1 overflow-hidden pr-2 space-y-2"></div>
+                    </div>
+                    <div class="flex-1 glass-morphism p-5 rounded-2xl shadow-lg flex flex-col min-h-0">
+                        <div class="flex items-center gap-2 mb-4 flex-shrink-0 border-b border-primary/5 pb-2">
+                            <div class="p-1.5 bg-purple-100 text-purple-700 rounded-lg"><span class="material-symbols-outlined text-sm">diversity_3</span></div>
+                            <div>
+                                <h3 class="text-sm font-bold text-slate-900 leading-tight">Necesidades Prioritarias</h3>
+                                <p class="text-[10px] text-slate-500">Personas con carencia social</p>
+                            </div>
+                        </div>
+                        <div id="chart-social-container" class="flex flex-col justify-between flex-1 overflow-hidden pr-2 space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Síntesis -->
+            <div class="glass-morphism p-8 rounded-2xl shadow-lg border border-primary/10">
+                <p class="text-lg text-slate-700 font-medium leading-relaxed mb-8 max-w-5xl mx-auto text-center">
+                    Las necesidades obtenidas del ejercicio de monitoreo demuestran que las prioridades no se limitan a un solo sector, sino que requieren un enfoque interinstitucional que atienda la infraestructura básica y el bienestar social de manera simultánea, lo cual se puede resumir en 3 ejes principales:
+                </p>
+                <div class="flex justify-center mb-10">
+                    <img src="https://imgur.com/cCPLZzn.png" onerror="this.src='https://imgur.com/cCPLZzn.jpg'" alt="Ejes Principales" class="rounded-xl shadow-md max-w-full h-auto object-contain max-h-[300px]">
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white/50 p-6 rounded-xl border border-slate-100 hover:shadow-md transition-shadow">
+                        <h3 class="text-lg font-bold text-primary mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined bg-blue-100/50 p-1 rounded text-blue-700">engineering</span> 
+                            1. Infraestructura y Servicios Públicos
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">La recurrencia de demandas en <span class="font-bold text-slate-900">Pavimentación, Drenaje y Alumbrado</span> indica la necesidad de un Plan Estatal de Infraestructura Vial y Urbana.</p>
+                    </div>
+                    <div class="bg-white/50 p-6 rounded-xl border border-slate-100 hover:shadow-md transition-shadow">
+                        <h3 class="text-lg font-bold text-primary mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined bg-purple-100/50 p-1 rounded text-purple-700">medical_services</span> 
+                            2. Servicios de Salud y Desarrollo Social
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">La falta de acceso a <span class="font-bold text-slate-900">Servicios de Salud</span> es urgente. Se propone expandir MediChihuahua.</p>
+                    </div>
+                    <div class="bg-white/50 p-6 rounded-xl border border-slate-100 hover:shadow-md transition-shadow">
+                        <h3 class="text-lg font-bold text-primary mb-3 flex items-center gap-2">
+                            <span class="material-symbols-outlined bg-orange-100/50 p-1 rounded text-orange-700">security</span> 
+                            3. Seguridad y Empleo
+                        </h3>
+                        <p class="text-sm text-slate-600 leading-relaxed">La <span class="font-bold text-slate-900">Seguridad Pública</span> requiere una estrategia que combine fuerza pública con prevención social.</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-black text-primary mt-4 mb-2">Objetivos Principales</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-6">
+                <div class="glass-morphism p-6 rounded-2xl flex flex-col items-center text-center border-l-4 border-l-blue-500 shadow-lg hover:-translate-y-1 transition-transform">
+                    <div class="size-14 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-4 shadow-sm"><span class="material-symbols-outlined text-2xl">visibility</span></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Visibilización Institucional</h3>
+                    <p class="text-sm text-slate-600">Los chalecos azules visibilizan la presencia gubernamental en comunidades alejadas.</p>
+                </div>
+                <div class="glass-morphism p-6 rounded-2xl flex flex-col items-center text-center border-l-4 border-l-emerald-500 shadow-lg hover:-translate-y-1 transition-transform">
+                    <div class="size-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4 shadow-sm"><span class="material-symbols-outlined text-2xl">connect_without_contact</span></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Conexión con Programas</h3>
+                    <p class="text-sm text-slate-600">Ofrecen información y acompañamiento en la vinculación con apoyos estatales.</p>
+                </div>
+                <div class="glass-morphism p-6 rounded-2xl flex flex-col items-center text-center border-l-4 border-l-purple-500 shadow-lg hover:-translate-y-1 transition-transform">
+                    <div class="size-14 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-4 shadow-sm"><span class="material-symbols-outlined text-2xl">dataset</span></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Recopilación de Información</h3>
+                    <p class="text-sm text-slate-600">Recaban percepciones, reclamos y lealtades para diseño de estrategias.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="regional-content-centro" class="hidden flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6"></div>
+        <div id="regional-content-este" class="hidden flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6"></div>
+        <div id="regional-content-noroeste" class="hidden flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6"></div>
+        <div id="regional-content-norte" class="hidden flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6"></div>
+        <div id="regional-content-sur" class="hidden flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6"></div>
+        <div id="regional-content-sureste" class="hidden flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6"></div>
+        <div id="regional-content-suroeste" class="hidden flex-col gap-8 animate-in fade-in zoom-in duration-300 mt-6"></div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-background-dark text-white py-12 px-6 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-accent-blue">query_stats</span>
+                <span class="font-black uppercase tracking-tight">Presentación</span>
+            </div>
+            <p class="text-white/30 text-xs tracking-widest uppercase">© 2027 Análisis Geoestadístico. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      // Toggle menu
+      function toggleMenu() {
+        document.getElementById("slideMenu").classList.toggle("open");
+        document.getElementById("menuOverlay").classList.toggle("open");
+        document.body.style.overflow = document
+          .getElementById("slideMenu")
+          .classList.contains("open")
+          ? "hidden"
+          : "";
+      }
+
+      function toggleSubmenu(id) {
+        const el = document.getElementById(id);
+        const arrow = document.getElementById(id + 'Arrow');
+        if(el) {
+            el.classList.toggle('hidden');
+            if(arrow) {
+                 arrow.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        }
+      }
+
+      function highlightActiveLink() {
+        const path = window.location.pathname;
+        const page = path.split("/").pop() || 'index.html';
+        const links = document.querySelectorAll('.menu-item');
+        links.forEach(link => {
+            if(link.getAttribute('href') === page) {
+                link.classList.add('bg-primary/5');
+                const icon = link.querySelector('.material-symbols-outlined');
+                const text = link.querySelector('.font-semibold');
+                if(icon) {
+                    icon.classList.remove('text-accent-blue', 'text-slate-500');
+                    icon.classList.add('text-primary');
+                }
+                if(text) {
+                    text.classList.remove('text-slate-700', 'text-slate-600');
+                    text.classList.add('text-primary');
+                }
+                
+                // Open parent submenu if applicable
+                const parent = link.closest('#strategicMenu');
+                if(parent) {
+                    parent.classList.remove('hidden');
+                    const arrow = document.getElementById('strategicMenuArrow');
+                    if(arrow) arrow.style.transform = 'rotate(180deg)';
+                }
+            }
+        });
+      }
+      highlightActiveLink();
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("slideMenu").classList.remove("open");
+          document.getElementById("menuOverlay").classList.remove("open");
+          document.body.style.overflow = "";
+        }
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+/* TRANSICIÓN DE FONDO SUAVE */
+body {
+  transition:
+    background-image 0.5s ease-in-out,
+    background-color 0.5s ease;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+/* 1. ESTILO PARA INICIO (Partículas Oscuras) */
+body.bg-home {
+  background-color: #050505;
+  background-image: url("https://cdn.svgator.com/images/2022/06/use-svg-as-background-image-particle-strokes.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* 2. ESTILO PARA CONTENIDO (Degradado Suave Original) */
+body.bg-content {
+  background-color: #f3f4f6;
+  background-image:
+    radial-gradient(at 40% 20%, hsla(210, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, hsla(189, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, hsla(341, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, hsla(240, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, hsla(220, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, hsla(240, 100%, 96%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 0%, hsla(343, 100%, 96%, 1) 0px, transparent 50%);
+  background-size: 200% 200%;
+  animation: gradient-animation 15s ease infinite;
+  position: relative; /* Ensure positioning context for pseudo-element */
+}
+
+/* Grid Texture Overlay */
+body.bg-content::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%);
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Estilo Glass (Cristal) */
+.glass-panel {
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  background-color: rgba(240, 249, 255, 0.85); /* Tonalidad azul muy suave (AliceBlue/Azure) */
+  border: 1px solid rgba(186, 230, 253, 0.5); /* Borde azul muy claro */
+  box-shadow: 
+    0 4px 6px -1px rgba(37, 99, 235, 0.1), /* Sombra azulada sutil */
+    0 25px 50px -12px rgba(15, 23, 42, 0.25);
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* Modo oscuro para Glass Panel */
+.dark .glass-panel {
+  background-color: rgba(30, 41, 59, 0.85); /* slate-800 con más transparencia para el blur */
+  border-color: rgba(56, 189, 248, 0.2); /* sky-400 muy transparente */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Inputs estilo Glass */
+.glass-input {
+  background-color: white;
+  border: 1px solid #d1d5db; /* gray-300 */
+  outline: none;
+  transition: all 0.3s ease;
+  color: #020617; /* text-main */
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+.dark .glass-input {
+  background-color: #1e293b; /* slate-800 */
+  border-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.glass-input:focus {
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2); /* ring-primary */
+}
+
+/* Fondo oscuro detrás de títulos */
+.title-backdrop {
+  position: absolute;
+  inset: -10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  filter: blur(20px);
+  border-radius: 9999px;
+  z-index: -1;
+}
+
+/* Ocultar scrollbars pero permitir scroll */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Estilizar scrollbars visibles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.8);
+}
+
+/* Animación de pulso al guardar */
+.saving-pulse {
+  animation: pulse-border 1.5s infinite;
+}
+@keyframes pulse-border {
+  0% {
+    box-shadow: 0 0 0 0px rgba(37, 99, 235, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0px rgba(37, 99, 235, 0);
+  }
+}
+
+.preserve-whitespace {
+  white-space: pre-wrap;
+}
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Efecto 3D en tarjetas del carrusel */
+.carousel-card {
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+.carousel-card:hover {
+  transform: translateY(-10px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.2),
+    0 10px 10px -5px rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(37, 99, 235, 0.4);
+  border-color: rgba(37, 99, 235, 0.6);
+  z-index: 10;
+}
+
+/* --- Tailwind CSS Animate Polyfill --- */
+/* Common Animation Base */
+.animate-in {
+  animation-duration: 0.15s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+
+@keyframes enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(
+        var(--tw-enter-translate-x, 0),
+        var(--tw-enter-translate-y, 0),
+        0
+      )
+      scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), 1)
+      rotate(var(--tw-enter-rotate, 0));
+  }
+}
+
+.fade-in {
+  --tw-enter-opacity: 0;
+  animation-name: enter;
+}
+
+/* Directions */
+.slide-in-from-right-4 {
+  --tw-enter-translate-x: 1rem;
+  animation-name: enter;
+}
+
+.slide-in-from-left-4 {
+  --tw-enter-translate-x: -1rem;
+  animation-name: enter;
+}
+
+.slide-in-from-bottom-2 {
+  --tw-enter-translate-y: 0.5rem;
+  animation-name: enter;
+}
+
+/* Scaling */
+.zoom-in-95 {
+  --tw-enter-scale: 0.95;
+  animation-name: enter;
+}
+
+.zoom-in {
+  --tw-enter-scale: 0;
+  animation-name: enter;
+}
+
+/* Durations */
+.duration-200 {
+  animation-duration: 200ms;
+}
+.duration-300 {
+  animation-duration: 300ms;
+}
+.duration-500 {
+  animation-duration: 500ms;
+}
+.duration-700 {
+  animation-duration: 700ms;
+}
+
+/* Delays */
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}

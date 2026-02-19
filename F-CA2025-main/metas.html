@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Metas</title>
+
+    <base href="./">
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#2563eb", "primary-dark": "#1d4ed8", "text-main": "#020617", "text-sub": "#334155" },
+                    fontFamily: { "display": ["Public Sans", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/spectral-banner.css">
+    <script type="module" src="https://js.arcgis.com/embeddable-components/4.33/arcgis-embeddable-components.esm.js"></script>
+
+</head>
+<body class="font-display text-text-main dark:text-white antialiased selection:bg-primary/30 bg-content">
+
+    <header class="sticky top-4 z-50 mx-4 md:mx-8 glass-panel rounded-2xl mt-4">
+        <div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 transition-transform hover:scale-[1.02] duration-300 cursor-default">
+                <div class="p-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg shadow-md shadow-blue-500/20 text-white">
+                    <span class="material-symbols-outlined text-xl">shield_person</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-sm font-black text-slate-800 dark:text-white leading-none tracking-tight">EJECUTIVO</h1>
+                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 tracking-[0.15em] uppercase">Chalecos Azules 2025</span>
+                </div>
+            </div>
+            
+            <div class="relative z-50">
+                <button onclick="toggleNavDropdown()" id="nav-dropdown-btn" class="flex items-center gap-2 px-6 py-2 bg-white/50 hover:bg-white rounded-full shadow-sm border border-white/20 text-sm font-bold text-text-main transition-all backdrop-blur-sm">
+                    <span class="material-symbols-outlined text-primary">menu</span>
+                    <span>Menú Principal</span>
+                    <span id="nav-arrow" class="material-symbols-outlined text-gray-400 text-xs transition-transform duration-300">expand_more</span>
+                </button>
+                
+                <div id="nav-dropdown" class="hidden absolute right-0 mt-2 w-72 glass-panel rounded-2xl shadow-2xl border border-white/60 p-2 flex flex-col gap-1 animate-in zoom-in-95 duration-200 origin-top-right z-50 max-h-[85vh] overflow-y-auto">
+                    <div class="px-4 py-3 border-b border-gray-100 mb-1">
+                        <span class="text-xs font-bold text-text-sub uppercase tracking-wider">Navegación</span>
+                    </div>
+                    <a href="metas.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metas</span>
+                            <span class="text-[10px] text-gray-400">Objetivos y avances</span>
+                        </div>
+                    </a>
+                    <a href="calendario.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Calendario</span>
+                            <span class="text-[10px] text-gray-400">Cronograma de actividades</span>
+                        </div>
+                    </a>
+                    <a href="acciones.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Acciones</span>
+                            <span class="text-[10px] text-gray-400">Registro de actividades</span>
+                        </div>
+                    </a>
+                    <a href="callcenter.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Call Center</span>
+                            <span class="text-[10px] text-gray-400">Gestión de llamadas</span>
+                        </div>
+                    </a>
+                    <a href="regional.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Regiones</span>
+                            <span class="text-[10px] text-gray-400">Análisis regional</span>
+                        </div>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Zonas</span>
+                            <span class="text-[10px] text-gray-400">Tablero de control</span>
+                        </div>
+                    </a>
+                    <a href="historico.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Histórico</span>
+                            <span class="text-[10px] text-gray-400">Análisis 18-24</span>
+                        </div>
+                    </a>
+                    <a href="beneficiarios.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Beneficiarios</span>
+                            <span class="text-[10px] text-gray-400">Programas y cobertura</span>
+                        </div>
+                    </a>
+                    <a href="amigos.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Amigos</span>
+                            <span class="text-[10px] text-gray-400">Red de conexión</span>
+                        </div>
+                    </a>
+                    <a href="cedula.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Cédula</span>
+                            <span class="text-[10px] text-gray-400">Identificación</span>
+                        </div>
+                    </a>
+                    <a href="documento.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <div class="flex flex-col">
+                            <span class="font-bold text-text-main group-hover:text-primary">Metodología</span>
+                            <span class="text-[10px] text-gray-400">Documentación y Mapas</span>
+                        </div>
+                    </a>
+                    <div class="h-px bg-gray-100 my-1"></div>
+                    <a href="contexto.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-sm font-medium text-text-sub hover:text-primary transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-primary">Contexto</span>
+                    </a>
+                    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 text-sm font-medium text-text-sub hover:text-red-600 transition-colors group">
+                        <span class="font-bold text-text-main group-hover:text-red-600">Salir</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="metasView" class="flex-1 max-w-[1440px] mx-auto w-full px-4 md:px-8 py-8 flex flex-col gap-8 min-h-[calc(100vh-120px)] pb-10 perspective-1000">
+    
+    <!-- Spectral Header -->
+    <header class="spectral-header rounded-2xl shadow-2xl mb-8">
+        <h2>Metas y Objetivos</h2>
+        <p class="max-w-3xl mx-auto px-4">Objetivos políticos, metas operativas y rendimientos en territorio.</p>
+    </header>
+
+    <section class="mb-4">
+    <div class="glass-panel p-8 rounded-2xl shadow-lg border border-white/60">
+        <h2 class="text-2xl font-bold text-text-main dark:text-white mb-4">Acercando los programas sociales a las familias</h2>
+        <p class="text-text-sub dark:text-gray-300 text-lg leading-relaxed mb-6">
+            Brigadas que recorren hogares para escuchar necesidades, informar y vincular a las personas con servicios como 
+            <span class="font-bold text-primary">MediChihuahua</span>, <span class="font-bold text-primary">NutriChihuahua</span>, 
+            becas estatales y apoyos alimentarios.
+        </p>
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-xl border border-blue-100 dark:border-blue-800">
+                <h3 class="flex items-center gap-2 text-xl font-bold text-blue-700 dark:text-blue-400 mb-3">
+                    <span class="material-symbols-outlined">flag</span> Objetivo Político
+                </h3>
+                <ul class="list-disc list-inside text-text-sub dark:text-gray-300 space-y-2">
+                    <li>Consolidar presencia territorial del Gobierno del Estado.</li>
+                    <li>Generar simpatía hacia el proyecto panista.</li>
+                </ul>
+            </div>
+            <div class="bg-emerald-50/50 dark:bg-emerald-900/10 p-6 rounded-xl border border-emerald-100 dark:border-emerald-800">
+                <h3 class="flex items-center gap-2 text-xl font-bold text-emerald-700 dark:text-emerald-400 mb-3">
+                    <span class="material-symbols-outlined">target</span> Meta Operativa
+                </h3>
+                <ul class="list-disc list-inside text-text-sub dark:text-gray-300 space-y-2">
+                    <li>Recorrer los más de <span class="font-bold">1,146,395 hogares</span> ocupados en todo el territorio casa por casa durante el año.</li>
+                    <li>Con una tasa del 25% de éxito, obtener hasta <span class="font-bold">25,000 encuestas</span> por quincena.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center text-center border border-blue-200 dark:border-blue-800 bg-blue-50/30">
+        <span class="text-sm font-bold text-text-sub uppercase tracking-wider mb-2">Hogares Alcanzados</span>
+        <span class="text-4xl font-black text-blue-600">436,901</span>
+    </div>
+    
+    <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center text-center border border-green-200 dark:border-green-800 bg-green-50/30">
+        <span class="text-sm font-bold text-text-sub uppercase tracking-wider mb-2">Rendimiento en territorio</span>
+        <span class="text-4xl font-black text-green-600">87.38%</span>
+    </div>
+    
+    <div class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center text-center border border-orange-200 dark:border-orange-800 bg-orange-50/30">
+        <span class="text-sm font-bold text-text-sub uppercase tracking-wider mb-2">Chalecos Activos enero-2026</span>
+        <span class="text-4xl font-black text-orange-600">697</span>
+    </div>
+</section>
+
+<section class="glass-panel rounded-2xl overflow-hidden shadow-lg border border-white/60 mb-12">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-gray-50/90 dark:bg-black/20 border-b border-gray-200 dark:border-white/10 backdrop-blur-sm">
+                <tr>
+                    <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Quincena</th>
+                    <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider text-center">Chalecos</th>
+                    <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider text-center">% del Total</th>
+                    <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider text-right">Resultados</th>
+                    <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider text-right">Meta</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-white/10 text-sm font-medium text-text-sub dark:text-gray-300">
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q marzo</td><td class="px-6 py-3 text-center">394</td><td class="px-6 py-3 text-center">70.59%</td><td class="px-6 py-3 text-right">17,648</td><td class="px-6 py-3 text-right">25,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q abril</td><td class="px-6 py-3 text-center">587</td><td class="px-6 py-3 text-center">88.03%</td><td class="px-6 py-3 text-right">44,016</td><td class="px-6 py-3 text-right">50,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q abril</td><td class="px-6 py-3 text-center">620</td><td class="px-6 py-3 text-center">95.82%</td><td class="px-6 py-3 text-right">71,863</td><td class="px-6 py-3 text-right">75,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q mayo</td><td class="px-6 py-3 text-center">640</td><td class="px-6 py-3 text-center">100.61%</td><td class="px-6 py-3 text-right">100,608</td><td class="px-6 py-3 text-right">100,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q mayo</td><td class="px-6 py-3 text-center">672</td><td class="px-6 py-3 text-center">104.63%</td><td class="px-6 py-3 text-right">130,789</td><td class="px-6 py-3 text-right">125,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q junio</td><td class="px-6 py-3 text-center">680</td><td class="px-6 py-3 text-center">107.59%</td><td class="px-6 py-3 text-right">161,384</td><td class="px-6 py-3 text-right">150,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q junio</td><td class="px-6 py-3 text-center">674</td><td class="px-6 py-3 text-center">109.53%</td><td class="px-6 py-3 text-right">191,673</td><td class="px-6 py-3 text-right">175,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q julio</td><td class="px-6 py-3 text-center">681</td><td class="px-6 py-3 text-center">110.65%</td><td class="px-6 py-3 text-right">221,308</td><td class="px-6 py-3 text-right">200,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q julio</td><td class="px-6 py-3 text-center">681</td><td class="px-6 py-3 text-center">111.65%</td><td class="px-6 py-3 text-right">251,221</td><td class="px-6 py-3 text-right">225,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q agosto</td><td class="px-6 py-3 text-center">675</td><td class="px-6 py-3 text-center">111.46%</td><td class="px-6 py-3 text-right">278,656</td><td class="px-6 py-3 text-right">250,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q agosto</td><td class="px-6 py-3 text-center">673</td><td class="px-6 py-3 text-center">111.58%</td><td class="px-6 py-3 text-right">306,833</td><td class="px-6 py-3 text-right">275,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q septiembre</td><td class="px-6 py-3 text-center">682</td><td class="px-6 py-3 text-center">108.78%</td><td class="px-6 py-3 text-right">326,333</td><td class="px-6 py-3 text-right">300,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q septiembre</td><td class="px-6 py-3 text-center">689</td><td class="px-6 py-3 text-center">105.95%</td><td class="px-6 py-3 text-right">344,333</td><td class="px-6 py-3 text-right">325,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q octubre</td><td class="px-6 py-3 text-center">685</td><td class="px-6 py-3 text-center">103.10%</td><td class="px-6 py-3 text-right">360,833</td><td class="px-6 py-3 text-right">350,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q octubre</td><td class="px-6 py-3 text-center">685</td><td class="px-6 py-3 text-center">100.22%</td><td class="px-6 py-3 text-right">375,833</td><td class="px-6 py-3 text-right">375,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q noviembre</td><td class="px-6 py-3 text-center">691</td><td class="px-6 py-3 text-center">97.46%</td><td class="px-6 py-3 text-right">389,833</td><td class="px-6 py-3 text-right">400,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q noviembre</td><td class="px-6 py-3 text-center">695</td><td class="px-6 py-3 text-center">94.67%</td><td class="px-6 py-3 text-right">402,333</td><td class="px-6 py-3 text-right">425,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">1Q diciembre</td><td class="px-6 py-3 text-center">695</td><td class="px-6 py-3 text-center">92.07%</td><td class="px-6 py-3 text-right">414,333</td><td class="px-6 py-3 text-right">450,000</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">2Q diciembre</td><td class="px-6 py-3 text-center">695</td><td class="px-6 py-3 text-center">91.98%</td><td class="px-6 py-3 text-right">436,901</td><td class="px-6 py-3 text-right">475,000</td></tr>
+                
+                <tr class="bg-primary/5 dark:bg-primary/20 font-black text-primary border-t-2 border-primary/20">
+                    <td class="px-6 py-4">Total</td>
+                    <td class="px-6 py-4 text-center">683</td>
+                    <td class="px-6 py-4 text-center">87.38%</td>
+                    <td class="px-6 py-4 text-right">436,901</td>
+                    <td class="px-6 py-4 text-right">500,000</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<section class="mb-12">
+    <h2 class="text-2xl font-black text-text-main dark:text-white mb-6 flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary">map</span>
+        Georeferenciacion de las encuestas (muestra de 50 mil por navegabilidad.)
+    </h2>
+    
+    <div class="glass-panel p-2 rounded-2xl shadow-lg border border-white/60 relative overflow-hidden h-[80vh]">
+        <div class="w-full h-full rounded-xl overflow-hidden bg-gray-100">
+            <iframe 
+                class="w-full h-full"
+                title="Cha2025" 
+                src="https://agecuu.maps.arcgis.com/apps/mapviewer/index.html?configurableview=true&webmap=d68403b7fbbd4245a2b3f4b16d4f7d78&theme=dark&legend=true&information=true&share=true&center=-106.46025384363746,28.73529029230704&scale=4622324.434309"
+                allow="local-network-access; geolocation"
+                loading="lazy"
+                style="border:0;">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+<section class="glass-panel rounded-2xl overflow-hidden shadow-lg border border-white/60 mb-12">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-white/10 flex justify-between items-center bg-gray-50/50 dark:bg-black/20 backdrop-blur-sm">
+        <h2 class="text-lg font-black text-text-main dark:text-white uppercase tracking-wider flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary">analytics</span>
+            Desglose por Municipio
+        </h2>
+    </div>
+    <div class="overflow-x-auto  overflow-y-auto custom-scrollbar">
+        <table class="w-full text-left border-collapse relative">
+            <thead class="bg-gray-100/90 dark:bg-slate-900/90 border-b border-gray-200 dark:border-white/10 backdrop-blur-md sticky top-0 z-10 shadow-sm">
+                <tr>
+                    <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Municipio</th>
+                    <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider text-right">Total Annual</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 dark:divide-white/10 text-sm font-medium text-text-sub dark:text-gray-300">
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CHIHUAHUA</td><td class="px-6 py-3 text-right">112,777</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">JUAREZ</td><td class="px-6 py-3 text-right">21,731</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">HIDALGO DEL PARRAL</td><td class="px-6 py-3 text-right">23,133</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">DELICIAS</td><td class="px-6 py-3 text-right">18,818</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CUAUHTEMOC</td><td class="px-6 py-3 text-right">16,584</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">NUEVO CASAS GRANDES</td><td class="px-6 py-3 text-right">13,675</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">MADERA</td><td class="px-6 py-3 text-right">11,824</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">GUERRERO</td><td class="px-6 py-3 text-right">9,119</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CAMARGO</td><td class="px-6 py-3 text-right">8,950</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">GUACHOCHI</td><td class="px-6 py-3 text-right">8,875</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">GUADALUPE Y CALVO</td><td class="px-6 py-3 text-right">8,222</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">NAMIQUIPA</td><td class="px-6 py-3 text-right">10,016</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">SAUCILLO</td><td class="px-6 py-3 text-right">6,988</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">URIQUE</td><td class="px-6 py-3 text-right">8,133</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">MEOQUI</td><td class="px-6 py-3 text-right">6,666</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">JIMENEZ</td><td class="px-6 py-3 text-right">6,212</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">JANOS</td><td class="px-6 py-3 text-right">6,889</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">BUENAVENTURA</td><td class="px-6 py-3 text-right">6,752</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">ASCENSION</td><td class="px-6 py-3 text-right">6,356</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">ROSALES</td><td class="px-6 py-3 text-right">5,788</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">BALLEZA</td><td class="px-6 py-3 text-right">5,782</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">OCAMPO</td><td class="px-6 py-3 text-right">5,402</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">BACHINIVA</td><td class="px-6 py-3 text-right">4,625</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">MORIS</td><td class="px-6 py-3 text-right">3,329</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CUSIHUIRIACHI</td><td class="px-6 py-3 text-right">3,129</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">OJINAGA</td><td class="px-6 py-3 text-right">4,643</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">ALDAMA</td><td class="px-6 py-3 text-right">4,202</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">BOCOYNA</td><td class="px-6 py-3 text-right">4,181</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">GOMEZ FARIAS</td><td class="px-6 py-3 text-right">3,978</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">JULIMES</td><td class="px-6 py-3 text-right">3,781</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">ALLENDE</td><td class="px-6 py-3 text-right">3,776</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CARICHI</td><td class="px-6 py-3 text-right">4,210</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">AHUMADA</td><td class="px-6 py-3 text-right">3,870</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">GALEANA</td><td class="px-6 py-3 text-right">3,745</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">GUAZAPARES</td><td class="px-6 py-3 text-right">3,696</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">TEMOSACHIC</td><td class="px-6 py-3 text-right">3,574</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CASAS GRANDES</td><td class="px-6 py-3 text-right">3,485</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CHINIPAS</td><td class="px-6 py-3 text-right">3,108</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">SANTA ISABEL</td><td class="px-6 py-3 text-right">3,077</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">LA CRUZ</td><td class="px-6 py-3 text-right">2,753</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">DR. BELISARIO DOMINGUEZ</td><td class="px-6 py-3 text-right">2,087</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">LOPEZ</td><td class="px-6 py-3 text-right">2,919</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">BATOPILAS DE MANUEL GOMEZ MORIN</td><td class="px-6 py-3 text-right">2,853</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">URUACHI</td><td class="px-6 py-3 text-right">2,800</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">IGNACIO ZARAGOZA</td><td class="px-6 py-3 text-right">2,484</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">MATAMOROS</td><td class="px-6 py-3 text-right">2,460</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">AQUILES SERDAN</td><td class="px-6 py-3 text-right">2,380</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">SATEVO</td><td class="px-6 py-3 text-right">2,335</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">SANTA BARBARA</td><td class="px-6 py-3 text-right">2,302</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">MATACHI</td><td class="px-6 py-3 text-right">2,247</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">GRAN MORELOS</td><td class="px-6 py-3 text-right">2,097</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">ROSARIO</td><td class="px-6 py-3 text-right">1,711</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">VALLE DE ZARAGOZA</td><td class="px-6 py-3 text-right">2,039</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">NONOAVA</td><td class="px-6 py-3 text-right">2,012</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">SAN FRANCISCO DE BORJA</td><td class="px-6 py-3 text-right">1,837</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">SAN FRANCISCO DE CONCHOS</td><td class="px-6 py-3 text-right">1,754</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">CORONADO</td><td class="px-6 py-3 text-right">1,589</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">MORELOS</td><td class="px-6 py-3 text-right">1,532</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">SAN FRANCISCO DEL ORO</td><td class="px-6 py-3 text-right">936</td></tr>
+                <tr class="hover:bg-black/5 transition-colors"><td class="px-6 py-3">HUEJOTITAN</td><td class="px-6 py-3 text-right">673</td></tr>
+                
+                <tr class="bg-primary/5 dark:bg-primary/20 font-black text-primary border-t-2 border-primary/20 sticky bottom-0 backdrop-blur-md">
+                    <td class="px-6 py-4">Total de municipios</td>
+                    <td class="px-6 py-4 text-right">436,901</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section></main>
+
+    <div id="mapModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4"></div>
+<div id="pendientesModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onclick="closePendientesModal()"></div>
+    <div class="relative w-full max-w-2xl max-h-[80vh] glass-panel rounded-2xl flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
+        <div class="flex items-center justify-between p-6 border-b border-gray-100 dark:border-white/10 bg-orange-50/50 dark:bg-orange-900/10 rounded-t-2xl">
+            <div class="flex flex-col">
+                <h3 class="text-xl font-black text-text-main dark:text-white flex items-center gap-2">
+                    <span class="material-symbols-outlined text-orange-600">person_alert</span>
+                    Brigadistas Disponibles
+                </h3>
+                <p class="text-sm text-text-sub mt-1">Lista de personal pendiente de asignación.</p>
+            </div>
+            <button onclick="closePendientesModal()" class="p-2 hover:bg-black/5 dark:hover:bg-white/10 rounded-full transition-colors text-text-sub">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="flex-1 overflow-y-auto p-0">
+            <table class="w-full text-left">
+                <thead class="bg-gray-50/80 dark:bg-black/20 sticky top-0 backdrop-blur-sm shadow-sm">
+                    <tr>
+                        <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Nombre del Brigadista</th>
+                        <th class="px-6 py-4 text-xs font-bold text-text-sub uppercase tracking-wider">Municipio</th>
+                    </tr>
+                </thead>
+                <tbody id="pendientesListContainer" class="divide-y divide-gray-100 dark:divide-white/5">
+                    </tbody>
+            </table>
+            <div id="emptyPendientesMsg" class="hidden flex-col items-center justify-center py-12 text-center text-text-sub">
+                <span class="material-symbols-outlined text-4xl mb-2 opacity-50">assignment_turned_in</span>
+                <p>No hay brigadistas pendientes.</p>
+            </div>
+        </div>
+        <div class="p-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/50 dark:bg-black/10 rounded-b-2xl text-right">
+            <button onclick="closePendientesModal()" class="px-6 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold shadow-sm hover:bg-gray-50 transition-all">Cerrar</button>
+        </div>
+    </div>
+</div>
+    
+
+    <!-- Footer -->
+    <footer id="footer" class="spectral-footer">
+      <ul class="icons">
+      </ul>
+      <ul class="copyright">
+        <li>Plataforma de Inteligencia de datos 2026</li>
+      </ul>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/regional-data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Amigos | VotoAnalitico</title>
+    <meta name="description" content="Redes de influencia y estructura ciudadana."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#1a3c6b", "accent-blue": "#2196f3", "background-light": "#f6f7f8", "background-dark": "#0d1b2a" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-morphism { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .hero-gradient { background: linear-gradient(135deg, #1a3c6b 0%, #2196f3 100%); position: relative; overflow: hidden; }
+        .hero-gradient::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(#ffffff22 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; }
+        .slide-menu { transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide-menu.open { transform: translateX(0); }
+        .menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+        .menu-overlay.open { opacity: 1; pointer-events: all; }
+        .menu-item { transform: translateX(20px); opacity: 0; transition: all 0.3s ease; }
+        .slide-menu.open .menu-item { transform: translateX(0); opacity: 1; }
+        .slide-menu.open .menu-item:nth-child(1) { transition-delay: .08s; }
+        .slide-menu.open .menu-item:nth-child(2) { transition-delay: .12s; }
+        .slide-menu.open .menu-item:nth-child(3) { transition-delay: .16s; }
+        .slide-menu.open .menu-item:nth-child(4) { transition-delay: .20s; }
+        .slide-menu.open .menu-item:nth-child(5) { transition-delay: .24s; }
+        .slide-menu.open .menu-item:nth-child(6) { transition-delay: .28s; }
+        .slide-menu.open .menu-item:nth-child(7) { transition-delay: .32s; }
+        .slide-menu.open .menu-item:nth-child(8) { transition-delay: .36s; }
+        .slide-menu.open .menu-item:nth-child(9) { transition-delay: .40s; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-display bg-background-light text-slate-900 overflow-x-hidden">
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 bg-black/50 z-[60]" onclick="toggleMenu()"></div>
+
+    <!-- Slide Menu -->
+    <div id="slideMenu" class="slide-menu fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between px-6 py-6 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="bg-primary p-1.5 rounded-lg text-white">
+            <span class="material-symbols-outlined text-lg">query_stats</span>
+          </div>
+          <span class="font-extrabold text-primary tracking-tight">AMIGOS</span>
+        </div>
+        <button onclick="toggleMenu()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+          <span class="material-symbols-outlined text-slate-500">close</span>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
+        <a href="index.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">home</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Inicio</span>
+        </a>
+        
+        <a href="beneficiarios.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">people</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Beneficiarios</span>
+        </a>
+
+        <a href="historico.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">history</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Histórico 18-24</span>
+        </a>
+
+        <!-- Collapsible Strategic Section -->
+        <div class="pt-2">
+            <button onclick="toggleSubmenu('strategicMenu')" class="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors text-left group">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">layers</span>
+                    <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Chalecos Azules</span>
+                </div>
+                <span id="strategicMenuArrow" class="material-symbols-outlined text-slate-400 transition-transform duration-300">expand_more</span>
+            </button>
+            <div id="strategicMenu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-slate-100 ml-4">
+                <a href="metas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">flag</span> Metas</a>
+                <a href="calendario.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">calendar_month</span> Calendario</a>
+                <a href="acciones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">bolt</span> Acciones</a>
+                <a href="callcenter.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">call</span> Call Center</a>
+                <a href="regiones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">map</span> Regiones</a>
+                <a href="zonas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">location_on</span> Zonas</a>
+                <a href="amigos.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">handshake</span> Amigos</a>
+                <a href="cedula.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">badge</span> Cédula</a>
+                <a href="metodologia.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">science</span> Metodología</a>
+                <a href="contexto.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">info</span> Contexto</a>
+            </div>
+        </div>
+      </nav>
+      <div class="px-6 py-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 tracking-wider uppercase">© 2027 Análisis Geoestadístico</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-morphism border-b border-primary/10">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="bg-primary p-2 rounded-lg text-white">
+            <span class="material-symbols-outlined text-2xl">query_stats</span>
+          </div>
+          <h1 class="text-xl font-extrabold tracking-tight text-primary uppercase">Análisis Geoestadístico</h1>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="amigos.html" class="hidden md:block text-sm font-semibold text-primary/80 hover:text-primary transition-colors">Amigos</a>
+          <button onclick="toggleMenu()" class="p-2 hover:bg-primary/5 rounded-full transition-colors" id="menuButton">
+            <span class="material-symbols-outlined text-primary">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+     <!-- Banner Title Section -->
+    <section class="hero-gradient pt-32 pb-20 px-6">
+        <div class="max-w-7xl mx-auto relative z-10 text-center text-white">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-widest uppercase mb-6">
+              Estructura
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black tracking-tighter mb-4">Amigos de Gobierno</h1>
+            <p class="text-white/70 text-lg max-w-2xl mx-auto">Redes de influencia y estructura ciudadana.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="w-full px-4 md:px-8 py-8 -mt-10 relative z-20 max-w-[1440px] mx-auto pb-20 space-y-8">
+        
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-morphism p-6 rounded-xl shadow-lg border-l-4 border-l-primary flex items-center justify-between">
+                <div>
+                    <h3 class="text-3xl font-black text-slate-800">297</h3>
+                    <p class="text-sm font-bold text-slate-500 uppercase mt-1">Total Amigos Registrados</p>
+                </div>
+                <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center text-primary">
+                     <span class="material-symbols-outlined text-4xl">diversity_3</span>
+                </div>
+            </div>
+             <div class="glass-morphism p-6 rounded-xl shadow-lg border-l-4 border-l-green-500 flex items-center justify-between">
+                 <div>
+                    <h3 class="text-3xl font-black text-slate-800">12</h3>
+                    <p class="text-sm font-bold text-slate-500 uppercase mt-1">Dependencias Activas</p>
+                </div>
+                <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center text-green-600">
+                     <span class="material-symbols-outlined text-4xl">domain</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="glass-morphism rounded-2xl shadow-lg overflow-hidden border border-white/60">
+            <div class="p-6 border-b border-slate-100">
+                <h2 class="text-xl font-bold text-primary flex items-center gap-2">
+                    <i data-feather="users" class="w-5 h-5"></i>
+                    Desglose por Secretaría
+                </h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-slate-100">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Secretaría</th>
+                            <th scope="col" class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider">Amigos</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-slate-700">
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">SECRETARIA DE DESARROLLO HUMANO Y BIEN COMUN</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">103</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold">DIF ESTATAL</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">74</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">SECRETARIA DE HACIENDA</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">35</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">SECRETARIA DE EDUCACION Y DEPORTE</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">31</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">SECRETARIA GENERAL DE GOBIERNO</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">23</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">INSTITUTO CHIHUAHUENSE DEL DEPORTE</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">13</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">SECRETARIA DE COMUNICACIONES Y OBRAS PUBLICAS</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">4</td>
+                        </tr>
+                         <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">COESVI</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">4</td>
+                        </tr>
+                         <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">FISCALIA GENERAL DEL ESTADO</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">3</td>
+                        </tr>
+                         <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">SECRETARIA DE SALUD</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">3</td>
+                        </tr>
+                         <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">PENSIONES CIVILES DEL ESTADO DE CHIHUAHUA</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">2</td>
+                        </tr>
+                         <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">SECRETARIA DE PUEBLOS Y COMUNIDADES INDIGENAS</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">2</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50/80 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-600">SECRETARIA DE SEGURIDAD PUBLICA</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right font-medium text-slate-600">0</td>
+                        </tr>
+                        <tr class="bg-primary/5 font-extrabold border-t-2 border-primary/20">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-primary">Total general</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-primary">297</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Red de Conexión Card -->
+        <div class="glass-morphism rounded-2xl p-8 border border-white/60 shadow-xl relative overflow-hidden group">
+            <div class="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                 <span class="material-symbols-outlined text-9xl text-primary">hub</span>
+            </div>
+            
+            <div class="relative z-10">
+                <h2 class="text-2xl font-bold text-primary mb-6 flex items-center gap-3">
+                    <span class="bg-primary/10 p-2 rounded-lg"><span class="material-symbols-outlined text-3xl">hub</span></span>
+                    Red de Conexión Ciudadana (1x5)
+                </h2>
+
+                <p class="text-slate-600 mb-8 leading-relaxed text-justify max-w-4xl text-lg">
+                    Permite la estructuración formal y ordenada de las redes de influencia de las estructuras que cada titular coordina, tiene por fin último combatir la SIMULACIÓN, permitiendo identificar el tamaño real de la red, asimismo, durante la operación en el día de la elección, cada encargado de una red puede contactar a los registrados, y verificar si esa persona ya asistió a votar.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://argusmx.ddns.net/conexion-ciudadana/registro-redes/59ED1A16-5AE5-401E-99DD-6CB96C6BE2CC"
+                        target="_blank"
+                        class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-blue-800 hover:shadow-primary/30 transition-all hover:-translate-y-1">
+                        <span class="material-symbols-outlined group-hover:rotate-12 transition-transform">app_registration</span>
+                        Acceder al Registro
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background-dark text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-accent-blue">query_stats</span>
+                <span class="font-black uppercase tracking-tight">VPresentación</span>
+            </div>
+            <p class="text-white/30 text-xs tracking-widest uppercase">© 2027 Análisis Geoestadístico. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      // Toggle menu
+      function toggleMenu() {
+        document.getElementById("slideMenu").classList.toggle("open");
+        document.getElementById("menuOverlay").classList.toggle("open");
+        document.body.style.overflow = document
+          .getElementById("slideMenu")
+          .classList.contains("open")
+          ? "hidden"
+          : "";
+      }
+
+      function toggleSubmenu(id) {
+        const el = document.getElementById(id);
+        const arrow = document.getElementById(id + 'Arrow');
+        if(el) {
+            el.classList.toggle('hidden');
+            if(arrow) {
+                 arrow.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        }
+      }
+
+      function highlightActiveLink() {
+        const path = window.location.pathname;
+        const page = path.split("/").pop() || 'index.html';
+        const links = document.querySelectorAll('.menu-item');
+        links.forEach(link => {
+            if(link.getAttribute('href') === page) {
+                link.classList.add('bg-primary/5');
+                const icon = link.querySelector('.material-symbols-outlined');
+                const text = link.querySelector('.font-semibold');
+                if(icon) {
+                    icon.classList.remove('text-accent-blue', 'text-slate-500');
+                    icon.classList.add('text-primary');
+                }
+                if(text) {
+                    text.classList.remove('text-slate-700', 'text-slate-600');
+                    text.classList.add('text-primary');
+                }
+                
+                // Open parent submenu if applicable
+                const parent = link.closest('#strategicMenu');
+                if(parent) {
+                    parent.classList.remove('hidden');
+                    const arrow = document.getElementById('strategicMenuArrow');
+                    if(arrow) arrow.style.transform = 'rotate(180deg)';
+                }
+            }
+        });
+      }
+      highlightActiveLink();
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.getElementById("slideMenu").classList.remove("open");
+          document.getElementById("menuOverlay").classList.remove("open");
+          document.body.style.overflow = "";
+        }
+      });
+    </script>
+</body>
+</html>

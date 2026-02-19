@@ -1,0 +1,608 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Metodología | VotoAnalitico</title>
+    <meta name="description" content="Recursos técnicos, mapas y fundamentos metodológicos."/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: { "primary": "#1a3c6b", "accent-blue": "#2196f3", "background-light": "#f6f7f8", "background-dark": "#0d1b2a" },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-morphism { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .hero-gradient { background: linear-gradient(135deg, #1a3c6b 0%, #2196f3 100%); position: relative; overflow: hidden; }
+        .hero-gradient::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(#ffffff22 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; }
+        .slide-menu { transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide-menu.open { transform: translateX(0); }
+        .menu-overlay { opacity: 0; pointer-events: none; transition: opacity 0.35s ease; }
+        .menu-overlay.open { opacity: 1; pointer-events: all; }
+        .menu-item { transform: translateX(20px); opacity: 0; transition: all 0.3s ease; }
+        .slide-menu.open .menu-item { transform: translateX(0); opacity: 1; }
+        .slide-menu.open .menu-item:nth-child(1) { transition-delay: .08s; }
+        .slide-menu.open .menu-item:nth-child(2) { transition-delay: .12s; }
+        .slide-menu.open .menu-item:nth-child(3) { transition-delay: .16s; }
+        .slide-menu.open .menu-item:nth-child(4) { transition-delay: .20s; }
+        .slide-menu.open .menu-item:nth-child(5) { transition-delay: .24s; }
+        .slide-menu.open .menu-item:nth-child(6) { transition-delay: .28s; }
+        .slide-menu.open .menu-item:nth-child(7) { transition-delay: .32s; }
+        .slide-menu.open .menu-item:nth-child(8) { transition-delay: .36s; }
+        .slide-menu.open .menu-item:nth-child(9) { transition-delay: .40s; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Tab Transitions */
+        .tab-content { display: none; animation: fadeIn 0.5s ease-out; }
+        .tab-content.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="font-display bg-background-light text-slate-900 overflow-x-hidden">
+
+    <!-- Menu Overlay -->
+    <div id="menuOverlay" class="menu-overlay fixed inset-0 bg-black/50 z-[60]" onclick="toggleMenu()"></div>
+
+    <!-- Slide Menu -->
+    <div id="slideMenu" class="slide-menu fixed top-0 right-0 h-full w-80 bg-white z-[70] shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between px-6 py-6 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="bg-primary p-1.5 rounded-lg text-white">
+            <span class="material-symbols-outlined text-lg">query_stats</span>
+          </div>
+          <span class="font-extrabold text-primary tracking-tight">METODOLOGÍA</span>
+        </div>
+        <button onclick="toggleMenu()" class="p-2 hover:bg-slate-100 rounded-full transition-colors">
+          <span class="material-symbols-outlined text-slate-500">close</span>
+        </button>
+      </div>
+      <nav class="flex-1 overflow-y-auto py-4 px-4 space-y-1">
+        <a href="index.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">home</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Inicio</span>
+        </a>
+        
+        <a href="beneficiarios.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">people</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Beneficiarios</span>
+        </a>
+
+        <a href="historico.html" class="menu-item flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors group">
+            <span class="material-symbols-outlined text-accent-blue group-hover:text-primary transition-colors">history</span>
+            <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Histórico 18-24</span>
+        </a>
+
+        <!-- Collapsible Strategic Section -->
+        <div class="pt-2">
+            <button onclick="toggleSubmenu('strategicMenu')" class="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-primary/5 transition-colors text-left group">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-slate-500 group-hover:text-primary transition-colors">layers</span>
+                    <span class="font-semibold text-slate-700 group-hover:text-primary transition-colors">Chalecos Azules</span>
+                </div>
+                <span id="strategicMenuArrow" class="material-symbols-outlined text-slate-400 transition-transform duration-300">expand_more</span>
+            </button>
+            <div id="strategicMenu" class="hidden pl-4 space-y-1 mt-1 border-l-2 border-slate-100 ml-4">
+                <a href="metas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">flag</span> Metas</a>
+                <a href="calendario.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">calendar_month</span> Calendario</a>
+                <a href="acciones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">bolt</span> Acciones</a>
+                <a href="callcenter.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">call</span> Call Center</a>
+                <a href="regiones.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">map</span> Regiones</a>
+                <a href="zonas.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">location_on</span> Zonas</a>
+                <a href="amigos.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">handshake</span> Amigos</a>
+                <a href="cedula.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">badge</span> Cédula</a>
+                <a href="metodologia.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">science</span> Metodología</a>
+                <a href="contexto.html" class="menu-item block px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary hover:bg-slate-50 rounded-md transition-colors flex items-center gap-2"><span class="material-symbols-outlined text-xs">info</span> Contexto</a>
+            </div>
+        </div>
+      </nav>
+      <div class="px-6 py-4 border-t border-slate-100">
+        <p class="text-xs text-slate-400 tracking-wider uppercase">© 2027 Análisis Geoestadístico</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-morphism border-b border-primary/10">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3">
+          <div class="bg-primary p-2 rounded-lg text-white">
+            <span class="material-symbols-outlined text-2xl">query_stats</span>
+          </div>
+          <h1 class="text-xl font-extrabold tracking-tight text-primary uppercase">Análisis Geoestadístico</h1>
+        </a>
+        <div class="flex items-center gap-6">
+          <a href="metodologia.html" class="hidden md:block text-sm font-semibold text-primary hover:text-primary/80 transition-colors">Metodología</a>
+          <button onclick="toggleMenu()" class="p-2 hover:bg-primary/5 rounded-full transition-colors" id="menuButton">
+            <span class="material-symbols-outlined text-primary">menu</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+     <!-- Banner Title Section -->
+    <section class="hero-gradient pt-32 pb-24 px-6 text-center text-white">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-bold tracking-widest uppercase mb-6">
+              Recursos
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black tracking-tighter mb-6">Metodología y Documentación</h1>
+            <p class="text-white/70 text-lg max-w-2xl mx-auto">Recursos técnicos, mapas y fundamentos metodológicos del proyecto.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="w-full px-4 md:px-8 py-12 -mt-10 relative z-20 max-w-[1440px] mx-auto pb-20">
+        
+        <!-- Tabs Navigation -->
+        <div class="flex justify-center mb-8">
+            <div class="glass-morphism p-1.5 rounded-2xl flex items-center gap-2 shadow-lg">
+                <button id="btn-tab-docs" onclick="toggleTab('documentacion')" class="px-6 py-3 rounded-xl text-sm font-bold bg-primary text-white shadow-md transition-all">
+                    <span class="flex items-center gap-2"><span class="material-symbols-outlined">folder_open</span> Documentación y Mapas</span>
+                </button>
+                <button id="btn-tab-metodo" onclick="toggleTab('metodo')" class="px-6 py-3 rounded-xl text-sm font-bold text-slate-500 hover:text-primary hover:bg-white/50 transition-all">
+                    <span class="flex items-center gap-2"><span class="material-symbols-outlined">construction</span> Método</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- TAB: Documentacion y Mapas -->
+        <div id="tab-documentacion" class="tab-content active flex-col gap-8">
+            
+            <div class="w-full flex flex-col gap-4">
+                <div class="flex items-center justify-between p-6 bg-white rounded-2xl shadow-lg border border-slate-100">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-blue-50 text-blue-600 rounded-xl">
+                            <span class="material-symbols-outlined text-2xl">description</span>
+                        </div>
+                        <h2 class="text-xl font-bold text-slate-800">Documentación | Chalecos Azules</h2>
+                    </div>
+                    <a href="estrategia.pdf" target="_blank" class="flex items-center gap-2 px-5 py-2.5 bg-primary hover:bg-blue-800 text-white rounded-xl font-bold transition-all shadow-md hover:-translate-y-0.5">
+                        <span class="material-symbols-outlined text-sm">download</span> Descargar PDF
+                    </a>
+                </div>
+
+                <div style="height: 800px;" class="w-full rounded-2xl shadow-xl border border-slate-200 overflow-hidden relative bg-white">
+                    <iframe src="estrategia.pdf" class="w-full h-full" style="min-height: 800px;" frameborder="0">
+                        <p class="p-10 text-center text-slate-500">Tu navegador no soporta iframes.</p>
+                    </iframe>
+                </div>
+                
+                <div class="text-xs text-slate-400 text-center mt-2">
+                     Nota: Si ves un recuadro vacío, el navegador podría estar bloqueando el PDF local. Asegurate de tener el archivo en <code>estrategia.pdf</code>.
+                </div>
+            </div>
+
+            <div class="glass-morphism p-6 rounded-2xl shadow-lg border border-white/60">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-black text-primary flex items-center gap-3">
+                        <span class="material-symbols-outlined text-emerald-600">map</span> 
+                        Mapa General de Cobertura
+                    </h2>
+                    <span class="px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200">Vista Satelital</span>
+                </div>
+                <div class="w-full h-[600px] bg-slate-100 rounded-xl overflow-hidden relative shadow-inner border border-slate-200">
+                    <iframe src="https://www.google.com/maps/d/embed?mid=1pSDyiRr5__bzvWkYNia0xoh7U4-5UIk" class="w-full h-full border-0" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB: Metodo -->
+        <div id="tab-metodo" class="tab-content flex-col gap-12">
+            
+            <section>
+                <h2 class="text-3xl font-black text-primary mb-6">Metodología Geoestadística</h2>
+                <div class="glass-morphism p-8 rounded-2xl shadow-lg border border-white/60">
+                    <p class="text-lg text-slate-600 mb-6 font-medium">
+                        La metodología empleada combina múltiples índices para ajustarse a la realidad electoral del estado de Chihuahua.
+                    </p>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-bold text-lg text-primary mb-2 flex items-center gap-2"><span class="material-symbols-outlined">analytics</span> Rentabilidad</h3>
+                            <p class="text-slate-500">Combinamos el HHI (Herfindahl–Hirschman Index) y el NEP (Número Efectivo de Partidos) para medir concentración y competencia.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-primary mb-2 flex items-center gap-2"><span class="material-symbols-outlined">share_location</span> Despliegue</h3>
+                            <p class="text-slate-500">Utilizamos el Índice de Moran para identificar clusters y definir el orden de intervención territorial.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Indicadores Tradicionales Table -->
+            <section>
+                <h2 class="text-3xl font-black text-primary mb-6">Indicadores Tradicionales</h2>
+                <div class="overflow-x-auto glass-morphism rounded-2xl shadow-lg border border-white/60">
+                    <table class="min-w-full divide-y divide-slate-100">
+                        <thead class="bg-primary/5">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-primary uppercase tracking-wider">Indicador</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-primary uppercase tracking-wider">Qué mide</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-primary uppercase tracking-wider">Ideal para</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">HHI</td>
+                                <td class="px-6 py-4 text-slate-600">Concentración</td>
+                                <td class="px-6 py-4 text-slate-500">Identificar bastiones o hegemonías</td>
+                            </tr>
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Nef (Laakso-Taagepera)</td>
+                                <td class="px-6 py-4 text-slate-600">Número de partidos efectivos</td>
+                                <td class="px-6 py-4 text-slate-500">Ver pluralismo real</td>
+                            </tr>
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Competitividad (C)</td>
+                                <td class="px-6 py-4 text-slate-600">Qué tan cerrada fue la elección</td>
+                                <td class="px-6 py-4 text-slate-500">Mapas de riesgo electoral</td>
+                            </tr>
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Volatilidad (Pedersen)</td>
+                                <td class="px-6 py-4 text-slate-600">Cambios entre elecciones</td>
+                                <td class="px-6 py-4 text-slate-500">Fidelidad o movilidad del voto</td>
+                            </tr>
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Fragmentación (Rae)</td>
+                                <td class="px-6 py-4 text-slate-600">Dispersión del voto</td>
+                                <td class="px-6 py-4 text-slate-500">Análisis complementario al HHI</td>
+                            </tr>
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Dominancia (D)</td>
+                                <td class="px-6 py-4 text-slate-600">Margen del ganador</td>
+                                <td class="px-6 py-4 text-slate-500">Clasificar secciones seguras o competidas</td>
+                            </tr>
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Polarización (Dalton)</td>
+                                <td class="px-6 py-4 text-slate-600">Distancia ideológica</td>
+                                <td class="px-6 py-4 text-slate-500">Análisis de sistemas partidistas</td>
+                            </tr>
+                            <tr class="hover:bg-primary/5 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Gini territorial</td>
+                                <td class="px-6 py-4 text-slate-600">Concentración espacial del voto</td>
+                                <td class="px-6 py-4 text-slate-500">Identificar enclaves partidistas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Complementary Formulas Table -->
+            <section>
+                 <h2 class="text-3xl font-black text-primary mb-6">Fórmulas Complementarias</h2>
+                 <div class="overflow-x-auto glass-morphism rounded-2xl shadow-lg border border-white/60">
+                    <table class="min-w-full divide-y divide-slate-100">
+                        <thead class="bg-purple-50">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-purple-700 uppercase tracking-wider">Índice</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-purple-700 uppercase tracking-wider">Origen</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-purple-700 uppercase tracking-wider">Qué mide</th>
+                                <th class="px-6 py-4 text-left text-xs font-bold text-purple-700 uppercase tracking-wider">Aplicación electoral</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-purple-50/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Shannon</td>
+                                <td class="px-6 py-4 text-slate-600">Ecología</td>
+                                <td class="px-6 py-4 text-slate-600">Diversidad del voto</td>
+                                <td class="px-6 py-4 text-slate-500">Fragmentación</td>
+                            </tr>
+                            <tr class="hover:bg-purple-50/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Theil</td>
+                                <td class="px-6 py-4 text-slate-600">Economía</td>
+                                <td class="px-6 py-4 text-slate-600">Desigualdad del voto</td>
+                                <td class="px-6 py-4 text-slate-500">Concentración territorial</td>
+                            </tr>
+                             <tr class="hover:bg-purple-50/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Gini</td>
+                                <td class="px-6 py-4 text-slate-600">Economía</td>
+                                <td class="px-6 py-4 text-slate-600">Desigualdad</td>
+                                <td class="px-6 py-4 text-slate-500">Desbalance de voto o cobertura</td>
+                            </tr>
+                             <tr class="hover:bg-purple-50/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Moran</td>
+                                <td class="px-6 py-4 text-slate-600">Geografía</td>
+                                <td class="px-6 py-4 text-slate-600">Autocorrelación espacial</td>
+                                <td class="px-6 py-4 text-slate-500">Bastiones o clusters</td>
+                            </tr>
+                             <tr class="hover:bg-purple-50/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Entropía territorial</td>
+                                <td class="px-6 py-4 text-slate-600">Geografía</td>
+                                <td class="px-6 py-4 text-slate-600">Dispersión espacial</td>
+                                <td class="px-6 py-4 text-slate-500">Cobertura partidista</td>
+                            </tr>
+                             <tr class="hover:bg-purple-50/50 transition-colors">
+                                <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-700">Simpson</td>
+                                <td class="px-6 py-4 text-slate-600">Ecología</td>
+                                <td class="px-6 py-4 text-slate-600">Dominancia</td>
+                                <td class="px-6 py-4 text-slate-500">Predominio partidista</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                 <h2 class="text-3xl font-black text-primary mb-6">Fórmulas Clave</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- HHI -->
+                    <div class="glass-morphism rounded-2xl overflow-hidden shadow-lg hover:translate-y-[-5px] transition-transform">
+                        <div class="bg-primary p-4 text-white font-bold text-lg">HHI: Concentración</div>
+                        <div class="p-6">
+                            <p class="text-sm text-slate-500 mb-4">Mide qué tan concentrada está la votación.</p>
+                            <div class="bg-slate-100 p-3 rounded-lg mb-4 text-center font-mono text-sm text-primary">HHI = ∑s_i²</div>
+                            <ul class="text-sm space-y-2 text-slate-600">
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500"></span> < 1,500: Fragmentación</li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-yellow-500"></span> 1,500-2,500: Moderada</li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> > 2,500: Alta</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- NEP -->
+                    <div class="glass-morphism rounded-2xl overflow-hidden shadow-lg hover:translate-y-[-5px] transition-transform">
+                        <div class="bg-purple-600 p-4 text-white font-bold text-lg">NEP: Competencia</div>
+                        <div class="p-6">
+                            <p class="text-sm text-slate-500 mb-4">Número de partidos realmente competitivos.</p>
+                            <div class="bg-slate-100 p-3 rounded-lg mb-4 text-center font-mono text-sm text-purple-700">NEP = 1/(∑v_i²)</div>
+                            <ul class="text-sm space-y-2 text-slate-600">
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> ≈ 2: Bipartidismo</li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> 3-5: Multipartidismo</li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-indigo-500"></span> > 6: Fragmentación</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Moran -->
+                    <div class="glass-morphism rounded-2xl overflow-hidden shadow-lg hover:translate-y-[-5px] transition-transform">
+                        <div class="bg-blue-500 p-4 text-white font-bold text-lg">Moran: Clusters</div>
+                        <div class="p-6">
+                            <p class="text-sm text-slate-500 mb-4">Detecta agrupación geográfica del voto.</p>
+                            <div class="bg-slate-100 p-3 rounded-lg mb-4 text-center font-mono text-xs text-blue-700 truncate">Autocorrelación Espacial</div>
+                            <ul class="text-sm space-y-2 text-slate-600">
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-green-500"></span> > 0: Bastiones (Clusters)</li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gray-400"></span> = 0: Aleatorio</li>
+                                <li class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-500"></span> < 0: Disperso</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-3xl font-black text-primary mb-6">Clasificación por Umbrales</h2>
+                <div class="glass-morphism p-6 rounded-2xl mb-8 border border-white/60">
+                     <p class="text-slate-600 text-lg">
+                        Sistema desarrollado para evaluar el desempeño del PAN en diferentes niveles territoriales (casilla, sección, distrito) según su resultado electoral.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                     <!-- PAN Gana -->
+                     <div class="glass-morphism rounded-2xl overflow-hidden shadow-lg border-l-4 border-l-blue-600">
+                        <div class="bg-blue-600 p-4 border-b border-blue-700">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2"><span class="material-symbols-outlined">check_circle</span> Cuando PAN gana</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-blue-800 bg-blue-50">
+                                    <tr><th class="px-4 py-2">Condición</th><th class="px-4 py-2">Escenario</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-blue-50">
+                                    <tr><td class="px-4 py-3 font-mono text-xs">> 70%</td><td class="px-4 py-3 font-bold text-blue-600">Aprobación Óptima</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">50% - 70%</td><td class="px-4 py-3 font-bold text-blue-500">Resultado Favorable</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">2do > 35%</td><td class="px-4 py-3 font-bold text-yellow-600">Oposición >35%</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">Resto > 25%</td><td class="px-4 py-3 font-bold text-purple-600">Opinión Plural</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">Ninguna</td><td class="px-4 py-3 font-bold text-slate-500">Ordinario</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     </div>
+
+                     <!-- PAN No Gana -->
+                     <div class="glass-morphism rounded-2xl overflow-hidden shadow-lg border-l-4 border-l-purple-600">
+                        <div class="bg-purple-600 p-4 border-b border-purple-700">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2"><span class="material-symbols-outlined">cancel</span> Cuando PAN pierde</h3>
+                        </div>
+                         <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-purple-800 bg-purple-50">
+                                    <tr><th class="px-4 py-2">Condición</th><th class="px-4 py-2">Escenario</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-purple-50">
+                                    <tr><td class="px-4 py-3 font-mono text-xs">< 20%</td><td class="px-4 py-3 font-bold text-red-600">Desaprobación</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">3er Lugar</td><td class="px-4 py-3 font-bold text-orange-600">PAN 3er Lugar</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">> 35%</td><td class="px-4 py-3 font-bold text-blue-500">PAN > 35%</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">Resto > 25%</td><td class="px-4 py-3 font-bold text-purple-600">Opinión Plural</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">Ganador > 50%</td><td class="px-4 py-3 font-bold text-yellow-600">Oposición Fuerte</td></tr>
+                                    <tr><td class="px-4 py-3 font-mono text-xs">Ninguna</td><td class="px-4 py-3 font-bold text-slate-500">Ordinario Perdido</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+            <!-- Interpretación de Escenarios Cards -->
+            <section>
+                <div class="glass-morphism rounded-2xl p-8 border border-white/60 shadow-xl">
+                    <h2 class="text-2xl font-bold text-primary mb-6">Interpretación de Escenarios</h2>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-blue-50 p-4 rounded-xl border-l-4 border-l-blue-600">
+                            <h3 class="font-bold text-blue-700 mb-2">Aprobación Óptima</h3>
+                            <p class="text-xs text-slate-600">El PAN tiene un dominio claro con más del 70% de los votos. Bastión sólido.</p>
+                        </div>
+                        <div class="bg-blue-50/50 p-4 rounded-xl border-l-4 border-l-blue-500">
+                            <h3 class="font-bold text-blue-600 mb-2">Resultado Favorable</h3>
+                            <p class="text-xs text-slate-600">Gana con entre 50-70%. Buena aceptación, margen de mejora.</p>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-xl border-l-4 border-l-yellow-600">
+                            <h3 class="font-bold text-yellow-700 mb-2">Oposición >35%</h3>
+                            <p class="text-xs text-slate-600">Aunque gana, el segundo lugar es fuerte (>35%). Competencia reñida.</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-xl border-l-4 border-l-purple-600">
+                            <h3 class="font-bold text-purple-700 mb-2">Opinión Plural</h3>
+                            <p class="text-xs text-slate-600">Voto distribuido. Ninguno domina absolutamente, diversidad política.</p>
+                        </div>
+                         <div class="bg-red-50 p-4 rounded-xl border-l-4 border-l-red-600">
+                            <h3 class="font-bold text-red-700 mb-2">Desaprobación PAN</h3>
+                            <p class="text-xs text-slate-600">Menos del 20% o el ganador tiene >70%. Rechazo claro.</p>
+                        </div>
+                         <div class="bg-orange-50 p-4 rounded-xl border-l-4 border-l-orange-600">
+                            <h3 class="font-bold text-orange-700 mb-2">PAN 3er Lugar</h3>
+                            <p class="text-xs text-slate-600">Debilidad estructural en la zona. Relegado a tercera fuerza.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <section>
+                <h2 class="text-3xl font-black text-primary mb-6">Densidad de Votación</h2>
+                <div class="glass-morphism p-8 rounded-2xl shadow-lg border border-white/60">
+                    <div class="mb-8">
+                        <img src="Curva Normal de Densidad electora Estado Vs Juárez.jpg" onerror="this.src='https://placehold.co/800x400?text=Grafica+Densidad'" class="rounded-xl w-full h-auto shadow-md border border-slate-200">
+                    </div>
+                    
+                    <div class="overflow-x-auto rounded-xl border border-slate-200">
+                         <table class="min-w-full divide-y divide-slate-100">
+                            <thead class="bg-slate-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase">Densidad</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase">Votos</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase">Frecuencia Est.</th>
+                                    <th class="px-6 py-4 text-left text-xs font-bold text-slate-600 uppercase">Frecuencia Jrz.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 bg-white">
+                                <tr><td class="px-6 py-3 font-bold">Muy Baja</td><td class="px-6 py-3">0-99</td><td class="px-6 py-3">208</td><td class="px-6 py-3">37</td></tr>
+                                <tr><td class="px-6 py-3 font-bold">Baja</td><td class="px-6 py-3">100-199</td><td class="px-6 py-3">792</td><td class="px-6 py-3">407</td></tr>
+                                <tr><td class="px-6 py-3 font-bold">Media</td><td class="px-6 py-3">200-349</td><td class="px-6 py-3">3,487</td><td class="px-6 py-3">1,470</td></tr>
+                                <tr><td class="px-6 py-3 font-bold">Alta</td><td class="px-6 py-3">350-499</td><td class="px-6 py-3">1,187</td><td class="px-6 py-3">323</td></tr>
+                                <tr><td class="px-6 py-3 font-bold">Muy Alta</td><td class="px-6 py-3">500+</td><td class="px-6 py-3">119</td><td class="px-6 py-3">7</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+             <section>
+                <div class="grid md:grid-cols-2 gap-8">
+                     <div class="glass-morphism p-6 rounded-2xl shadow-lg flex flex-col">
+                        <h3 class="font-bold text-primary text-xl mb-4">Orden de Prioridades</h3>
+                         <img src="De los escenarios identificados se ordenan en bloques segun su densidad electoral y su resultado..jpg" onerror="this.src='https://placehold.co/600x400?text=Orden+Prioridades'" class="rounded-xl w-full h-auto mb-4 border border-slate-100 shadow-sm flex-1 object-contain">
+                        <p class="text-sm text-slate-500">
+                            De los escenarios identificados se ordenan en bloques según su densidad electoral y su resultado.
+                        </p>
+                    </div>
+                     <div class="glass-morphism p-6 rounded-2xl shadow-lg flex flex-col">
+                        <h3 class="font-bold text-primary text-xl mb-4">Modelo Simplificado</h3>
+                        <img src="Y luego simplificamos el concepto, con el fin de identificar rapidamente la poblacion objetivo a intervenir..jpg" onerror="this.src='https://placehold.co/600x400?text=Modelo+Simplificado'" class="rounded-xl w-full h-auto mb-4 border border-slate-100 shadow-sm flex-1 object-contain">
+                        <p class="text-sm text-slate-500">
+                            Simplificación del concepto para identificar rápidamente la población objetivo a intervenir.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-background-dark text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-accent-blue">query_stats</span>
+                <span class="font-black uppercase tracking-tight">Presentación</span>
+            </div>
+            <p class="text-white/30 text-xs tracking-widest uppercase">© 2027 Análisis Geoestadístico. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/config.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Toggle menu
+        function toggleMenu() {
+            document.getElementById('slideMenu').classList.toggle('open');
+            document.getElementById('menuOverlay').classList.toggle('open');
+            document.body.style.overflow = document.getElementById('slideMenu').classList.contains('open') ? 'hidden' : '';
+        }
+
+        function toggleSubmenu(id) {
+            const el = document.getElementById(id);
+            const arrow = document.getElementById(id + 'Arrow');
+            if(el) {
+                el.classList.toggle('hidden');
+                if(arrow) {
+                    arrow.style.transform = el.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
+            }
+        }
+
+        function highlightActiveLink() {
+            const path = window.location.pathname;
+            const page = path.split("/").pop() || 'index.html';
+            const links = document.querySelectorAll('.menu-item');
+            links.forEach(link => {
+                if(link.getAttribute('href') === page) {
+                    link.classList.add('bg-primary/5');
+                    const icon = link.querySelector('.material-symbols-outlined');
+                    const text = link.querySelector('.font-semibold');
+                    if(icon) {
+                        icon.classList.remove('text-accent-blue', 'text-slate-500');
+                        icon.classList.add('text-primary');
+                    }
+                    if(text) {
+                        text.classList.remove('text-slate-700', 'text-slate-600');
+                        text.classList.add('text-primary');
+                    }
+                    
+                    // Open parent submenu if applicable
+                    const parent = link.closest('#strategicMenu');
+                    if(parent) {
+                        parent.classList.remove('hidden');
+                        const arrow = document.getElementById('strategicMenuArrow');
+                        if(arrow) arrow.style.transform = 'rotate(180deg)';
+                    }
+                }
+            });
+        }
+        highlightActiveLink();
+
+        function toggleTab(tabId) {
+            // Ocultar todos los contenidos
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Quitar estilos activos de botones
+            document.getElementById('btn-tab-docs').classList.remove('bg-primary', 'text-white');
+            document.getElementById('btn-tab-docs').classList.add('text-slate-500');
+            
+            document.getElementById('btn-tab-metodo').classList.remove('bg-primary', 'text-white');
+            document.getElementById('btn-tab-metodo').classList.add('text-slate-500');
+
+            // Mostrar contenido seleccionado
+            document.getElementById('tab-' + tabId).classList.add('active');
+
+            // Activar botón seleccionado
+            const activeBtn = document.getElementById('btn-tab-' + tabId);
+            activeBtn.classList.remove('text-slate-500');
+            activeBtn.classList.add('bg-primary', 'text-white');
+        }
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                document.getElementById("slideMenu").classList.remove("open");
+                document.getElementById("menuOverlay").classList.remove("open");
+                document.body.style.overflow = "";
+            }
+        });
+    </script>
+</body>
+</html>
